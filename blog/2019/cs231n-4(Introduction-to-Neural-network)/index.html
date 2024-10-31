@@ -1,0 +1,15 @@
+<h1 id="1-computational-graphs">1. Computational graphs</h1> <p>Suppose we have f(x,y,z) = (x+y)z</p> <p>Then graph can be represented this way:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X         
+  \
+   (+)--&gt; q ---(*)--&gt; f
+  /           /
+Y            /
+            /
+           /
+Z---------/
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>q = (x+y)              # dq/dx = 1 , dq/dy = 1
+f = qz                 # df/dq = z , df/dz = q
+</code></pre></div></div> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>df/dq = z
+df/dz = q
+df/dx = df/dq * dq/dx = z * 1 = z       # Chain rule
+df/dy = df/dq * dq/dy = z * 1 = z       # Chain rule
+</code></pre></div></div> <p>在进行反向传播的 时候使用计算图会很方便</p> <p>越是使用简单的操作作为节点，节点就会越多，计算图就会越大</p>
