@@ -1,6 +1,27 @@
 ---
 layout: default
 ---
+
+<script>
+// Simple random image selector
+document.addEventListener('DOMContentLoaded', function() {
+    const images = ['yue_1.png', 'yue_2.png'];
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    
+    // Find the profile image
+    const profileImage = document.querySelector('.profile img');
+    if (profileImage) {
+        // Get the current src and replace the image name
+        const currentSrc = profileImage.src;
+        const newSrc = currentSrc.replace(/yue_[12]\.png/, randomImage);
+        profileImage.src = newSrc;
+        
+        // Also update the alt text
+        profileImage.alt = randomImage;
+    }
+});
+</script>
+
 <div class="post">
   <header class="post-header">
     <h1 class="post-title">

@@ -6,7 +6,7 @@ subtitle: <svg width="3%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 51
 
 profile:
   align: right
-  image: yue.png
+  image: yue_imgs/yue_4.jpeg
   image_circular: false # crops the image to make it circular
   more_info: >
     <p>Chapel Hill, NC, 27599</p>
