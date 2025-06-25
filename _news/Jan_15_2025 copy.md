@@ -1,0 +1,8 @@
+---
+layout: post
+date: 2025-10-16 13:00:00-0400
+inline: true
+related_posts: false
+---
+
+💬 I present our IROS'24 [paper](https://arxiv.org/pdf/2410.15994) at Abu Dhabi, UAE!
