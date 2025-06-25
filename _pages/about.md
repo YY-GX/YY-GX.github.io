@@ -29,8 +29,10 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am currently a Computer Science PhD student at [The University of North Carolina at Chapel Hill (UNC-CH)](https://www.unc.edu/)
-, under the co-supervision of [Prof. Daniel J. Szafir](https://www.danszafir.com/) and [Prof. Gedas Bertasius](https://www.gedasbertasius.com/). 
-Prior to embarking on this academic journey, I pursued my Master's degree in Computer Science at the [Georgia Institute of Technology (GaTech)](https://www.gatech.edu/). 
-During my time at GaTech, I worked closely with [Prof. Matthew Gombolay](https://core-robotics.gatech.edu/people/matthew-gombolay/). 
-I was fortunate to collaborate with [Prof. Greg Turk](https://faculty.cc.gatech.edu/~turk/) as well. It's a true privilege to have worked with these outstanding academics.
+:wave: Hey there! I'm a Computer Science PhD student at [The University of North Carolina at Chapel Hill (UNC-CH)](https://www.unc.edu/), lucky to be co-advised by [Prof. Daniel J. Szafir](https://www.danszafir.com/) and [Prof. Gedas Bertasius](https://www.gedasbertasius.com/).
+
+Before coming to UNC, I earned my Master's degree in Computer Science at [Georgia Institute of Technology (GaTech)](https://www.gatech.edu/), where I got to work with [Prof. Matthew Gombolay](https://core-robotics.gatech.edu/people/matthew-gombolay/) and had the chance to collaborate with [Prof. Greg Turk](https://faculty.cc.gatech.edu/~turk/). 
+
+I've been super fortunate to learn from and work with these amazing folks. Excited for what comes next on this journey!
+
+I believe in [Slow Science](http://slow-science.org/).  

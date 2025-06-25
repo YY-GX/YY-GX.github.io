@@ -1,14 +1,9 @@
 github_users:
-  - torvalds
-  - alshedivat
-
-repo_description_lines_max: 2
-
+  - yy-gx
+  
 github_repos:
-  - alshedivat/al-folio
-  - jekyll/jekyll
-  - twbs/bootstrap
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - mathjax/MathJax
-  - jpswalsh/academicons
+  - yy-gx/ArtRobot-NEU
+  - yy-gx/Hospital-Information-System-NEU-proj
+  - yy-gx/DUIIT
+  - yy-gx/CBFIRL
+  - yy-gx/PCG-projects

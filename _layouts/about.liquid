@@ -59,16 +59,21 @@ layout: default
     <!-- Selected papers -->
     {% if page.selected_papers %}
       <h2>
-        <a href="{{ '/publications/' | relative_url }}" style="color: inherit">selected publications</a>
+        <a href="{{ '/publications/' | relative_url }}" style="color: inherit">Selected publications</a>
       </h2>
+      <hr style="margin-top: 0.5em; margin-bottom: 1em;">
+      <p>
+        <a href="{{ '/publications/' | relative_url }}">
+          Check full publications 🏎️💨
+        </a>
+      </p>
       {% include selected_papers.liquid %}
     {% endif %}
 
     <!-- Social -->
     {% if page.social %}
       <div class="social">
-        <div class="contact-icons">{% include social.liquid %}</div>
-
+        <hr style="margin-top: 1.5em; margin-bottom: 1em;">
         <div class="contact-note">{{ site.contact_note }}</div>
       </div>
     {% endif %}
