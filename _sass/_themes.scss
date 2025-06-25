@@ -10,8 +10,8 @@
   --global-code-bg-color: #{$code-bg-color-light};
   --global-text-color: #{$black-color};
   --global-text-color-light: #{$grey-color};
-  --global-theme-color: #{$purple-color};
-  --global-hover-color: #{$purple-color};
+  --global-theme-color: #{$unc-color};
+  --global-hover-color: #{$unc-color};
   --global-hover-text-color: #{$white-color};
   --global-footer-bg-color: #{$grey-color-dark};
   --global-footer-text-color: #{$grey-color-light};
@@ -157,5 +157,22 @@ html[data-theme-setting="light"] {
     padding-left: 10px;
     padding-top: 12px;
     display: block;
+  }
+}
+
+/* Force news section to always use light theme */
+.news {
+  color: var(--global-text-color) !important;
+  
+  .news-title {
+    color: var(--global-text-color) !important;
+  }
+  
+  a {
+    color: var(--global-text-color) !important;
+  }
+  
+  th, td {
+    color: var(--global-text-color) !important;
   }
 }
