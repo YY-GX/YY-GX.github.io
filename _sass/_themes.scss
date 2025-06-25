@@ -169,10 +169,24 @@ html[data-theme-setting="light"] {
   }
   
   a {
-    color: var(--global-text-color) !important;
+    color: var(--global-text-color);
+    
+    &:hover {
+      color: var(--global-theme-color) !important;
+    }
   }
   
   th, td {
     color: var(--global-text-color) !important;
+  }
+  
+  /* Allow highlighted/theme colored elements to show their colors */
+  .highlight, .highlighted, [style*="color:"] {
+    color: inherit !important;
+  }
+  
+  /* Preserve theme color for author highlights */
+  strong, b, .author-highlight {
+    color: var(--global-theme-color) !important;
   }
 }
