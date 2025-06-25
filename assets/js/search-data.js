@@ -32,7 +32,7 @@ ninja.data = [{
           },
         },{id: "nav-repositories",
           title: "repositories",
-          description: "Edit the `_data/repositories.yml` and change the `github_users` and `github_repos` lists to include your own GitHub profile and repositories.",
+          description: "A collection of my GitHub repositories and collaborations.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/repositories/";
@@ -440,15 +440,7 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-a-long-announcement-with-details",
-          title: 'A long announcement with details',
-          description: "",
-          section: "News",handler: () => {
-              window.location.href = "/news/announcement_2/";
-            },},{id: "news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",
-          title: 'A simple inline announcement with Markdown emoji! :sparkles: :smile:',
-          description: "",
-          section: "News",},{id: "news-boom-one-paper-accepted-by-ieee-ra-l",
+            },},{id: "news-boom-one-paper-accepted-by-ieee-ra-l",
           title: ':boom: One paper accepted by IEEE RA-L.',
           description: "",
           section: "News",},{id: "news-boom-one-paper-accepted-by-ieee-rsj-international-conference-on-intelligent-robots-and-systems-iros-2025",
@@ -534,30 +526,4 @@ ninja.data = [{
         handler: () => {
           window.open("https://www.alberteinstein.com/", "_blank");
         },
-      },{
-      id: 'light-theme',
-      title: 'Change theme to light',
-      description: 'Change the theme of the site to Light',
-      section: 'Theme',
-      handler: () => {
-        setThemeSetting("light");
-      },
-    },
-    {
-      id: 'dark-theme',
-      title: 'Change theme to dark',
-      description: 'Change the theme of the site to Dark',
-      section: 'Theme',
-      handler: () => {
-        setThemeSetting("dark");
-      },
-    },
-    {
-      id: 'system-theme',
-      title: 'Use system default theme',
-      description: 'Change the theme of the site to System Default',
-      section: 'Theme',
-      handler: () => {
-        setThemeSetting("system");
-      },
-    },];
+      },];
