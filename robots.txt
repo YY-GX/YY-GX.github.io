@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://yy-gx.github.io//sitemap.xml
