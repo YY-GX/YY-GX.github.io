@@ -440,7 +440,10 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-boom-one-paper-accepted-by-alt-hri-2025",
+            },},{id: "news-i-present-our-iros-24-paper-at-abu-dhabi-uae",
+          title: '💬 I present our IROS’24 paper at Abu Dhabi, UAE!',
+          description: "",
+          section: "News",},{id: "news-boom-one-paper-accepted-by-alt-hri-2025",
           title: ':boom: One paper accepted by alt.HRI 2025.',
           description: "",
           section: "News",},{id: "news-boom-one-paper-accepted-by-ieee-ra-l",
@@ -448,9 +451,6 @@ ninja.data = [{
           description: "",
           section: "News",},{id: "news-boom-one-paper-accepted-by-ieee-rsj-international-conference-on-intelligent-robots-and-systems-iros-2025",
           title: ':boom: One paper accepted by IEEE/RSJ International Conference on Intelligent Robots and Systems...',
-          description: "",
-          section: "News",},{id: "news-i-present-our-iros-24-paper-at-abu-dhabi-uae",
-          title: '💬 I present our IROS’24 paper at Abu Dhabi, UAE!',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
