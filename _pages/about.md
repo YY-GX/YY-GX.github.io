@@ -31,6 +31,6 @@ latest_posts:
 
 :wave: Hey there! I'm a Computer Science PhD student at [The University of North Carolina at Chapel Hill (UNC-CH)](https://www.unc.edu/), lucky to be co-advised by [Prof. Daniel J. Szafir](https://www.danszafir.com/) and [Prof. Gedas Bertasius](https://www.gedasbertasius.com/). Before coming to UNC, I earned my Master's degree in Computer Science at [Georgia Institute of Technology (GaTech)](https://www.gatech.edu/), where I got to work with [Prof. Matthew Gombolay](https://core-robotics.gatech.edu/people/matthew-gombolay/) and had the chance to collaborate with [Prof. Greg Turk](https://faculty.cc.gatech.edu/~turk/). I've been super fortunate to learn from and work with these amazing folks. Excited for what comes next on this journey!
 
-I have a pet bird named [Dorae](https://bristle-fenugreek-3d5.notion.site/Monk-Parakeet-228187338e8280cdb877cdfb21b8b2d8) 🐦 and enjoy birdwatching in my free time - you can see my sightings [here](https://bristle-fenugreek-3d5.notion.site/Birding-Checklist-o-228187338e828020b525c9d4e9b959f2) 🦅.
+I have a pet bird named [Dora](https://bristle-fenugreek-3d5.notion.site/Monk-Parakeet-228187338e8280cdb877cdfb21b8b2d8) 🐦 and enjoy birdwatching in my free time - you can see my sightings [here](https://bristle-fenugreek-3d5.notion.site/Birding-Checklist-o-228187338e828020b525c9d4e9b959f2) 🦅.
 
 I believe in [Slow Science](http://slow-science.org/).
