@@ -50,7 +50,7 @@ pages:
 theme:
   cursor_spotlight: false
   style: "classic"
-  palette: "default"
+  palette: "navy"
   random_theme: false
   avatars:
     - "/images/avatar.jpg"
