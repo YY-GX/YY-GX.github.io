@@ -1,0 +1,95 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import PostCard from '@components/blog/PostCard.astro';
+import { getConfig } from '@lib/config';
+import { calculateReadingTime } from '@lib/utils';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const config = getConfig();
+if (!config.pages.blog) return Astro.redirect('/404');
+
+const blogDir = path.resolve(process.cwd(), 'src/content/blog');
+
+let posts: any[] = [];
+try {
+  const files = fs.readdirSync(blogDir).filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+  for (const file of files) {
+    const raw = fs.readFileSync(path.join(blogDir, file), 'utf-8');
+    const fmMatch = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    if (!fmMatch) continue;
+    const fm = fmMatch[1];
+    const content = fmMatch[2];
+    const title = fm.match(/title:\s*"(.+?)"/)?.[1] || '';
+    const dateStr = fm.match(/date:\s*(.+)/)?.[1]?.trim() || '';
+    const description = fm.match(/description:\s*"(.+?)"/)?.[1] || '';
+    const draft = fm.includes('draft: true');
+    const tagsMatch = fm.match(/tags:\s*\[([^\]]*)\]/);
+    const tags = tagsMatch ? tagsMatch[1].split(',').map(t => t.trim().replace(/"/g, '')) : [];
+    const slug = file.replace(/\.(mdx?|md)$/, '');
+
+    if (!draft) {
+      posts.push({ title, date: new Date(dateStr), description, tags, slug, content, readingTime: calculateReadingTime(content) });
+    }
+  }
+} catch {}
+
+posts.sort((a, b) => b.date.getTime() - a.date.getTime());
+const allTags = [...new Set(posts.flatMap(p => p.tags))].sort();
+---
+
+<BaseLayout title="Blog" description="Blog posts and articles">
+  <div class="animate-on-scroll">
+    <div class="page-header">
+      <h1 class="text-3xl font-bold">Blog</h1>
+      <p class="text-[var(--color-text-secondary)] mt-2">{posts.length} posts</p>
+    </div>
+
+    {allTags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-8" id="tag-filters">
+        <button data-tag="all" class="tag-chip px-3 py-1.5 rounded-full text-xs font-medium bg-[var(--color-accent)] text-white transition-colors">All</button>
+        {allTags.map(tag => (
+          <button data-tag={tag} class="tag-chip px-3 py-1.5 rounded-full text-xs font-medium bg-[var(--color-border)]/50 text-[var(--color-text-secondary)] hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">{tag}</button>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <div class="space-y-6" id="posts-list">
+    {posts.map(post => (
+      <div data-post-card data-tags={post.tags.join(',')}>
+        <PostCard
+          title={post.title}
+          description={post.description}
+          date={post.date}
+          tags={post.tags}
+          slug={post.slug}
+          readingTime={post.readingTime}
+        />
+      </div>
+    ))}
+  </div>
+
+  {posts.length === 0 && (
+    <p class="text-center text-[var(--color-text-secondary)] py-12">No blog posts yet. Add .mdx files to src/content/blog/ to get started.</p>
+  )}
+
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      const chips = document.querySelectorAll('.tag-chip');
+      const cards = document.querySelectorAll('[data-post-card]');
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => { c.classList.remove('bg-[var(--color-accent)]', 'text-white'); c.classList.add('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]'); });
+          chip.classList.add('bg-[var(--color-accent)]', 'text-white'); chip.classList.remove('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]');
+          const tag = (chip as HTMLElement).dataset.tag;
+          cards.forEach(card => {
+            const el = card as HTMLElement;
+            const tags = el.dataset.tags?.split(',') || [];
+            el.style.display = (tag === 'all' || tags.includes(tag!)) ? '' : 'none';
+          });
+        });
+      });
+    });
+  </script>
+</BaseLayout>

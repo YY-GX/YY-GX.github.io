@@ -1,0 +1,11 @@
+locations:
+  - name: "Abu Dhabi, UAE"
+    lat: 24.4539
+    lng: 54.3773
+    date: "2024-10"
+    event: "IROS 2024"
+  - name: "Chicago, USA"
+    lat: 41.8781
+    lng: -87.6298
+    date: "2025-03"
+    event: "HRI 2025"

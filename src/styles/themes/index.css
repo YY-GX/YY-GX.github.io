@@ -1,0 +1,16 @@
+/* ── Theme Loader ─────────────────────────────────────────────── */
+/* All themes are loaded simultaneously to support runtime theme switching */
+/* via the ThemePicker component. Each theme is scoped by [data-theme="..."] */
+/* attribute selectors, so only the active theme's styles apply. */
+
+@import "./classic.css";
+@import "./modern.css";
+@import "./minimal.css";
+@import "./elegant.css";
+@import "./bold.css";
+@import "./geek.css";
+@import "./newspaper.css";
+@import "./aurora.css";
+@import "./ocean.css";
+@import "./retro.css";
+@import "../palettes.css";

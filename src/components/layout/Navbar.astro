@@ -1,0 +1,165 @@
+---
+import { getConfig, getEnabledPages } from '@lib/config';
+import ThemePicker from '../ui/ThemePicker.astro';
+import ThemeToggle from '../ui/ThemeToggle.astro';
+
+const config = getConfig();
+const pages = getEnabledPages();
+const currentPath = Astro.url.pathname;
+
+const MAX_VISIBLE = 7;
+const visiblePages = pages.slice(0, MAX_VISIBLE);
+const overflowPages = pages.slice(MAX_VISIBLE);
+const isOverflowActive = overflowPages.some(p => currentPath === p.path || (p.path !== '/' && currentPath.startsWith(p.path)));
+---
+
+<nav class="glass sticky top-0 z-50 border-b border-[var(--color-glass-border)]" transition:animate="none">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Site title / logo -->
+      <a href="/" class="text-lg font-semibold text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors shrink-0">
+        {config.site.title}
+      </a>
+
+      <!-- Desktop nav links -->
+      <div class="hidden md:flex items-center gap-0.5">
+        {visiblePages.map(page => (
+          <a
+            href={page.path}
+            class:list={[
+              'px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap',
+              currentPath === page.path || (page.path !== '/' && currentPath.startsWith(page.path))
+                ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10 nav-link-active'
+                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50'
+            ]}
+          >
+            {page.label}
+          </a>
+        ))}
+
+        {overflowPages.length > 0 && (
+          <div class="relative" id="more-dropdown">
+            <button
+              id="more-btn"
+              class:list={[
+                'px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1',
+                isOverflowActive
+                  ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10'
+                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50'
+              ]}
+              aria-expanded="false"
+              aria-controls="more-menu"
+            >
+              More
+              <svg class="w-3.5 h-3.5 transition-transform" id="more-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div
+              id="more-menu"
+              class="hidden absolute right-0 top-full mt-1 py-1 min-w-[160px] rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] shadow-lg z-50"
+            >
+              {overflowPages.map(page => (
+                <a
+                  href={page.path}
+                  class:list={[
+                    'block px-4 py-2 text-sm transition-colors',
+                    currentPath === page.path || (page.path !== '/' && currentPath.startsWith(page.path))
+                      ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10'
+                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50'
+                  ]}
+                >
+                  {page.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div class="ml-1.5 pl-1.5 border-l border-[var(--color-border)] flex items-center gap-1 shrink-0">
+          <ThemePicker />
+          <ThemeToggle />
+        </div>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="flex items-center gap-2 md:hidden">
+        <ThemePicker />
+        <ThemeToggle />
+        <button
+          id="mobile-menu-btn"
+          class="p-2 rounded-lg text-[var(--color-text-secondary)] hover:bg-[var(--color-border)]/50 transition-colors"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile nav menu -->
+    <div id="mobile-menu" class="hidden md:hidden pb-4">
+      <div class="flex flex-col gap-1">
+        {pages.map(page => (
+          <a
+            href={page.path}
+            class:list={[
+              'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+              currentPath === page.path || (page.path !== '/' && currentPath.startsWith(page.path))
+                ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10'
+                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50'
+            ]}
+          >
+            {page.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // Mobile menu toggle
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('menu-icon');
+    if (btn && menu && icon) {
+      btn.addEventListener('click', () => {
+        const isOpen = !menu.classList.contains('hidden');
+        menu.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        icon.setAttribute('d', isOpen
+          ? 'M4 6h16M4 12h16M4 18h16'
+          : 'M6 18L18 6M6 6l12 12'
+        );
+      });
+    }
+
+    // "More" dropdown toggle
+    const moreBtn = document.getElementById('more-btn');
+    const moreMenu = document.getElementById('more-menu');
+    const chevron = document.getElementById('more-chevron');
+    if (moreBtn && moreMenu) {
+      moreBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = !moreMenu.classList.contains('hidden');
+        moreMenu.classList.toggle('hidden');
+        moreBtn.setAttribute('aria-expanded', String(!isOpen));
+        if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+      });
+
+      document.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('more-dropdown');
+        if (dropdown && !dropdown.contains(e.target as Node)) {
+          moreMenu.classList.add('hidden');
+          moreBtn.setAttribute('aria-expanded', 'false');
+          if (chevron) chevron.style.transform = '';
+        }
+      });
+    }
+  });
+</script>

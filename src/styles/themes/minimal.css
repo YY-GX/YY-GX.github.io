@@ -1,0 +1,167 @@
+/* ── Minimal Theme — Ultra-Clean Brutalist ────────────────────── */
+/* System fonts, pure black & white, zero radius, no shadows, heavy whitespace */
+
+[data-theme="minimal"] {
+  --color-bg: #FFFFFF;
+  --color-text: #000000;
+  --color-text-secondary: #555555;
+  --color-accent: #000000;
+  --color-accent-hover: #1a1a1a;
+  --color-border: #CCCCCC;
+  --color-card-bg: #FFFFFF;
+  --color-glass: rgba(255, 255, 255, 0.95);
+  --color-glass-border: rgba(0, 0, 0, 0.1);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-hover: none;
+  --transition-fast: 0ms;
+  --transition-base: 0ms;
+  --transition-slow: 0ms;
+  --font-heading: 'IBM Plex Mono', 'Courier New', monospace;
+  --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+}
+
+[data-theme="minimal"].dark {
+  --color-bg: #000000;
+  --color-text: #FFFFFF;
+  --color-text-secondary: #AAAAAA;
+  --color-accent: #ffffff;
+  --color-accent-hover: #e6e6e6;
+  --color-border: #FFFFFF;
+  --color-card-bg: #000000;
+  --color-glass: rgba(0, 0, 0, 0.95);
+  --color-glass-border: rgba(255, 255, 255, 0.15);
+}
+
+/* Minimal: no glass effect, no blur, just subtle background */
+[data-theme="minimal"] .glass {
+  background: var(--color-bg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Minimal: no hover effects */
+[data-theme="minimal"] .card-hover:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Minimal: uppercase monospace headings */
+[data-theme="minimal"] .page-header h1,
+[data-theme="minimal"] .page-header h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: var(--font-heading);
+}
+
+/* Minimal: thin line instead of gradient bar */
+[data-theme="minimal"] .page-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 1px;
+  background: var(--color-text);
+  border-radius: 0;
+}
+
+/* Minimal: underline only on active nav, no dot */
+[data-theme="minimal"] .nav-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-text);
+  border-radius: 0;
+  transform: none;
+}
+
+/* Minimal: no gradient text - just solid accent */
+[data-theme="minimal"] .gradient-text {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: var(--color-text);
+  background-clip: unset;
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+[data-theme="minimal"].dark .gradient-text {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: var(--color-text);
+  background-clip: unset;
+  color: var(--color-text);
+}
+
+/* Minimal: simple solid line divider */
+[data-theme="minimal"] .section-divider {
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* Minimal: tight tracking, smaller base size */
+[data-theme="minimal"] body {
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  font-size: 0.9375rem;
+}
+
+/* Minimal: monospace headings (reversed from body) */
+[data-theme="minimal"] h1,
+[data-theme="minimal"] h2,
+[data-theme="minimal"] h3,
+[data-theme="minimal"] h4,
+[data-theme="minimal"] h5,
+[data-theme="minimal"] h6 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+/* Minimal: sharp rectangles everywhere */
+[data-theme="minimal"] [class*="rounded"] {
+  border-radius: 0;
+}
+
+/* Minimal: sharp, borderless button */
+[data-theme="minimal"] .btn-primary {
+  border-radius: 0;
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+[data-theme="minimal"] .btn-primary:hover {
+  transform: none;
+  box-shadow: none;
+  opacity: 0.8;
+}
+
+/* Minimal: no animations on scroll */
+[data-theme="minimal"] .animate-on-scroll {
+  animation: none !important;
+  opacity: 1;
+  transform: none;
+}
+
+/* Minimal: monospace for dates and metadata */
+[data-theme="minimal"] time,
+[data-theme="minimal"] .date,
+[data-theme="minimal"] [class*="meta"] {
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+}

@@ -1,0 +1,181 @@
+/* ── Elegant Theme — Warm & Sophisticated ─────────────────────── */
+/* Cormorant Garamond + Lora, warm ivory, gold accents, soft shadows */
+
+[data-theme="elegant"] {
+  --color-bg: #FFFFF0;
+  --color-text: #2D2D2D;
+  --color-text-secondary: #5E5549;
+  --color-accent: #B8860B;
+  --color-accent-hover: #D4A017;
+  --color-border: #E5DDD0;
+  --color-card-bg: #FDFBF5;
+  --color-glass: rgba(255, 255, 240, 0.85);
+  --color-glass-border: rgba(184, 134, 11, 0.1);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --shadow-sm: 0 1px 3px rgba(139, 119, 75, 0.06);
+  --shadow-md: 0 4px 12px rgba(139, 119, 75, 0.08);
+  --shadow-lg: 0 8px 24px rgba(139, 119, 75, 0.1);
+  --shadow-hover: 0 12px 32px rgba(139, 119, 75, 0.14);
+  --transition-fast: 250ms ease;
+  --transition-base: 400ms ease;
+  --transition-slow: 600ms ease;
+  --font-heading: 'Cormorant Garamond', 'Georgia', serif;
+  --font-body: 'Lora', 'Georgia', serif;
+}
+
+[data-theme="elegant"].dark {
+  --color-bg: #1C1C1C;
+  --color-text: #FAF5EB;
+  --color-text-secondary: #A89F91;
+  --color-accent: #C9A84C;
+  --color-accent-hover: #D9BD6E;
+  --color-border: #3A3530;
+  --color-card-bg: #252220;
+  --color-glass: rgba(28, 28, 28, 0.88);
+  --color-glass-border: rgba(201, 168, 76, 0.12);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.3);
+  --shadow-hover: 0 12px 32px rgba(0,0,0,0.35);
+}
+
+/* Elegant: subtle warm translucent nav */
+[data-theme="elegant"] .glass {
+  background: var(--color-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Elegant: gentle hover glow */
+[data-theme="elegant"] .card-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Elegant: large elegant headings */
+[data-theme="elegant"] .page-header h1,
+[data-theme="elegant"] .page-header h2 {
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+/* Elegant: golden accent line */
+[data-theme="elegant"] .page-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(to right, var(--color-accent), transparent);
+  border-radius: 1px;
+}
+
+/* Elegant: thin golden underline on active nav */
+[data-theme="elegant"] .nav-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 25%;
+  width: 50%;
+  height: 1.5px;
+  background: var(--color-accent);
+  border-radius: 1px;
+  transform: none;
+}
+
+/* Elegant: warm gradient text */
+[data-theme="elegant"] .gradient-text {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="elegant"].dark .gradient-text {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Elegant: golden horizontal rule */
+[data-theme="elegant"] .section-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-accent), transparent);
+  opacity: 0.3;
+}
+
+/* Elegant: generous typography */
+[data-theme="elegant"] body {
+  line-height: 1.75;
+}
+
+/* Elegant: large, light-weight serif headings */
+[data-theme="elegant"] h1,
+[data-theme="elegant"] h2,
+[data-theme="elegant"] h3,
+[data-theme="elegant"] h4,
+[data-theme="elegant"] h5,
+[data-theme="elegant"] h6 {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+[data-theme="elegant"] h1 {
+  font-size: 2.5rem;
+}
+
+[data-theme="elegant"] h2 {
+  font-size: 1.875rem;
+}
+
+/* Elegant: subtle rounded cards with warm bg */
+[data-theme="elegant"] .btn-primary {
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  letter-spacing: 0.03em;
+}
+
+[data-theme="elegant"] .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(184, 134, 11, 0.25);
+}
+
+[data-theme="elegant"].dark .btn-primary:hover {
+  box-shadow: 0 4px 16px rgba(201, 168, 76, 0.25);
+}
+
+/* Elegant: subtle warm background gradient on page */
+[data-theme="elegant"] {
+  background-image: linear-gradient(180deg, var(--color-bg) 0%, rgba(184, 134, 11, 0.02) 100%);
+}
+
+[data-theme="elegant"].dark {
+  background-image: linear-gradient(180deg, var(--color-bg) 0%, rgba(201, 168, 76, 0.02) 100%);
+}
+
+/* Elegant: cursor spotlight with warm gold tint */
+[data-theme="elegant"] .cursor-spotlight {
+  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(184, 134, 11, 0.03), transparent 40%);
+}
+
+[data-theme="elegant"].dark .cursor-spotlight {
+  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(201, 168, 76, 0.04), transparent 40%);
+}
+
+/* Elegant: decorative serif ornament for selection */
+[data-theme="elegant"] ::selection {
+  background-color: rgba(184, 134, 11, 0.2);
+  color: var(--color-text);
+}
+
+[data-theme="elegant"].dark ::selection {
+  background-color: rgba(201, 168, 76, 0.25);
+  color: var(--color-text);
+}

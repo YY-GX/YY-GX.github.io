@@ -1,0 +1,54 @@
+skills:
+  - category: "Robotics"
+    items:
+      - "Imitation Learning"
+      - "Long-Horizon Tasks"
+      - "Human-Robot Interaction"
+  - category: "Computer Vision"
+    items:
+      - "Video Understanding"
+      - "Generative Models"
+  - category: "Others"
+    items:
+      - "Augmented Reality / Virtual Reality"
+      - "Procedural Content Generation"
+
+education:
+  - degree: "PhD in Computer Science"
+    institution: "The University of North Carolina at Chapel Hill"
+    year: "2023 - Present"
+    description: "Co-advised by Prof. Daniel J. Szafir and Prof. Gedas Bertasius. Research in imitation learning (BCs/IRL), with applications in long-horizon tasks and human-robot interaction."
+  - degree: "MS in Computer Science"
+    institution: "Georgia Institute of Technology"
+    year: "2021 - 2023"
+    description: "Worked with Prof. Matthew Gombolay on safe learning from demonstration. Worked with Prof. Greg Turk on hand image generation."
+
+experience:
+  - title: "Research Scientist Intern"
+    organization: "MITSUBISHI ELECTRIC RESEARCH LABORATORIES"
+    start_date: "2026"
+    end_date: "Present"
+    # description: "Research on Vision"
+  - title: "Graduate Research Assistant"
+    organization: "UNC Chapel Hill"
+    start_date: "2023"
+    end_date: "Present"
+    # description: "Research on scalable robot learning, augmented reality for demonstration collection, and safe imitation learning."
+  - title: "Graduate Research Assistant"
+    organization: "Georgia Institute of Technology"
+    start_date: "2022"
+    end_date: "2023"
+    # description: "Research on safe inverse reinforcement learning via control barrier functions."
+
+awards:
+  - year: 2025
+    title: "CS Department Fellowship"
+    organization: "UNC Chapel Hill"
+
+service:
+  - years: "2024-2025"
+    role: "Reviewer"
+    organization: "IEEE IROS"
+  - years: "2024-2025"
+    role: "Reviewer"
+    organization: "ACM/IEEE HRI"

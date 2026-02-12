@@ -1,0 +1,35 @@
+[data-theme="retro"] {
+  --color-bg: #fdf6e3;
+  --color-text: #3c3836;
+  --color-text-secondary: #7c6f64;
+  --color-accent: #d65d0e;
+  --color-accent-hover: #af3a03;
+  --color-border: #e0d5c1;
+  --color-card-bg: #fbf1c7;
+  --color-glass: rgba(253,246,227,0.9);
+  --color-glass-border: rgba(214,93,14,0.12);
+  --radius-sm: 4px; --radius-md: 6px; --radius-lg: 8px;
+  --shadow-sm: 2px 2px 0 rgba(60,56,54,0.1);
+  --shadow-md: 3px 3px 0 rgba(60,56,54,0.12);
+  --shadow-lg: 5px 5px 0 rgba(60,56,54,0.15);
+  --shadow-hover: 6px 6px 0 rgba(60,56,54,0.18);
+  --font-heading: 'Space Grotesk', 'Courier New', monospace;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --transition-fast: 100ms ease; --transition-base: 150ms ease; --transition-slow: 200ms ease;
+}
+[data-theme="retro"].dark {
+  --color-bg: #282828; --color-text: #ebdbb2; --color-text-secondary: #a89984;
+  --color-accent: #fe8019; --color-accent-hover: #fabd2f;
+  --color-border: #3c3836; --color-card-bg: #32302f;
+  --color-glass: rgba(40,40,40,0.9); --color-glass-border: rgba(254,128,25,0.15);
+  --shadow-sm: 2px 2px 0 rgba(0,0,0,0.3); --shadow-md: 3px 3px 0 rgba(0,0,0,0.35);
+  --shadow-lg: 5px 5px 0 rgba(0,0,0,0.4); --shadow-hover: 6px 6px 0 rgba(0,0,0,0.45);
+}
+[data-theme="retro"] .glass { backdrop-filter: none; background: var(--color-glass); border-bottom: 3px solid var(--color-accent); }
+[data-theme="retro"] .card-hover:hover { transform: translate(-2px, -2px); }
+[data-theme="retro"] .gradient-text { background: linear-gradient(90deg, var(--color-accent), #d79921); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+[data-theme="retro"].dark .gradient-text { background: linear-gradient(90deg, var(--color-accent), #fabd2f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+[data-theme="retro"] .page-header::after { background: var(--color-accent); height: 4px; }
+[data-theme="retro"] .section-divider { background: repeating-linear-gradient(90deg, var(--color-border), var(--color-border) 4px, transparent 4px, transparent 8px); height: 2px; }
+[data-theme="retro"] .nav-link-active::after { background: var(--color-accent); height: 3px; }
+[data-theme="retro"] ::selection { background: var(--color-accent); color: #fdf6e3; }

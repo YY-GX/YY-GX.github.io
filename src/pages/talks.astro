@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'yaml';
+
+const config = getConfig();
+if (!config.pages.talks) return Astro.redirect('/404');
+
+let talks: any[] = [];
+try {
+  const talksPath = path.resolve(process.cwd(), 'src/content/talks.yml');
+  const data = yaml.parse(fs.readFileSync(talksPath, 'utf-8'));
+  talks = data.talks || [];
+} catch {}
+---
+
+<BaseLayout title="Talks" description="Conference presentations and invited talks">
+  <div class="animate-on-scroll">
+    <h1 class="text-3xl font-bold mb-8">Talks &amp; Presentations</h1>
+  </div>
+  <div class="space-y-4">
+    {talks.map(talk => (
+      <div class="p-5 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] card-hover animate-on-scroll">
+        <h3 class="font-medium text-lg">{talk.title}</h3>
+        <p class="text-sm text-[var(--color-text-secondary)] mt-1">{talk.event}{talk.location ? ` — ${talk.location}` : ''}</p>
+        <p class="text-xs font-mono text-[var(--color-text-secondary)] mt-1">{talk.date}</p>
+        <div class="mt-3 flex gap-2">
+          {talk.slides && <a href={talk.slides} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">Slides</a>}
+          {talk.video && <a href={talk.video} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">Video</a>}
+        </div>
+      </div>
+    ))}
+    {talks.length === 0 && <p class="text-[var(--color-text-secondary)] text-center py-12">No talks listed yet. Add talks to src/content/talks.yml.</p>}
+  </div>
+</BaseLayout>

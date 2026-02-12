@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'yaml';
+
+const config = getConfig();
+if (!config.pages.collaborators) return Astro.redirect('/404');
+
+let collaborators: any[] = [];
+try {
+  const collabPath = path.resolve(process.cwd(), 'src/content/collaborators.yml');
+  const data = yaml.parse(fs.readFileSync(collabPath, 'utf-8'));
+  collaborators = data.collaborators || [];
+} catch {}
+---
+
+<BaseLayout title="Collaborators" description="Research collaborators">
+  <div class="animate-on-scroll"><h1 class="text-3xl font-bold mb-8">Collaborators</h1></div>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+    {collaborators.map(c => (
+      <div class="p-4 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-center card-hover animate-on-scroll">
+        <h3 class="font-medium text-sm">{c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)]">{c.name}</a> : c.name}</h3>
+        <p class="text-xs text-[var(--color-text-secondary)]">{c.affiliation}</p>
+      </div>
+    ))}
+  </div>
+  {collaborators.length === 0 && <p class="text-[var(--color-text-secondary)] text-center py-12">Add collaborators to src/content/collaborators.yml.</p>}
+</BaseLayout>

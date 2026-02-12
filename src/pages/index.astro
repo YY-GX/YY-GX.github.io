@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import Hero from '@components/home/Hero.astro';
+import SelectedPapers from '@components/home/SelectedPapers.astro';
+import NewsWidget from '@components/home/NewsWidget.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const config = getConfig();
+
+// Check if there are actual news items to show
+let hasNews = false;
+try {
+  const newsDir = path.resolve(process.cwd(), 'src/content/news');
+  const files = fs.readdirSync(newsDir).filter(f => f.endsWith('.md'));
+  hasNews = files.length > 0;
+} catch {}
+
+const gridCols = hasNews ? 'lg:grid-cols-2' : '';
+---
+
+<BaseLayout>
+  <Hero />
+
+  <div class={`mt-8 grid grid-cols-1 ${gridCols} gap-12`}>
+    <SelectedPapers />
+    {hasNews && <NewsWidget />}
+  </div>
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  formula: string;
+  display?: boolean;
+}
+
+const { formula, display = false } = Astro.props;
+---
+
+{display ? (
+  <div class="my-4 overflow-x-auto text-center text-lg font-mono">
+    {formula}
+  </div>
+) : (
+  <span class="font-mono text-sm">{formula}</span>
+)}

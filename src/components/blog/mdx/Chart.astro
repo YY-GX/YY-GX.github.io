@@ -1,0 +1,44 @@
+---
+interface Props {
+  type?: 'bar' | 'line' | 'pie';
+  data: { label: string; value: number }[];
+  title?: string;
+  height?: string;
+}
+
+const { type = 'bar', data, title, height = '300px' } = Astro.props;
+
+const maxValue = Math.max(...data.map(d => d.value));
+---
+
+<figure class="my-6 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)]">
+  {title && <figcaption class="text-sm font-semibold mb-4 text-center">{title}</figcaption>}
+
+  {type === 'bar' && (
+    <div class="flex items-end gap-2 justify-center" style={`height: ${height}`}>
+      {data.map(d => (
+        <div class="flex flex-col items-center gap-1 flex-1 max-w-[80px]">
+          <span class="text-xs font-mono text-[var(--color-text-secondary)]">{d.value}</span>
+          <div
+            class="w-full rounded-t-md bg-[var(--color-accent)] transition-all duration-500"
+            style={`height: ${(d.value / maxValue) * 100}%`}
+          />
+          <span class="text-xs text-[var(--color-text-secondary)] text-center truncate w-full">{d.label}</span>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {type === 'line' && (
+    <div class="flex items-end gap-1 justify-center" style={`height: ${height}`}>
+      {data.map((d, i) => (
+        <div class="flex flex-col items-center gap-1 flex-1">
+          <div class="relative w-full flex items-end justify-center" style={`height: ${(d.value / maxValue) * 100}%`}>
+            <div class="w-3 h-3 rounded-full bg-[var(--color-accent)] z-10" />
+          </div>
+          <span class="text-xs text-[var(--color-text-secondary)] truncate w-full text-center">{d.label}</span>
+        </div>
+      ))}
+    </div>
+  )}
+</figure>

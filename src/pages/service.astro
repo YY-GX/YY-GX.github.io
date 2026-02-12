@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'yaml';
+
+const config = getConfig();
+if (!config.pages.service) return Astro.redirect('/404');
+
+let service: any[] = [];
+try {
+  const cvPath = path.resolve(process.cwd(), 'src/content/cv/cv.yml');
+  const data = yaml.parse(fs.readFileSync(cvPath, 'utf-8'));
+  service = data.service || [];
+} catch {}
+---
+
+<BaseLayout title="Service" description="Professional service">
+  <div class="animate-on-scroll"><h1 class="text-3xl font-bold mb-8">Professional Service</h1></div>
+  <div class="space-y-3">
+    {service.map(s => (
+      <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-[var(--color-card-bg)] transition-colors animate-on-scroll">
+        <span class="text-sm font-mono text-[var(--color-text-secondary)] shrink-0 min-w-[6rem]">{s.years}</span>
+        <div>
+          <p class="font-medium">{s.role}</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">{s.organization}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,8 @@
+courses:
+  - course_id: "COMP 562"
+    title: "Introduction to Machine Learning"
+    semester: "Spring"
+    year: 2024
+    role: "Teaching Assistant"
+    university: "UNC Chapel Hill"
+    description: "Graduate course covering supervised learning, unsupervised learning, and reinforcement learning fundamentals."

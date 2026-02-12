@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#dbeafe"/>
+  <text x="400" y="280" text-anchor="middle" font-family="system-ui" font-size="24" fill="#3b82f6">AR Interface</text>
+  <text x="400" y="320" text-anchor="middle" font-family="system-ui" font-size="16" fill="#60a5fa">Sample gallery image</text>
+</svg>

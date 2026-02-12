@@ -1,0 +1,30 @@
+[data-theme="newspaper"] {
+  --color-bg: #f7f3ed;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #555555;
+  --color-accent: #b22222;
+  --color-accent-hover: #8b0000;
+  --color-border: #d4cfc7;
+  --color-card-bg: #faf7f2;
+  --color-glass: rgba(247,243,237,0.95);
+  --color-glass-border: rgba(0,0,0,0.08);
+  --radius-sm: 0; --radius-md: 0; --radius-lg: 0;
+  --shadow-sm: none; --shadow-md: none; --shadow-lg: none; --shadow-hover: none;
+  --font-heading: 'Playfair Display', 'Georgia', serif;
+  --font-body: 'Source Serif 4', 'Georgia', serif;
+  --transition-fast: 0ms; --transition-base: 0ms; --transition-slow: 100ms ease;
+}
+[data-theme="newspaper"].dark {
+  --color-bg: #1a1a1a; --color-text: #e8e0d4; --color-text-secondary: #999;
+  --color-accent: #e85555; --color-accent-hover: #ff7777; --color-border: #333; --color-card-bg: #222;
+  --color-glass: rgba(26,26,26,0.95); --color-glass-border: rgba(255,255,255,0.08);
+}
+[data-theme="newspaper"] .glass { background: var(--color-glass); backdrop-filter: none; border-bottom: 2px solid var(--color-text); }
+[data-theme="newspaper"].dark .glass { border-bottom-color: var(--color-text); }
+[data-theme="newspaper"] .card-hover:hover { transform: none; box-shadow: none; }
+[data-theme="newspaper"] .gradient-text { background: none; -webkit-text-fill-color: var(--color-text); font-style: italic; }
+[data-theme="newspaper"] .page-header::after { background: var(--color-text); height: 2px; width: 100%; }
+[data-theme="newspaper"].dark .page-header::after { background: var(--color-text); }
+[data-theme="newspaper"] .section-divider { background: var(--color-border); height: 1px; margin: 2rem 0; }
+[data-theme="newspaper"].dark .section-divider { background: var(--color-border); }
+[data-theme="newspaper"] .nav-link-active::after { background: var(--color-accent); height: 3px; bottom: -4px; }

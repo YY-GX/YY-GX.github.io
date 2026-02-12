@@ -1,0 +1,36 @@
+---
+interface Props {
+  items: string[];
+  activeItem?: string;
+  allLabel?: string;
+}
+
+const { items, activeItem = 'All', allLabel = 'All' } = Astro.props;
+---
+
+<div class="flex flex-wrap gap-2" role="group" aria-label="Filter options">
+  <button
+    data-filter="all"
+    class:list={[
+      'filter-chip px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200',
+      activeItem === 'All'
+        ? 'bg-[var(--color-accent)] text-white'
+        : 'bg-[var(--color-border)]/50 text-[var(--color-text-secondary)] hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)]'
+    ]}
+  >
+    {allLabel}
+  </button>
+  {items.map(item => (
+    <button
+      data-filter={item}
+      class:list={[
+        'filter-chip px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200',
+        activeItem === item
+          ? 'bg-[var(--color-accent)] text-white'
+          : 'bg-[var(--color-border)]/50 text-[var(--color-text-secondary)] hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)]'
+      ]}
+    >
+      {item}
+    </button>
+  ))}
+</div>

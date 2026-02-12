@@ -1,0 +1,11 @@
+repositories:
+  - name: "Rebot"
+    description: "Real-to-Sim-to-Real Robotic Video Synthesis for robot learning"
+    url: "https://github.com/YY-GX/Rebot"
+    language: "Python"
+    stars: 0
+  - name: "BOSS"
+    description: "Benchmark for Observation Space Shift in Long-Horizon Task"
+    url: "https://github.com/YY-GX/BOSS"
+    language: "Python"
+    stars: 0

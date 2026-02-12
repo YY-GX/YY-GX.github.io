@@ -1,0 +1,114 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import PublicationList from '@components/publications/PublicationList.astro';
+import { parseBibTeX, getPublicationsByYear } from '@lib/bibtex';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const config = getConfig();
+if (!config.pages.publications) return Astro.redirect('/404');
+
+let publications: any[] = [];
+let pubsByYear = new Map<number, any[]>();
+
+try {
+  const bibPath = path.resolve(process.cwd(), 'src/content/publications', config.publications.bibtex_file);
+  const bibContent = fs.readFileSync(bibPath, 'utf-8');
+  publications = parseBibTeX(bibContent);
+  pubsByYear = getPublicationsByYear(publications);
+} catch (e) {
+  console.error('Error reading BibTeX:', e);
+}
+
+const venueTypes = [...new Set(publications.map(p => p.venueType))];
+---
+
+<BaseLayout title="Publications" description="Research publications">
+  <Fragment slot="head">
+    <meta name="citation_title" content={config.site.title + " — Publications"} />
+    <meta name="citation_author" content={config.publications.author_name} />
+  </Fragment>
+  <div class="animate-on-scroll">
+    <div class="page-header">
+      <h1 class="text-3xl font-bold">Publications</h1>
+      <p class="text-[var(--color-text-secondary)] mt-2">{publications.length} publications</p>
+    </div>
+
+    <!-- Search and filter -->
+    <div class="mb-8 flex flex-col sm:flex-row gap-4">
+      <div class="relative flex-1">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          id="pub-search"
+          type="text"
+          placeholder="Search publications..."
+          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/50 focus:border-[var(--color-accent)] transition-colors"
+        />
+      </div>
+      <div class="flex flex-wrap gap-2" id="filter-chips">
+        <button data-filter="all" class="filter-chip active px-3 py-1.5 rounded-full text-xs font-medium bg-[var(--color-accent)] text-white transition-colors" aria-pressed="true">
+          All
+        </button>
+        {venueTypes.map(type => (
+          <button data-filter={type} class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium bg-[var(--color-border)]/50 text-[var(--color-text-secondary)] hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors" aria-pressed="false">
+            {type}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Publication list by year -->
+  <PublicationList pubsByYear={pubsByYear} authorName={config.publications.author_name} />
+
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      const searchInput = document.getElementById('pub-search') as HTMLInputElement;
+      const chips = document.querySelectorAll('.filter-chip');
+      const cards = document.querySelectorAll('[data-pub-card]');
+      const yearSections = document.querySelectorAll('[data-year-section]');
+
+      let activeFilter = 'all';
+
+      function filterPubs() {
+        const query = searchInput?.value.toLowerCase() || '';
+        cards.forEach(card => {
+          const el = card as HTMLElement;
+          const matchesFilter = activeFilter === 'all' || el.dataset.venueType === activeFilter;
+          const matchesSearch = !query ||
+            el.dataset.title?.toLowerCase().includes(query) ||
+            el.dataset.authors?.toLowerCase().includes(query) ||
+            el.dataset.venue?.toLowerCase().includes(query);
+          el.style.display = matchesFilter && matchesSearch ? '' : 'none';
+        });
+
+        // Hide empty year sections
+        yearSections.forEach(section => {
+          const el = section as HTMLElement;
+          const visibleCards = el.querySelectorAll('[data-pub-card]:not([style*="display: none"])');
+          el.style.display = visibleCards.length > 0 ? '' : 'none';
+        });
+      }
+
+      searchInput?.addEventListener('input', filterPubs);
+
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => {
+            c.classList.remove('active', 'bg-[var(--color-accent)]', 'text-white');
+            c.classList.add('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]');
+            c.setAttribute('aria-pressed', 'false');
+          });
+          chip.classList.add('active', 'bg-[var(--color-accent)]', 'text-white');
+          chip.classList.remove('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]');
+          chip.setAttribute('aria-pressed', 'true');
+          activeFilter = (chip as HTMLElement).dataset.filter || 'all';
+          filterPubs();
+        });
+      });
+    });
+  </script>
+</BaseLayout>

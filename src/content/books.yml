@@ -1,0 +1,9 @@
+books:
+  - title: "Probabilistic Robotics"
+    author: "Sebastian Thrun, Wolfram Burgard, Dieter Fox"
+    rating: 5
+    notes: "The definitive robotics textbook."
+  - title: "Deep Learning"
+    author: "Ian Goodfellow, Yoshua Bengio, Aaron Courville"
+    rating: 5
+    notes: "Comprehensive deep learning reference."

@@ -1,0 +1,140 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import TableOfContents from '@components/blog/TableOfContents.astro';
+import { getConfig } from '@lib/config';
+import { formatDate, calculateReadingTime } from '@lib/utils';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const config = getConfig();
+if (!config.pages.blog) return Astro.redirect('/404');
+
+// Get all blog posts for prev/next navigation
+const blogDir = path.resolve(process.cwd(), 'src/content/blog');
+let allPosts: any[] = [];
+try {
+  const files = fs.readdirSync(blogDir).filter(f => f.endsWith('.mdx') || f.endsWith('.md'));
+  for (const file of files) {
+    const raw = fs.readFileSync(path.join(blogDir, file), 'utf-8');
+    const fmMatch = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    if (!fmMatch) continue;
+    const fm = fmMatch[1];
+    const content = fmMatch[2];
+    const title = fm.match(/title:\s*"(.+?)"/)?.[1] || '';
+    const dateStr = fm.match(/date:\s*(.+)/)?.[1]?.trim() || '';
+    const description = fm.match(/description:\s*"(.+?)"/)?.[1] || '';
+    const draft = fm.includes('draft: true');
+    const tagsMatch = fm.match(/tags:\s*\[([^\]]*)\]/);
+    const tags = tagsMatch ? tagsMatch[1].split(',').map(t => t.trim().replace(/"/g, '')) : [];
+    const slug = file.replace(/\.(mdx?|md)$/, '');
+    if (!draft) allPosts.push({ title, date: new Date(dateStr), description, tags, slug, content, readingTime: calculateReadingTime(content) });
+  }
+} catch {}
+allPosts.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+const { slug } = Astro.params;
+const postIndex = allPosts.findIndex(p => p.slug === slug);
+const post = allPosts[postIndex];
+
+if (!post) return Astro.redirect('/404');
+
+const prevPost = postIndex < allPosts.length - 1 ? allPosts[postIndex + 1] : null;
+const nextPost = postIndex > 0 ? allPosts[postIndex - 1] : null;
+
+// Extract headings for TOC
+const headings = [...post.content.matchAll(/^(#{2,3})\s+(.+)$/gm)].map(m => ({
+  depth: m[1].length,
+  text: m[2],
+  id: m[2].toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'),
+}));
+
+// Simple markdown to HTML (basic)
+let html = post.content
+  .replace(/^### (.+)$/gm, '<h3 id="$1" class="text-xl font-semibold mt-8 mb-3">$1</h3>')
+  .replace(/^## (.+)$/gm, '<h2 id="$1" class="text-2xl font-semibold mt-10 mb-4">$1</h2>')
+  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  .replace(/\*(.+?)\*/g, '<em>$1</em>')
+  .replace(/`(.+?)`/g, '<code>$1</code>')
+  .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-[var(--color-accent)] hover:underline">$1</a>')
+  .replace(/\n\n/g, '</p><p class="mb-4">')
+  .replace(/^(?!<[hp])/, '<p class="mb-4">')
+  .replace(/$/, '</p>');
+
+// Fix heading IDs
+headings.forEach(h => {
+  html = html.replace(`id="${h.text}"`, `id="${h.id}"`);
+});
+
+export function getStaticPaths() {
+  const blogDir2 = path.resolve(process.cwd(), 'src/content/blog');
+  try {
+    return fs.readdirSync(blogDir2)
+      .filter(f => f.endsWith('.mdx') || f.endsWith('.md'))
+      .filter(f => {
+        const raw = fs.readFileSync(path.join(blogDir2, f), 'utf-8');
+        return !raw.match(/^---\n[\s\S]*?draft:\s*true[\s\S]*?\n---/);
+      })
+      .map(f => ({ params: { slug: f.replace(/\.(mdx?|md)$/, '') } }));
+  } catch { return []; }
+}
+---
+
+<BaseLayout title={post.title} description={post.description}>
+  <article class="max-w-4xl mx-auto">
+    <!-- Reading progress bar -->
+    <div id="reading-progress" class="fixed top-0 left-0 h-0.5 bg-[var(--color-accent)] z-[60] transition-all" style="width: 0%"></div>
+
+    <!-- Post header -->
+    <header class="mb-10 animate-on-scroll">
+      <div class="flex flex-wrap gap-2 mb-3">
+        {post.tags.map((tag: string) => (
+          <a href={`/blog?tag=${tag}`} class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--color-accent)]/10 text-[var(--color-accent)]">{tag}</a>
+        ))}
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold leading-tight">{post.title}</h1>
+      <div class="mt-4 flex items-center gap-4 text-sm text-[var(--color-text-secondary)]">
+        <time class="font-mono">{formatDate(post.date)}</time>
+        <span>&middot;</span>
+        <span>{post.readingTime} min read</span>
+      </div>
+    </header>
+
+    <!-- Content with optional TOC sidebar -->
+    <div class="flex gap-10">
+      <div class="prose flex-1 min-w-0" set:html={html} />
+
+      {headings.length > 2 && config.blog.show_table_of_contents && (
+        <aside class="hidden xl:block w-56 shrink-0">
+          <TableOfContents headings={headings} />
+        </aside>
+      )}
+    </div>
+
+    <!-- Prev/Next navigation -->
+    <nav class="mt-16 pt-8 border-t border-[var(--color-border)] grid grid-cols-2 gap-4">
+      {prevPost ? (
+        <a href={`/blog/${prevPost.slug}`} class="group p-4 rounded-xl border border-[var(--color-border)] hover:border-[var(--color-accent)]/50 transition-colors">
+          <span class="text-xs text-[var(--color-text-secondary)]">&larr; Previous</span>
+          <p class="mt-1 font-medium group-hover:text-[var(--color-accent)] transition-colors">{prevPost.title}</p>
+        </a>
+      ) : <div />}
+      {nextPost ? (
+        <a href={`/blog/${nextPost.slug}`} class="group p-4 rounded-xl border border-[var(--color-border)] hover:border-[var(--color-accent)]/50 transition-colors text-right">
+          <span class="text-xs text-[var(--color-text-secondary)]">Next &rarr;</span>
+          <p class="mt-1 font-medium group-hover:text-[var(--color-accent)] transition-colors">{nextPost.title}</p>
+        </a>
+      ) : <div />}
+    </nav>
+  </article>
+
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      const bar = document.getElementById('reading-progress');
+      if (!bar) return;
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = h > 0 ? `${(window.scrollY / h) * 100}%` : '0%';
+      });
+    });
+  </script>
+</BaseLayout>

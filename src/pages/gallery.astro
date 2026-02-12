@@ -1,0 +1,39 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const config = getConfig();
+if (!config.pages.gallery) return Astro.redirect('/404');
+
+const galleryDir = path.resolve(process.cwd(), 'public/content/gallery');
+let albums: { name: string; images: string[] }[] = [];
+
+try {
+  const dirs = fs.readdirSync(galleryDir).filter(d => fs.statSync(path.join(galleryDir, d)).isDirectory());
+  for (const dir of dirs) {
+    const images = fs.readdirSync(path.join(galleryDir, dir)).filter(f => /\.(jpg|jpeg|png|gif|webp|avif|svg)$/i.test(f));
+    if (images.length > 0) albums.push({ name: dir.replace(/-/g, ' '), images: images.map(i => `/content/gallery/${dir}/${i}`) });
+  }
+} catch {}
+---
+
+<BaseLayout title="Gallery" description="Photo gallery">
+  <div class="animate-on-scroll">
+    <h1 class="text-3xl font-bold mb-8">Gallery</h1>
+  </div>
+  {albums.map(album => (
+    <section class="mb-12 animate-on-scroll">
+      <h2 class="text-xl font-semibold mb-4 capitalize">{album.name}</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        {album.images.map(img => (
+          <div class="aspect-square rounded-lg overflow-hidden border border-[var(--color-border)] card-hover">
+            <img src={img} alt="" loading="lazy" class="w-full h-full object-cover" />
+          </div>
+        ))}
+      </div>
+    </section>
+  ))}
+  {albums.length === 0 && <p class="text-[var(--color-text-secondary)] text-center py-12">Add photo albums as folders in public/content/gallery/.</p>}
+</BaseLayout>

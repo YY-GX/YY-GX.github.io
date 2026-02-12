@@ -1,0 +1,11 @@
+talks:
+  - title: "Rebot: Scaling Robot Learning with Real-to-Sim-to-Real Robotic Video Synthesis"
+    event: "IEEE/RSJ IROS 2025"
+    date: "2025-10-15"
+    location: "Hangzhou, China"
+  - title: "Safe Learning from Demonstrations for Autonomous Systems"
+    event: "IEEE/RSJ IROS 2024"
+    date: "2024-10-15"
+    location: "Abu Dhabi, UAE"
+    slides: ""
+    video: ""

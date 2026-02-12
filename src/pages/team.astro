@@ -1,0 +1,58 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'yaml';
+
+const config = getConfig();
+if (!config.pages.team) return Astro.redirect('/404');
+
+let members: any[] = [];
+let alumni: any[] = [];
+try {
+  const teamPath = path.resolve(process.cwd(), 'src/content/team.yml');
+  const data = yaml.parse(fs.readFileSync(teamPath, 'utf-8'));
+  members = (data.members || []).filter((m: any) => !m.alumni);
+  alumni = (data.members || []).filter((m: any) => m.alumni);
+} catch {}
+---
+
+<BaseLayout title="Team" description="Lab members">
+  <div class="animate-on-scroll">
+    <h1 class="text-3xl font-bold mb-8">Team</h1>
+  </div>
+
+  {members.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-6">Current Members</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {members.map(m => (
+          <div class="p-4 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-center card-hover animate-on-scroll">
+            <div class="w-20 h-20 mx-auto rounded-lg bg-[var(--color-border)] overflow-hidden mb-3">
+              {m.image ? <img src={m.image} alt={m.name} class="w-full h-full object-cover" /> : <div class="w-full h-full flex items-center justify-center text-2xl text-[var(--color-text-secondary)]">{m.name[0]}</div>}
+            </div>
+            <h3 class="font-medium text-sm">{m.url ? <a href={m.url} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)]">{m.name}</a> : m.name}</h3>
+            <p class="text-xs text-[var(--color-text-secondary)] mt-0.5">{m.role}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {alumni.length > 0 && (
+    <section>
+      <h2 class="text-xl font-semibold mb-6">Alumni</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {alumni.map(m => (
+          <div class="p-4 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-center animate-on-scroll">
+            <h3 class="font-medium text-sm">{m.url ? <a href={m.url} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)]">{m.name}</a> : m.name}</h3>
+            <p class="text-xs text-[var(--color-text-secondary)]">{m.role}{m.year_left ? ` (${m.year_left})` : ''}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {members.length === 0 && alumni.length === 0 && <p class="text-[var(--color-text-secondary)] text-center py-12">Add team members to src/content/team.yml.</p>}
+</BaseLayout>

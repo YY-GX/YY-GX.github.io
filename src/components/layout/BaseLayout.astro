@@ -1,0 +1,158 @@
+---
+import { getConfig, getEnabledPages } from '@lib/config';
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+import SearchPalette from '../ui/SearchPalette.astro';
+import { ViewTransitions } from 'astro:transitions';
+import '@styles/global.css';
+import '@styles/themes/index.css';
+import '@styles/prose.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const config = getConfig();
+const { title, description } = Astro.props;
+const pageTitle = title ? `${title} — ${config.site.title}` : config.site.title;
+const pageDescription = description || config.site.description;
+---
+
+<!DOCTYPE html>
+<html lang={config.site.language} data-theme={config.theme.style} data-palette={config.theme.palette || 'default'}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={pageDescription} />
+  <meta name="author" content={config.profile.name} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={Astro.url.href} />
+  <meta name="twitter:card" content="summary" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="alternate" type="application/rss+xml" title={config.site.title} href="/rss.xml" />
+  <title>{pageTitle}</title>
+  <slot name="head" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": config.profile.name,
+    "jobTitle": config.profile.position,
+    "affiliation": { "@type": "Organization", "name": config.profile.university },
+    "url": config.site.url,
+    "email": config.profile.email,
+  })} />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" />
+  <!-- All fonts loaded for runtime theme switching. Each theme uses its own subset via CSS font-family variables. -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:wght@400;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- View Transitions -->
+  <ViewTransitions />
+
+  <!-- Restore theme, palette, and dark mode from localStorage (before paint to prevent flash) -->
+  <script is:inline>
+  (function(){
+    var t = localStorage.getItem('lumina-theme');
+    var p = localStorage.getItem('lumina-palette');
+    var dark = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (t) document.documentElement.setAttribute('data-theme', t);
+    if (p) document.documentElement.setAttribute('data-palette', p);
+    if (dark === 'dark' || (!dark && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  })();
+
+  document.addEventListener('astro:after-swap', function() {
+    var t = localStorage.getItem('lumina-theme');
+    var p = localStorage.getItem('lumina-palette');
+    var dark = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (t) document.documentElement.setAttribute('data-theme', t);
+    if (p) document.documentElement.setAttribute('data-palette', p);
+    if (dark === 'dark' || (!dark && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  });
+  </script>
+</head>
+<body class="bg-[var(--color-bg)] text-[var(--color-text)] min-h-screen flex flex-col transition-colors duration-300">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-white focus:rounded-lg">Skip to content</a>
+  {config.theme.cursor_spotlight && (
+    <div class="cursor-spotlight" id="cursor-spotlight"></div>
+  )}
+  <Navbar />
+  <main id="main-content" class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <slot />
+  </main>
+  <Footer />
+  <SearchPalette />
+  {config.theme.cursor_spotlight && (
+    <script is:inline>
+      document.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+        document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+      });
+    </script>
+  )}
+  <script is:inline>
+    function initLazyImages() {
+      document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+        if (img.complete) img.classList.add('loaded');
+        else img.addEventListener('load', function() { img.classList.add('loaded'); });
+      });
+    }
+    document.addEventListener('DOMContentLoaded', initLazyImages);
+    document.addEventListener('astro:after-swap', initLazyImages);
+  </script>
+  <script is:inline>
+    function initLightbox() {
+      document.querySelectorAll('[data-lightbox]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var overlay = document.createElement('div');
+          overlay.className = 'lightbox-overlay';
+          overlay.setAttribute('role', 'dialog');
+          overlay.setAttribute('aria-modal', 'true');
+          overlay.setAttribute('aria-label', 'Image lightbox');
+          overlay.tabIndex = -1;
+          var img = document.createElement('img');
+          img.src = link.getAttribute('href');
+          img.alt = link.getAttribute('aria-label') || link.querySelector('img')?.alt || 'Enlarged image';
+          overlay.appendChild(img);
+          document.body.appendChild(overlay);
+          requestAnimationFrame(function() { overlay.classList.add('active'); overlay.focus(); });
+          function closeLightbox() {
+            overlay.classList.remove('active');
+            setTimeout(function() { overlay.remove(); link.focus(); }, 200);
+          }
+          overlay.addEventListener('click', closeLightbox);
+          overlay.addEventListener('keydown', function(ev) {
+            if (ev.key === 'Escape') closeLightbox();
+            if (ev.key === 'Tab') { ev.preventDefault(); }
+          });
+        });
+      });
+    }
+    document.addEventListener('DOMContentLoaded', initLightbox);
+    document.addEventListener('astro:after-swap', initLightbox);
+  </script>
+</body>
+</html>

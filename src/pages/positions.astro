@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'yaml';
+
+const config = getConfig();
+if (!config.pages.positions) return Astro.redirect('/404');
+
+let positions: any[] = [];
+try {
+  const posPath = path.resolve(process.cwd(), 'src/content/positions.yml');
+  const data = yaml.parse(fs.readFileSync(posPath, 'utf-8'));
+  positions = data.positions || [];
+} catch {}
+---
+
+<BaseLayout title="Open Positions" description="Join our team">
+  <div class="animate-on-scroll">
+    <h1 class="text-3xl font-bold mb-2">Open Positions</h1>
+    <p class="text-[var(--color-text-secondary)] mb-8">Interested in joining the lab? See available positions below.</p>
+  </div>
+  <div class="space-y-4">
+    {positions.map(pos => (
+      <div class="p-5 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] card-hover animate-on-scroll">
+        <h3 class="font-semibold text-lg">{pos.title}</h3>
+        <p class="text-sm text-[var(--color-accent)] mt-1">{pos.type}</p>
+        {pos.description && <p class="text-sm text-[var(--color-text-secondary)] mt-2">{pos.description}</p>}
+        {pos.deadline && <p class="text-xs font-mono text-[var(--color-text-secondary)] mt-2">Deadline: {pos.deadline}</p>}
+        {pos.url && <a href={pos.url} class="inline-block mt-3 text-sm text-[var(--color-accent)] hover:underline">Apply &rarr;</a>}
+      </div>
+    ))}
+    {positions.length === 0 && <p class="text-[var(--color-text-secondary)] text-center py-12">No open positions at this time. Check back later!</p>}
+  </div>
+</BaseLayout>

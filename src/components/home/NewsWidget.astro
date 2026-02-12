@@ -1,0 +1,62 @@
+---
+import { getConfig } from '@lib/config';
+import { formatDate } from '@lib/utils';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const config = getConfig();
+
+// Read news files manually
+const newsDir = path.resolve(process.cwd(), 'src/content/news');
+let newsItems: { title: string; date: Date; content: string; pinned: boolean }[] = [];
+
+try {
+  const files = fs.readdirSync(newsDir).filter(f => f.endsWith('.md'));
+  for (const file of files) {
+    const raw = fs.readFileSync(path.join(newsDir, file), 'utf-8');
+    const frontmatterMatch = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    if (frontmatterMatch) {
+      const fm = frontmatterMatch[1];
+      const content = frontmatterMatch[2].trim();
+      const title = fm.match(/title:\s*"(.+?)"/)?.[1] || '';
+      const dateStr = fm.match(/date:\s*(.+)/)?.[1]?.trim() || '';
+      const pinned = fm.includes('pinned: true');
+      newsItems.push({ title, date: new Date(dateStr), content, pinned });
+    }
+  }
+} catch {}
+
+// Sort: pinned first, then by date descending
+newsItems.sort((a, b) => {
+  if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+  return b.date.getTime() - a.date.getTime();
+});
+
+newsItems = newsItems.slice(0, 5);
+---
+
+<section class="animate-on-scroll">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-semibold">Latest News</h2>
+    {config.pages.news && (
+      <a href="/news" class="text-sm text-[var(--color-accent)] hover:underline">View all &rarr;</a>
+    )}
+  </div>
+
+  <div class="space-y-4">
+    {newsItems.map(item => (
+      <div class="flex gap-4 items-start">
+        <span class="text-sm font-mono text-[var(--color-text-secondary)] shrink-0 pt-0.5 min-w-[5.5rem]">
+          {formatDate(item.date)}
+        </span>
+        <div>
+          <p class="font-medium leading-snug">
+            {item.pinned && <span class="text-[var(--color-accent)] mr-1">&#9679;</span>}
+            {item.title}
+          </p>
+          <p class="text-sm text-[var(--color-text-secondary)] mt-0.5">{item.content}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

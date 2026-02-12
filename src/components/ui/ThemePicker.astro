@@ -1,0 +1,184 @@
+---
+import { getConfig } from '@lib/config';
+const config = getConfig();
+
+const themes = [
+  { id: 'classic', label: 'Classic', icon: '📜' },
+  { id: 'modern', label: 'Modern', icon: '✨' },
+  { id: 'minimal', label: 'Minimal', icon: '◻️' },
+  { id: 'elegant', label: 'Elegant', icon: '🌿' },
+  { id: 'bold', label: 'Bold', icon: '⚡' },
+  { id: 'geek', label: 'Geek', icon: '💻' },
+  { id: 'newspaper', label: 'News', icon: '📰' },
+  { id: 'aurora', label: 'Aurora', icon: '🌈' },
+  { id: 'ocean', label: 'Ocean', icon: '🌊' },
+  { id: 'retro', label: 'Retro', icon: '📟' },
+];
+
+const paletteNames: Record<string, string[]> = {
+  classic: ['Burgundy', 'Navy', 'Forest', 'Plum', 'Slate'],
+  modern: ['Blue', 'Indigo', 'Teal', 'Rose', 'Amber'],
+  minimal: ['Black', 'Red', 'Blue', 'Green', 'Orange'],
+  elegant: ['Gold', 'Rose', 'Emerald', 'Sapphire', 'Wine'],
+  bold: ['Electric', 'Magenta', 'Lime', 'Orange', 'Crimson'],
+  geek: ['Green', 'Amber', 'Cyan', 'Red', 'Purple'],
+  newspaper: ['Red', 'Blue', 'Black', 'Green', 'Purple'],
+  aurora: ['Purple', 'Sunset', 'Ocean', 'Forest', 'Cosmic'],
+  ocean: ['Cyan', 'Deep', 'Coral', 'Emerald', 'Arctic'],
+  retro: ['Orange', 'Olive', 'Burgundy', 'Teal', 'Purple'],
+};
+
+const paletteIds: Record<string, string[]> = {
+  classic: ['default', 'navy', 'forest', 'plum', 'slate'],
+  modern: ['default', 'indigo', 'teal', 'rose', 'amber'],
+  minimal: ['default', 'red', 'blue', 'green', 'orange'],
+  elegant: ['default', 'rose', 'emerald', 'sapphire', 'wine'],
+  bold: ['default', 'magenta', 'lime', 'orange', 'crimson'],
+  geek: ['default', 'amber', 'cyan', 'red', 'purple'],
+  newspaper: ['default', 'blue', 'black', 'green', 'purple'],
+  aurora: ['default', 'sunset', 'ocean', 'forest', 'cosmic'],
+  ocean: ['default', 'deep', 'coral', 'emerald', 'arctic'],
+  retro: ['default', 'olive', 'burgundy', 'teal', 'purple'],
+};
+
+const defaultTheme = config.theme.style || 'modern';
+const defaultPalette = config.theme.palette || 'default';
+const randomTheme = config.theme.random_theme ?? false;
+---
+
+<div class="relative" data-theme-picker-wrapper>
+  <button
+    data-theme-picker-btn
+    class="p-2 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 transition-colors"
+    aria-label="Change theme"
+    aria-expanded="false"
+    aria-controls="theme-picker-panel"
+    title="Change theme & colors"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+    </svg>
+  </button>
+
+  <div id="theme-picker-panel" data-theme-picker-panel class="hidden absolute right-0 top-full mt-2 w-72 max-w-[calc(100vw-2rem)] max-h-[70vh] overflow-y-auto rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] shadow-lg z-[100] p-3" style="scrollbar-width: thin;">
+    <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-secondary)] mb-2">Theme</p>
+    <div class="grid grid-cols-5 gap-1.5 mb-3">
+      {themes.map(t => (
+        <button
+          data-theme-select={t.id}
+          class="flex flex-col items-center gap-0.5 p-1.5 rounded-lg text-xs hover:bg-[var(--color-accent)]/10 transition-colors border border-transparent"
+          title={t.label}
+        >
+          <span class="text-base">{t.icon}</span>
+          <span class="truncate w-full text-center" style="font-size:9px;">{t.label}</span>
+        </button>
+      ))}
+    </div>
+
+    <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-secondary)] mb-2">Color Palette</p>
+    <div data-palette-grid class="flex gap-1.5 flex-wrap"></div>
+  </div>
+</div>
+
+<script is:inline>
+document.addEventListener('astro:after-swap', function() {
+  window.__themePickerInit = false;
+});
+(function(){
+  if (window.__themePickerInit) return;
+  window.__themePickerInit = true;
+
+  var PN = {"classic":["Burgundy","Navy","Forest","Plum","Slate"],"modern":["Blue","Indigo","Teal","Rose","Amber"],"minimal":["Black","Red","Blue","Green","Orange"],"elegant":["Gold","Rose","Emerald","Sapphire","Wine"],"bold":["Electric","Magenta","Lime","Orange","Crimson"],"geek":["Green","Amber","Cyan","Red","Purple"],"newspaper":["Red","Blue","Black","Green","Purple"],"aurora":["Purple","Sunset","Ocean","Forest","Cosmic"],"ocean":["Cyan","Deep","Coral","Emerald","Arctic"],"retro":["Orange","Olive","Burgundy","Teal","Purple"]};
+  var PI = {"classic":["default","navy","forest","plum","slate"],"modern":["default","indigo","teal","rose","amber"],"minimal":["default","red","blue","green","orange"],"elegant":["default","rose","emerald","sapphire","wine"],"bold":["default","magenta","lime","orange","crimson"],"geek":["default","amber","cyan","red","purple"],"newspaper":["default","blue","black","green","purple"],"aurora":["default","sunset","ocean","forest","cosmic"],"ocean":["default","deep","coral","emerald","arctic"],"retro":["default","olive","burgundy","teal","purple"]};
+  var ALL = ['classic','modern','minimal','elegant','bold','geek','newspaper','aurora','ocean','retro'];
+
+  var ct = localStorage.getItem('lumina-theme') || document.documentElement.getAttribute('data-theme') || 'modern';
+  var cp = localStorage.getItem('lumina-palette') || 'default';
+
+  function apply(t, p) {
+    ct = t; cp = p;
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-palette', p);
+    localStorage.setItem('lumina-theme', t);
+    localStorage.setItem('lumina-palette', p);
+    // Update active states
+    document.querySelectorAll('[data-theme-select]').forEach(function(b){
+      var active = b.getAttribute('data-theme-select') === t;
+      b.style.borderColor = active ? 'var(--color-accent)' : 'transparent';
+      b.style.backgroundColor = active ? 'color-mix(in srgb, var(--color-accent) 15%, transparent)' : '';
+    });
+    // Render palette buttons
+    document.querySelectorAll('[data-palette-grid]').forEach(function(g){
+      var names = PN[t] || ['Default'];
+      var ids = PI[t] || ['default'];
+      g.innerHTML = '';
+      ids.forEach(function(id, i){
+        var btn = document.createElement('button');
+        btn.setAttribute('data-palette-select', id);
+        btn.textContent = names[i] || id;
+        btn.className = 'px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer';
+        if (id === p) {
+          btn.style.background = 'var(--color-accent)';
+          btn.style.color = 'white';
+        } else {
+          btn.style.background = 'var(--color-border)';
+          btn.style.opacity = '0.7';
+        }
+        g.appendChild(btn);
+      });
+    });
+  }
+
+  // Event delegation on document
+  document.addEventListener('click', function(e) {
+    // Toggle panel
+    var btnEl = e.target.closest('[data-theme-picker-btn]');
+    if (btnEl) {
+      e.stopPropagation();
+      var panel = btnEl.closest('[data-theme-picker-wrapper]').querySelector('[data-theme-picker-panel]');
+      if (panel) {
+        var isHidden = panel.classList.contains('hidden');
+        // Close all panels first
+        document.querySelectorAll('[data-theme-picker-panel]').forEach(function(p){ p.classList.add('hidden'); });
+        document.querySelectorAll('[data-theme-picker-btn]').forEach(function(b){ b.setAttribute('aria-expanded', 'false'); });
+        if (isHidden) {
+          panel.classList.remove('hidden');
+          btnEl.setAttribute('aria-expanded', 'true');
+          // Refresh active states when panel opens
+          document.querySelectorAll('[data-theme-select]').forEach(function(b){
+            var active = b.getAttribute('data-theme-select') === ct;
+            b.style.borderColor = active ? 'var(--color-accent)' : 'transparent';
+            b.style.background = active ? 'color-mix(in srgb, var(--color-accent) 15%, transparent)' : '';
+          });
+          apply(ct, cp);
+        }
+      }
+      return;
+    }
+
+    // Theme select
+    var themeBtn = e.target.closest('[data-theme-select]');
+    if (themeBtn) {
+      e.stopPropagation();
+      apply(themeBtn.getAttribute('data-theme-select'), 'default');
+      return;
+    }
+
+    // Palette select
+    var palBtn = e.target.closest('[data-palette-select]');
+    if (palBtn) {
+      e.stopPropagation();
+      apply(ct, palBtn.getAttribute('data-palette-select'));
+      return;
+    }
+
+    // Click outside - close all panels
+    if (!e.target.closest('[data-theme-picker-panel]')) {
+      document.querySelectorAll('[data-theme-picker-panel]').forEach(function(p){ p.classList.add('hidden'); });
+      document.querySelectorAll('[data-theme-picker-btn]').forEach(function(b){ b.setAttribute('aria-expanded', 'false'); });
+    }
+  });
+
+  apply(ct, cp);
+})();
+</script>

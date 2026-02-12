@@ -1,0 +1,77 @@
+# Yue Yang Personal Website — powered by Lumina template
+# Only About, Publications, Blog, and CV are enabled
+
+site:
+  title: "Yue Yang"
+  description: "Yue Yang - CS PhD student at UNC Chapel Hill"
+  url: "https://yy-gx.github.io"
+  language: "en"
+
+profile:
+  name: "Yue Yang"
+  position: "PhD Student in Computer Science"
+  affiliation: "UNC Chapel Hill"
+  university: "The University of North Carolina at Chapel Hill"
+  email: "yygx@cs.unc.edu"
+  avatar: "/images/avatar.jpg"
+  bio: "CS PhD student co-advised by Prof. Daniel J. Szafir and Prof. Gedas Bertasius. Research in robotics, AR, and imitation learning."
+  bio_short: "PhD Student at UNC Chapel Hill"
+
+social:
+  google_scholar: "https://scholar.google.com/citations?user=NafmySAAAAAJ"
+  github: "https://github.com/YY-GX"
+  twitter: "https://twitter.com/YYang9923"
+  linkedin: "https://www.linkedin.com/in/yue-yang-6a1493185/"
+  orcid: ""
+  semantic_scholar: ""
+  dblp: ""
+  email: "yygx@cs.unc.edu"
+
+pages:
+  about: true
+  publications: true
+  cv: true
+  projects: false
+  news: false
+  teaching: false
+  talks: false
+  awards: false
+  team: false
+  positions: false
+  collaborators: false
+  service: false
+  repositories: false
+  blog: true
+  gallery: false
+  books: false
+  media: false
+  travel: false
+
+theme:
+  cursor_spotlight: false
+  style: "classic"
+  palette: "default"
+  random_theme: false
+  avatars:
+    - "/images/avatar.jpg"
+    - "/images/avatar2.png"
+
+cv:
+  hide_pdf_download: true
+
+publications:
+  author_name: "Yue Yang"
+  bibtex_file: "papers.bib"
+  group_by_year: true
+  show_badges: true
+
+blog:
+  posts_per_page: 10
+  show_reading_time: true
+  show_table_of_contents: true
+  comments:
+    enabled: false
+    repo: ""
+    repo_id: ""
+    category: ""
+    category_id: ""

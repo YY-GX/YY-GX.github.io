@@ -1,0 +1,126 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import Card from '@components/ui/Card.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const config = getConfig();
+if (!config.pages.projects) return Astro.redirect('/404');
+
+const projectsDir = path.resolve(process.cwd(), 'src/content/projects');
+let projects: any[] = [];
+
+try {
+  const dirs = fs.readdirSync(projectsDir).filter(d =>
+    fs.statSync(path.join(projectsDir, d)).isDirectory()
+  );
+
+  for (const dir of dirs) {
+    const indexPath = path.join(projectsDir, dir, 'index.md');
+    if (!fs.existsSync(indexPath)) continue;
+    const raw = fs.readFileSync(indexPath, 'utf-8');
+    const fmMatch = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    if (!fmMatch) continue;
+
+    const fm = fmMatch[1];
+    const content = fmMatch[2].trim();
+    const get = (key: string) => fm.match(new RegExp(`${key}:\\s*"?(.+?)"?\\s*$`, 'm'))?.[1] || '';
+    const getTags = () => {
+      const match = fm.match(/tags:\s*\[([^\]]*)\]/);
+      return match ? match[1].split(',').map(t => t.trim().replace(/"/g, '')) : [];
+    };
+
+    projects.push({
+      title: get('title'),
+      description: get('description'),
+      category: get('category'),
+      tags: getTags(),
+      image: get('image'),
+      github: get('github'),
+      url: get('url'),
+      featured: fm.includes('featured: true'),
+      date: new Date(get('date')),
+      content,
+    });
+  }
+} catch {}
+
+projects.sort((a, b) => b.date.getTime() - a.date.getTime());
+const categories = ['All', ...new Set(projects.map(p => p.category).filter(Boolean))];
+---
+
+<BaseLayout title="Projects" description="Research projects and software">
+  <div class="animate-on-scroll">
+    <div class="page-header">
+      <h1 class="text-3xl font-bold">Projects</h1>
+      <p class="text-[var(--color-text-secondary)] mt-2">{projects.length} projects</p>
+    </div>
+
+    <!-- Category filter -->
+    <div class="flex flex-wrap gap-2 mb-8" id="project-filters">
+      {categories.map((cat, i) => (
+        <button
+          data-category={cat}
+          aria-pressed={i === 0 ? 'true' : 'false'}
+          class:list={[
+            'px-3 py-1.5 rounded-full text-xs font-medium transition-colors',
+            i === 0
+              ? 'bg-[var(--color-accent)] text-white'
+              : 'bg-[var(--color-border)]/50 text-[var(--color-text-secondary)] hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)]'
+          ]}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Projects grid (bento style) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="projects-grid">
+    {projects.map(project => (
+      <div
+        data-project-card
+        data-category={project.category}
+        class:list={[
+          'animate-on-scroll',
+          project.featured && 'md:col-span-2'
+        ]}
+      >
+        <Card
+          title={project.title}
+          description={project.description}
+          tags={project.tags}
+          image={project.image}
+          href={project.url || project.github}
+        />
+      </div>
+    ))}
+  </div>
+
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      const buttons = document.querySelectorAll('#project-filters button');
+      const cards = document.querySelectorAll('[data-project-card]');
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => {
+            b.classList.remove('bg-[var(--color-accent)]', 'text-white');
+            b.classList.add('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('bg-[var(--color-accent)]', 'text-white');
+          btn.classList.remove('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]');
+          btn.setAttribute('aria-pressed', 'true');
+
+          const category = (btn as HTMLElement).dataset.category;
+          cards.forEach(card => {
+            const el = card as HTMLElement;
+            el.style.display = (category === 'All' || el.dataset.category === category) ? '' : 'none';
+          });
+        });
+      });
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,62 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'yaml';
+
+const config = getConfig();
+if (!config.pages.teaching) return Astro.redirect('/404');
+
+let courses: any[] = [];
+try {
+  const coursesPath = path.resolve(process.cwd(), 'src/content/teaching/courses.yml');
+  const data = yaml.parse(fs.readFileSync(coursesPath, 'utf-8'));
+  courses = data.courses || [];
+} catch {}
+
+// Group by year
+const coursesByYear = new Map<number, any[]>();
+for (const course of courses) {
+  if (!coursesByYear.has(course.year)) coursesByYear.set(course.year, []);
+  coursesByYear.get(course.year)!.push(course);
+}
+const sortedYears = [...coursesByYear.keys()].sort((a, b) => b - a);
+---
+
+<BaseLayout title="Teaching" description="Courses taught">
+  <div class="animate-on-scroll">
+    <div class="page-header">
+      <h1 class="text-3xl font-bold">Teaching</h1>
+    </div>
+  </div>
+
+  <div class="space-y-10">
+    {sortedYears.map(year => (
+      <section class="animate-on-scroll">
+        <h2 class="text-lg font-semibold font-mono text-[var(--color-text-secondary)] mb-4">{year}</h2>
+        <div class="space-y-4">
+          {coursesByYear.get(year)!.map(course => (
+            <div class="p-5 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] card-hover">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h3 class="font-medium text-lg">
+                    {course.url ? (
+                      <a href={course.url} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)] transition-colors">{course.title}</a>
+                    ) : course.title}
+                  </h3>
+                  <p class="text-sm text-[var(--color-text-secondary)] mt-1">
+                    <span class="font-mono">{course.course_id}</span> &middot; {course.semester} {course.year} &middot; {course.role}
+                  </p>
+                  {course.description && (
+                    <p class="text-sm text-[var(--color-text-secondary)] mt-2">{course.description}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

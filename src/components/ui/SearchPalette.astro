@@ -1,0 +1,84 @@
+---
+---
+
+<!-- Search palette modal -->
+<div id="search-palette" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="search-backdrop"></div>
+
+  <!-- Modal -->
+  <div class="relative flex items-start justify-center pt-[20vh] px-4">
+    <div class="w-full max-w-xl rounded-2xl bg-[var(--color-card-bg)] border border-[var(--color-border)] shadow-2xl overflow-hidden">
+      <!-- Search input -->
+      <div class="flex items-center gap-3 px-4 py-3 border-b border-[var(--color-border)]">
+        <svg class="w-5 h-5 text-[var(--color-text-secondary)] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input
+          id="search-input"
+          type="text"
+          placeholder="Navigate to..."
+          class="flex-1 bg-transparent text-[var(--color-text)] placeholder:text-[var(--color-text-secondary)] outline-none text-sm"
+          autocomplete="off"
+        />
+        <kbd class="hidden sm:inline-flex px-1.5 py-0.5 rounded text-[10px] font-mono bg-[var(--color-border)] text-[var(--color-text-secondary)]">ESC</kbd>
+      </div>
+
+      <!-- Results -->
+      <div id="search-results" class="max-h-80 overflow-y-auto p-2">
+        <p class="text-sm text-[var(--color-text-secondary)] text-center py-8">Type to navigate...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const palette = document.getElementById('search-palette');
+    const backdrop = document.getElementById('search-backdrop');
+    const input = document.getElementById('search-input') as HTMLInputElement;
+    const results = document.getElementById('search-results');
+    if (!palette || !input || !results) return;
+
+    function open() { palette!.classList.remove('hidden'); input!.focus(); input!.value = ''; results!.innerHTML = '<p class="text-sm text-[var(--color-text-secondary)] text-center py-8">Type to navigate...</p>'; }
+    function close() { palette!.classList.add('hidden'); }
+
+    // Cmd+K / Ctrl+K to open
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); open(); }
+      if (e.key === 'Escape') close();
+    });
+
+    backdrop?.addEventListener('click', close);
+
+    // Simple search across page content
+    input.addEventListener('input', () => {
+      const query = input.value.toLowerCase().trim();
+      if (!query) { results!.innerHTML = '<p class="text-sm text-[var(--color-text-secondary)] text-center py-8">Type to search...</p>'; return; }
+
+      // Search through nav links as a simple fallback
+      const links = document.querySelectorAll('nav a[href]');
+      const matches: { title: string; href: string }[] = [];
+      links.forEach(link => {
+        const text = link.textContent?.toLowerCase() || '';
+        const href = link.getAttribute('href') || '';
+        if (text.includes(query) && href && !matches.some(m => m.href === href)) {
+          matches.push({ title: link.textContent || '', href });
+        }
+      });
+
+      if (matches.length === 0) {
+        results!.innerHTML = '<p class="text-sm text-[var(--color-text-secondary)] text-center py-8">No results found.</p>';
+      } else {
+        results!.innerHTML = '';
+        matches.forEach(m => {
+          const a = document.createElement('a');
+          a.href = m.href;
+          a.className = 'block px-3 py-2 rounded-lg text-sm hover:bg-[var(--color-border)]/50 transition-colors';
+          a.textContent = m.title;
+          results!.appendChild(a);
+        });
+      }
+    });
+  });
+</script>

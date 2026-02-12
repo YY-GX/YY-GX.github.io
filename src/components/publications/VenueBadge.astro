@@ -1,0 +1,26 @@
+---
+interface Props {
+  type: string;
+}
+
+const { type } = Astro.props;
+
+const badgeStyles: Record<string, { bg: string; text: string; dot: string }> = {
+  conference: { bg: 'rgba(59, 130, 246, 0.12)', text: '#2563eb', dot: '#3b82f6' },
+  journal: { bg: 'rgba(34, 197, 94, 0.12)', text: '#16a34a', dot: '#22c55e' },
+  workshop: { bg: 'rgba(245, 158, 11, 0.12)', text: '#d97706', dot: '#f59e0b' },
+  preprint: { bg: 'rgba(156, 163, 175, 0.15)', text: '#6b7280', dot: '#9ca3af' },
+  thesis: { bg: 'rgba(168, 85, 247, 0.12)', text: '#7c3aed', dot: '#a855f7' },
+  other: { bg: 'rgba(156, 163, 175, 0.15)', text: '#6b7280', dot: '#9ca3af' },
+};
+
+const style = badgeStyles[type] || badgeStyles.other;
+---
+
+<span
+  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold capitalize"
+  style={`background: ${style.bg}; color: ${style.text};`}
+>
+  <span style={`width: 7px; height: 7px; border-radius: 50%; background: ${style.dot}; flex-shrink: 0;`}></span>
+  {type}
+</span>

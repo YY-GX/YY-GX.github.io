@@ -1,0 +1,33 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'yaml';
+
+const config = getConfig();
+if (!config.pages.media) return Astro.redirect('/404');
+
+let media: any[] = [];
+try {
+  const mediaPath = path.resolve(process.cwd(), 'src/content/media.yml');
+  const data = yaml.parse(fs.readFileSync(mediaPath, 'utf-8'));
+  media = data.media || [];
+} catch {}
+---
+
+<BaseLayout title="Media" description="Press and media appearances">
+  <div class="animate-on-scroll">
+    <h1 class="text-3xl font-bold mb-8">Media &amp; Press</h1>
+  </div>
+  <div class="space-y-4">
+    {media.map(item => (
+      <div class="p-5 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] card-hover animate-on-scroll">
+        <h3 class="font-medium">{item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)]">{item.title}</a> : item.title}</h3>
+        <p class="text-sm text-[var(--color-text-secondary)] mt-1">{item.outlet}{item.date ? ` — ${item.date}` : ''}</p>
+        <span class="inline-block mt-2 px-2 py-0.5 rounded-full text-xs bg-[var(--color-border)]/50 text-[var(--color-text-secondary)]">{item.type || 'article'}</span>
+      </div>
+    ))}
+    {media.length === 0 && <p class="text-[var(--color-text-secondary)] text-center py-12">Add media items to src/content/media.yml.</p>}
+  </div>
+</BaseLayout>

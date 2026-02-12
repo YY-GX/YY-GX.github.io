@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@components/layout/BaseLayout.astro';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import yaml from 'yaml';
+
+const config = getConfig();
+if (!config.pages.books) return Astro.redirect('/404');
+
+let books: any[] = [];
+try {
+  const booksPath = path.resolve(process.cwd(), 'src/content/books.yml');
+  const data = yaml.parse(fs.readFileSync(booksPath, 'utf-8'));
+  books = data.books || [];
+} catch {}
+---
+
+<BaseLayout title="Bookshelf" description="Reading list">
+  <div class="animate-on-scroll">
+    <h1 class="text-3xl font-bold mb-8">Bookshelf</h1>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {books.map(book => (
+      <div class="p-4 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] card-hover flex gap-4 animate-on-scroll">
+        {book.cover && <img src={book.cover} alt={book.title} class="w-16 h-24 rounded-md object-cover shrink-0" />}
+        <div>
+          <h3 class="font-medium text-sm">{book.url ? <a href={book.url} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)]">{book.title}</a> : book.title}</h3>
+          <p class="text-xs text-[var(--color-text-secondary)] mt-0.5">{book.author}</p>
+          {book.rating && <p class="text-xs mt-1">{'★'.repeat(book.rating)}{'☆'.repeat(5 - book.rating)}</p>}
+          {book.notes && <p class="text-xs text-[var(--color-text-secondary)] mt-1">{book.notes}</p>}
+        </div>
+      </div>
+    ))}
+  </div>
+  {books.length === 0 && <p class="text-[var(--color-text-secondary)] text-center py-12">Add books to src/content/books.yml.</p>}
+</BaseLayout>

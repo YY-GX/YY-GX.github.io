@@ -1,0 +1,108 @@
+---
+import { parseBibTeX } from '@lib/bibtex';
+import { getConfig } from '@lib/config';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const config = getConfig();
+
+let selectedPubs: any[] = [];
+try {
+  const bibPath = path.resolve(process.cwd(), 'src/content/publications', config.publications.bibtex_file);
+  const bibContent = fs.readFileSync(bibPath, 'utf-8');
+  const allPubs = parseBibTeX(bibContent);
+  selectedPubs = allPubs.filter(p => p.selected).slice(0, 5);
+  if (selectedPubs.length === 0) selectedPubs = allPubs.slice(0, 5);
+} catch {}
+
+function boldAuthorName(authors: string[], authorName: string): string {
+  const parts = authorName.trim().split(/\s+/);
+  const firstName = parts[0] || '';
+  const lastName = parts[parts.length - 1] || '';
+  return authors.map(a => {
+    const aParts = a.trim().split(/\s+/);
+    const aFirst = aParts[0] || '';
+    const aLast = aParts[aParts.length - 1] || '';
+    const lastMatch = aLast === lastName;
+    const firstMatch = aFirst === firstName || (aFirst.length <= 2 && aFirst[0] === firstName[0]);
+    return (lastMatch && firstMatch) ? `<strong>${a}</strong>` : a;
+  }).join(', ');
+}
+
+const venueStyles: Record<string, { bg: string; text: string; dot: string }> = {
+  conference: { bg: 'rgba(59, 130, 246, 0.12)', text: '#2563eb', dot: '#3b82f6' },
+  journal: { bg: 'rgba(34, 197, 94, 0.12)', text: '#16a34a', dot: '#22c55e' },
+  workshop: { bg: 'rgba(245, 158, 11, 0.12)', text: '#d97706', dot: '#f59e0b' },
+  preprint: { bg: 'rgba(156, 163, 175, 0.15)', text: '#6b7280', dot: '#9ca3af' },
+  thesis: { bg: 'rgba(168, 85, 247, 0.12)', text: '#7c3aed', dot: '#a855f7' },
+  other: { bg: 'rgba(156, 163, 175, 0.15)', text: '#6b7280', dot: '#9ca3af' },
+};
+---
+
+<section class="animate-on-scroll">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-semibold">Selected Publications</h2>
+    {config.pages.publications && (
+      <a href="/publications" class="text-sm text-[var(--color-accent)] hover:underline">View all &rarr;</a>
+    )}
+  </div>
+
+  <div class="space-y-4">
+    {selectedPubs.map(pub => (
+      <div class="p-4 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] card-hover">
+        <div class="flex items-start gap-4">
+          <div class="flex-1 min-w-0">
+            <h3 class="font-medium leading-snug">
+              {pub.pdf ? (
+                <a href={pub.pdf} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)]">{pub.title}</a>
+              ) : pub.title}
+            </h3>
+            <p class="mt-1 text-sm text-[var(--color-text-secondary)]" set:html={boldAuthorName(pub.authors, config.publications.author_name)} />
+            <div class="mt-2 flex flex-wrap items-center gap-2">
+              <span
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+                style={`background: ${(venueStyles[pub.venueType] || venueStyles.other).bg}; color: ${(venueStyles[pub.venueType] || venueStyles.other).text};`}
+              >
+                <span style={`width: 7px; height: 7px; border-radius: 50%; background: ${(venueStyles[pub.venueType] || venueStyles.other).dot}; flex-shrink: 0;`}></span>
+                {pub.venueType}
+              </span>
+              <span class="text-xs text-[var(--color-text-secondary)]">{pub.venue} {pub.year}</span>
+            </div>
+
+            <!-- Links -->
+            <div class="mt-3 flex flex-wrap gap-2">
+              {pub.pdf && (
+                <a href={pub.pdf} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                  PDF
+                </a>
+              )}
+              {pub.code && (
+                <a href={pub.code} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                  Code
+                </a>
+              )}
+              {pub.video && (
+                <a href={pub.video} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  Video
+                </a>
+              )}
+            </div>
+          </div>
+          {pub.preview && (
+            <a href={`/images/publications/${pub.preview}`} target="_blank" rel="noopener noreferrer" class="hidden sm:block shrink-0" data-lightbox>
+              <img
+                src={`/images/publications/${pub.preview}`}
+                alt=""
+                class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-contain shrink-0 border border-[var(--color-border)] bg-[var(--color-bg)] p-1"
+                loading="lazy"
+              />
+            </a>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

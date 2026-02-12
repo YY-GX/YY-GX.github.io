@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <clipPath id="c10"><rect width="128" height="128" rx="22"/></clipPath>
+    <linearGradient id="gg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="50%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="gb" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="50%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="gl10">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g clip-path="url(#c10)">
+    <rect width="128" height="128" fill="url(#gg)"/>
+    <polygon points="0,0 128,0 128,128" fill="url(#gb)"/>
+  </g>
+  <text x="56" y="100" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="94" font-weight="900" fill="#fff" opacity="0.18" filter="url(#gl10)">Y</text>
+  <text x="64" y="94" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="84" font-weight="900" fill="#fff">Y</text>
+</svg>
