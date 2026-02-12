@@ -71,7 +71,7 @@ function renderSimpleMarkdown(md: string): string {
     <div class="flex-1">
       <h1 class="text-3xl md:text-4xl font-bold tracking-tight gradient-text">{config.profile.name}</h1>
       <p class="mt-2 text-lg text-[var(--color-text-secondary)]">
-        {config.profile.position}, {config.profile.affiliation}
+        {config.profile.position}{config.profile.affiliation ? `, ${config.profile.affiliation}` : ''}
       </p>
       <p class="text-[var(--color-text-secondary)]">{config.profile.university}</p>
 
