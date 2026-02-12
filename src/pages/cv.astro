@@ -9,7 +9,7 @@ import yaml from 'yaml';
 const config = getConfig();
 if (!config.pages.cv) return Astro.redirect('/404');
 
-let cvData: any = { education: [], experience: [], skills: [], awards: [], service: [] };
+let cvData: any = { education: [], experience: [], skills: [] };
 try {
   const cvPath = path.resolve(process.cwd(), 'src/content/cv/cv.yml');
   cvData = yaml.parse(fs.readFileSync(cvPath, 'utf-8'));
@@ -90,47 +90,6 @@ try {
     </section>
   )}
 
-  <!-- Awards -->
-  {cvData.awards?.length > 0 && (
-    <section class="mb-12 animate-on-scroll">
-      <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">
-        <svg class="w-5 h-5 text-[var(--color-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-        Awards &amp; Honors
-      </h2>
-      <div class="space-y-3">
-        {cvData.awards.map((award: any) => (
-          <div class="flex items-start gap-4 p-3 rounded-lg hover:bg-[var(--color-border)]/30 transition-colors">
-            <span class="text-sm font-mono text-[var(--color-text-secondary)] shrink-0 min-w-[3rem]">{award.year}</span>
-            <div>
-              <p class="font-medium">{award.title}</p>
-              <p class="text-sm text-[var(--color-text-secondary)]">{award.organization}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )}
-
-  <!-- Service -->
-  {cvData.service?.length > 0 && (
-    <section class="mb-12 animate-on-scroll">
-      <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">
-        <svg class="w-5 h-5 text-[var(--color-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        Professional Service
-      </h2>
-      <div class="space-y-3">
-        {cvData.service.map((s: any) => (
-          <div class="flex items-start gap-4 p-3 rounded-lg hover:bg-[var(--color-border)]/30 transition-colors">
-            <span class="text-sm font-mono text-[var(--color-text-secondary)] shrink-0 min-w-[6rem]">{s.years}</span>
-            <div>
-              <p class="font-medium">{s.role}</p>
-              <p class="text-sm text-[var(--color-text-secondary)]">{s.organization}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )}
 </BaseLayout>
 
 <style>
