@@ -65,6 +65,9 @@ publications:
   group_by_year: true
   show_badges: true
 
+analytics:
+  google_analytics: "G-L4FWDSZJVD"
+
 blog:
   posts_per_page: 10
   show_reading_time: true

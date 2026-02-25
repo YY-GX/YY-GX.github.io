@@ -10,6 +10,7 @@ export interface SiteConfig {
   theme: { cursor_spotlight: boolean; style: string; palette: string; random_theme: boolean; avatars: string[]; };
   cv?: { hide_pdf_download?: boolean };
   publications: { author_name: string; bibtex_file: string; group_by_year: boolean; show_badges: boolean };
+  analytics?: { google_analytics?: string };
   blog: { posts_per_page: number; show_reading_time: boolean; show_table_of_contents: boolean; comments: { enabled: boolean; repo: string; repo_id: string; category: string; category_id: string } };
 }
 
