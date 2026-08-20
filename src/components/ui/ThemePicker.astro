@@ -49,7 +49,7 @@ const randomTheme = config.theme.random_theme ?? false;
 <div class="relative" data-theme-picker-wrapper>
   <button
     data-theme-picker-btn
-    class="p-2 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 transition-colors"
+    class="min-h-[2.5rem] min-w-[2.5rem] inline-flex items-center justify-center rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 transition-colors"
     aria-label="Change theme"
     aria-expanded="false"
     aria-controls="theme-picker-panel"
@@ -93,7 +93,7 @@ document.addEventListener('astro:after-swap', function() {
   var ALL = ['classic','modern','minimal','elegant','bold','geek','newspaper','aurora','ocean','retro'];
 
   var ct = localStorage.getItem('lumina-theme') || document.documentElement.getAttribute('data-theme') || 'modern';
-  var cp = localStorage.getItem('lumina-palette') || 'default';
+  var cp = localStorage.getItem('lumina-palette') || document.documentElement.getAttribute('data-palette') || 'default';
 
   function apply(t, p) {
     ct = t; cp = p;
