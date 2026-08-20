@@ -10,7 +10,6 @@
   --color-card-bg: #FFFFFF;
   --color-glass: rgba(255, 255, 255, 0.72);
   --color-glass-border: rgba(255, 255, 255, 0.2);
-  --space-unit: 8px;
   --transition-fast: 150ms ease-out;
   --transition-base: 200ms ease-out;
   --transition-slow: 300ms ease-out;
@@ -23,6 +22,82 @@
   --shadow-hover: 0 14px 30px rgba(0,0,0,0.12);
   --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ── §2.1 Type scale ─────────────────────────────────────────── */
+  --text-2xs:   0.75rem;      /* 12px — badge & micro-label text            */
+  --text-xs:    0.8125rem;    /* 13px — meta lines, chips, captions         */
+  --text-sm:    0.875rem;     /* 14px — author lists, secondary body        */
+  --text-base:  1rem;         /* 16px — body                                */
+  --text-md:    1.0625rem;    /* 17px — publication / post card title       */
+  --text-lg:    1.25rem;      /* 20px — h3, card group heading              */
+  --text-xl:    1.5rem;       /* 24px — h2, section heading, year heading   */
+  --text-2xl:   1.875rem;     /* 30px — prose h2                            */
+  --text-h1:    clamp(1.75rem, 1.35rem + 1.4vw, 2.25rem);   /* 28→36px page titles */
+  --text-hero:  clamp(2rem,   1.45rem + 2.2vw, 3rem);       /* 32→48px hero name   */
+
+  /* ── §2.2 Line height, weight, tracking ──────────────────────── */
+  --leading-tight:   1.15;
+  --leading-snug:    1.35;
+  --leading-normal:  1.55;
+  --leading-relaxed: 1.7;
+
+  --weight-normal: 400;
+  --weight-medium: 600;   /* Crimson Pro ships 600 — body emphasis only */
+  --weight-bold:   700;   /* Libre Baskerville ships 400/700 — ALL headings */
+
+  --tracking-tight: -0.01em;
+  --tracking-wide:   0.04em;   /* eyebrows / uppercase micro-labels */
+
+  /* ── §2.3 Spacing + rhythm ───────────────────────────────────── */
+  --space-1: 0.25rem;   /* 4  */
+  --space-2: 0.5rem;    /* 8  */
+  --space-3: 0.75rem;   /* 12 */
+  --space-4: 1rem;      /* 16 */
+  --space-5: 1.5rem;    /* 24 */
+  --space-6: 2rem;      /* 32 */
+  --space-7: 3rem;      /* 48 */
+  --space-8: 4rem;      /* 64 */
+
+  /* Semantic rhythm — USE THESE, not the raw scale, for layout gaps. */
+  --rhythm-section:    var(--space-7);  /* 48 — between major page sections   */
+  --rhythm-section-lg: var(--space-8);  /* 64 — same, at >=1024px             */
+  --rhythm-block:      var(--space-5);  /* 24 — sibling blocks in a section   */
+  --rhythm-item:       var(--space-4);  /* 16 — between cards / list items    */
+  --rhythm-heading:    var(--space-4);  /* 16 — below a section heading       */
+  --rhythm-tight:      var(--space-2);  /*  8 — metadata lines inside a card  */
+
+  --card-pad:      var(--space-5);      /* 24 — card padding, >=640px         */
+  --card-pad-sm:   var(--space-4);      /* 16 — card padding, <640px          */
+  --measure-prose: 68ch;                /* max line length for running text   */
+  --tap-min:       2.75rem;             /* 44px comfortable target            */
+  --tap-min-sm:    2rem;                /* 32px minimum for inline link pills */
+
+  /* ── §2.4 Radii (--radius-sm/md/lg above are theme-overridden) ── */
+  --radius-pill: 999px;   /* badges & chips stay pills even in classic */
+  --radius-dot:  50%;     /* dots, avatars-as-circles                  */
+
+  /* ── §2.5 Surfaces, rules, focus — derived from --color-bg so they
+        are correct for every theme AND every palette, both modes ──── */
+  --color-surface:        color-mix(in srgb, var(--color-bg) 96%, #000);
+  --color-surface-hover:  color-mix(in srgb, var(--color-bg) 93%, #000);
+  --color-hairline:       var(--color-border);
+  --color-rule:           color-mix(in srgb, var(--color-border) 70%, var(--color-text));
+  --color-accent-soft:    color-mix(in srgb, var(--color-accent) 12%, transparent);
+  --color-accent-quiet:   color-mix(in srgb, var(--color-accent) 7%,  transparent);
+  --color-focus:          var(--color-accent);
+  /* Text that sits ON a filled accent surface. White passes AA on every
+     light-mode accent but fails on the lighter dark-mode accents (2.2–4.0),
+     so dark mode flips to the page ground instead (4.6–8.3). */
+  --color-on-accent:      #fff;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ── §2.6 Venue badge palette — AA in both modes ─────────────── */
+  --venue-conference-fg: #1D4ED8;  --venue-conference-bg: rgba(59,130,246,0.14);
+  --venue-journal-fg:    #166534;  --venue-journal-bg:    rgba(34,197,94,0.14);
+  --venue-workshop-fg:   #92400E;  --venue-workshop-bg:   rgba(245,158,11,0.14);
+  --venue-preprint-fg:   #44505F;  --venue-preprint-bg:   rgba(148,163,184,0.14);
+  --venue-thesis-fg:     #6D28D9;  --venue-thesis-bg:     rgba(168,85,247,0.14);
+  --venue-other-fg:      #44505F;  --venue-other-bg:      rgba(148,163,184,0.14);
 }
 
 .dark {
@@ -39,6 +114,19 @@
   --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
   --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
   --shadow-hover: 0 14px 30px rgba(0,0,0,0.55);
+
+  /* ── §2.5 dark surfaces (lighten instead of darken) ──────────── */
+  --color-surface:        color-mix(in srgb, var(--color-bg) 93%, #fff);
+  --color-surface-hover:  color-mix(in srgb, var(--color-bg) 88%, #fff);
+  --color-on-accent:      var(--color-bg);
+
+  /* ── §2.6 dark venue badge palette ──────────────────────────── */
+  --venue-conference-fg: #93C5FD;  --venue-conference-bg: rgba(59,130,246,0.20);
+  --venue-journal-fg:    #86EFAC;  --venue-journal-bg:    rgba(34,197,94,0.20);
+  --venue-workshop-fg:   #FCD34D;  --venue-workshop-bg:   rgba(245,158,11,0.20);
+  --venue-preprint-fg:   #CBD5E1;  --venue-preprint-bg:   rgba(148,163,184,0.20);
+  --venue-thesis-fg:     #C4B5FD;  --venue-thesis-bg:     rgba(168,85,247,0.20);
+  --venue-other-fg:      #CBD5E1;  --venue-other-bg:      rgba(148,163,184,0.20);
 }
 
 html {
@@ -49,7 +137,7 @@ html {
   transition: background-color var(--transition-slow), color var(--transition-slow);
 }
 
-body { min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+body { min-height: 100vh; line-height: var(--leading-normal); -webkit-font-smoothing: antialiased; }
 
 h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
 
@@ -58,7 +146,11 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
 a { color: var(--color-accent); text-decoration: none; transition: color var(--transition-fast); }
 a:hover { color: var(--color-accent-hover); text-decoration: underline; }
 
-:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: var(--radius-sm); }
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-focus);
+  border-radius: var(--radius-sm);
+}
 
 @supports (animation-timeline: view()) {
   .animate-on-scroll {
@@ -154,7 +246,7 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
 .section-divider {
   height: 1px;
   background: linear-gradient(to right, transparent, var(--color-border), transparent);
-  margin: 3rem 0;
+  margin: var(--rhythm-section) 0;
 }
 
 /* ── Improved button styles ──────────────────────────── */
@@ -182,16 +274,11 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
   box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
 }
 
-/* ── Tag/chip pill hover glow ────────────────────────── */
-.chip-glow:hover {
-  box-shadow: 0 0 0 3px var(--color-accent)/15;
-}
-
 /* ── Page header with decorative element ─────────────── */
 .page-header {
   position: relative;
-  padding-bottom: 1rem;
-  margin-bottom: 2rem;
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--rhythm-section);
 }
 
 .page-header::after {
@@ -266,6 +353,75 @@ img:not([loading="lazy"]) {
   border-radius: var(--radius-md);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
+
+
+/* ══ §2.7 Shared component classes ═══════════════════════════════════════ */
+/* Every owner uses these instead of re-rolling badge / chip / card markup.  */
+
+/* Pill — every badge, venue tag, filter chip, and topic chip on the site. */
+.pill {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  border-radius: var(--radius-pill);
+  padding: 0.2rem 0.625rem;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  line-height: 1.5;
+  letter-spacing: var(--tracking-wide);
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+.pill-dot { width: 0.4375rem; height: 0.4375rem; border-radius: var(--radius-dot); flex-shrink: 0; }
+
+/* Interactive pill (filter chips, PDF/Code/Video links) */
+.pill-action {
+  min-height: var(--tap-min-sm);
+  border: 1px solid var(--color-hairline);
+  background: transparent;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+.pill-action:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: var(--color-accent-quiet);
+  text-decoration: none;
+}
+.pill-action[aria-pressed="true"], .pill-action.is-active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+.pill-action[aria-pressed="true"]:hover, .pill-action.is-active:hover {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* Card surface — publications, CV skills, blog posts */
+.surface-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  border-left: 3px solid transparent;
+  padding: var(--card-pad-sm);
+  transition: border-color var(--transition-base), background var(--transition-base);
+}
+@media (min-width: 640px) { .surface-card { padding: var(--card-pad); } }
+.surface-card:hover { border-left-color: var(--color-accent); background: var(--color-surface-hover); }
+
+/* Eyebrow — small uppercase label above a heading */
+.eyebrow {
+  font-size: var(--text-2xs); font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* Section heading with a hairline that fills the remaining width */
+.rule-heading { display: flex; align-items: center; gap: var(--space-4); }
+.rule-heading::after { content: ''; flex: 1 1 auto; height: 1px; background: var(--color-hairline); }
+
+/* Tabular numerals for years, dates, counts */
+.nums { font-variant-numeric: tabular-nums; }
+
+/* ══ end §2.7 ═══════════════════════════════════════════════════════════ */
 
 /* ── Hide scrollbar for nav overflow ──────────────────── */
 .scrollbar-hide {

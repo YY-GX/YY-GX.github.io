@@ -114,23 +114,23 @@
 
 /* Classic: increased line height, academic feel */
 [data-theme="classic"] body {
-  line-height: 1.8;
+  line-height: var(--leading-relaxed);
 }
 
-/* Classic: headings use serif with traditional sizing */
-[data-theme="classic"] h1,
-[data-theme="classic"] h2,
-[data-theme="classic"] h3,
-[data-theme="classic"] h4,
-[data-theme="classic"] h5,
-[data-theme="classic"] h6 {
+/* Classic: headings use serif with traditional sizing.
+   §2.8 — :where() drops specificity to ZERO so Tailwind's weight/family
+   utilities win, and the `font-weight: 400` declaration is DELETED (not
+   changed) so `font-bold` actually computes to 700. */
+[data-theme="classic"] :where(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-heading);
-  font-weight: 400;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--tracking-tight);
 }
 
-/* Classic: thin bordered cards */
-[data-theme="classic"] [class*="rounded"] {
+/* Classic: thin bordered cards.
+   §2.8 — keep cards sharp, but exempt pills and dots. Specificity is still
+   high enough to beat Tailwind's .rounded-xl, so cards stay square; NOT
+   wrapped in :where() for exactly that reason. */
+[data-theme="classic"] [class*="rounded"]:not(.pill):not(.pill-dot):not(.rounded-full) {
   border-radius: var(--radius-sm);
 }
 
