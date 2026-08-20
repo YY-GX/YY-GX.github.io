@@ -16,10 +16,10 @@ const socialIcons: Record<string, string> = {
 const activeSocials = Object.entries(config.social).filter(([_, url]) => url && url.length > 0);
 ---
 
-<footer class="mt-16">
+<footer class="mt-[var(--rhythm-section-lg)]">
   <div class="section-divider"></div>
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-[var(--rhythm-section)]">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-[var(--rhythm-block)]">
       <!-- Social links -->
       <div class="flex items-center gap-3">
         {activeSocials.map(([key, url]) => (
@@ -27,7 +27,7 @@ const activeSocials = Object.entries(config.social).filter(([_, url]) => url && 
             href={key === 'email' ? `mailto:${url}` : url}
             target={key === 'email' ? undefined : '_blank'}
             rel={key === 'email' ? undefined : 'noopener noreferrer'}
-            class="p-2 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-border)]/50 transition-colors"
+            class="min-w-[var(--tap-min)] min-h-[var(--tap-min)] inline-flex items-center justify-center rounded-[var(--radius-sm)] text-[var(--color-text-secondary)]! hover:text-[var(--color-accent)]! hover:bg-[var(--color-border)]/50 transition-colors"
             aria-label={key.replace('_', ' ')}
           >
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -38,7 +38,7 @@ const activeSocials = Object.entries(config.social).filter(([_, url]) => url && 
       </div>
 
       <!-- Copyright -->
-      <p class="text-sm text-[var(--color-text-secondary)]">
+      <p class="text-[length:var(--text-xs)] text-[var(--color-text-secondary)]">
         &copy; {year} {config.profile.name}. Built with
         <a href="https://github.com/YY-GX/Lumina" class="hover:text-[var(--color-accent)]">Lumina</a>.
       </p>

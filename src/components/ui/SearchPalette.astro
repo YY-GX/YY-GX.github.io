@@ -8,9 +8,9 @@
 
   <!-- Modal -->
   <div class="relative flex items-start justify-center pt-[20vh] px-4">
-    <div class="w-full max-w-xl rounded-2xl bg-[var(--color-card-bg)] border border-[var(--color-border)] shadow-2xl overflow-hidden">
+    <div class="w-full max-w-xl rounded-2xl bg-[var(--color-surface)] border border-[var(--color-rule)] shadow-2xl overflow-hidden">
       <!-- Search input -->
-      <div class="flex items-center gap-3 px-4 py-3 border-b border-[var(--color-border)]">
+      <div class="flex items-center gap-[var(--space-3)] px-[var(--space-4)] py-[var(--space-3)] border-b border-[var(--color-hairline)]">
         <svg class="w-5 h-5 text-[var(--color-text-secondary)] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
@@ -18,15 +18,15 @@
           id="search-input"
           type="text"
           placeholder="Navigate to..."
-          class="flex-1 bg-transparent text-[var(--color-text)] placeholder:text-[var(--color-text-secondary)] outline-none text-sm"
+          class="flex-1 bg-transparent text-[var(--color-text)] placeholder:text-[var(--color-text-secondary)] outline-none text-[length:var(--text-sm)]"
           autocomplete="off"
         />
-        <kbd class="hidden sm:inline-flex px-1.5 py-0.5 rounded text-[10px] font-mono bg-[var(--color-border)] text-[var(--color-text-secondary)]">ESC</kbd>
+        <kbd class="hidden sm:inline-flex px-1.5 py-0.5 rounded text-[length:var(--text-2xs)] font-mono bg-[var(--color-surface-hover)] text-[var(--color-text-secondary)]">ESC</kbd>
       </div>
 
       <!-- Results -->
-      <div id="search-results" class="max-h-80 overflow-y-auto p-2">
-        <p class="text-sm text-[var(--color-text-secondary)] text-center py-8">Type to navigate...</p>
+      <div id="search-results" class="max-h-80 overflow-y-auto p-[var(--space-2)]">
+        <p class="text-[length:var(--text-sm)] text-[var(--color-text-secondary)] text-center py-[var(--space-6)]">Type to navigate...</p>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@
     const results = document.getElementById('search-results');
     if (!palette || !input || !results) return;
 
-    function open() { palette!.classList.remove('hidden'); input!.focus(); input!.value = ''; results!.innerHTML = '<p class="text-sm text-[var(--color-text-secondary)] text-center py-8">Type to navigate...</p>'; }
+    function open() { palette!.classList.remove('hidden'); input!.focus(); input!.value = ''; results!.innerHTML = '<p class="text-[length:var(--text-sm)] text-[var(--color-text-secondary)] text-center py-[var(--space-6)]">Type to navigate...</p>'; }
     function close() { palette!.classList.add('hidden'); }
 
     // Cmd+K / Ctrl+K to open
@@ -54,7 +54,7 @@
     // Simple search across page content
     input.addEventListener('input', () => {
       const query = input.value.toLowerCase().trim();
-      if (!query) { results!.innerHTML = '<p class="text-sm text-[var(--color-text-secondary)] text-center py-8">Type to search...</p>'; return; }
+      if (!query) { results!.innerHTML = '<p class="text-[length:var(--text-sm)] text-[var(--color-text-secondary)] text-center py-[var(--space-6)]">Type to search...</p>'; return; }
 
       // Search through nav links as a simple fallback
       const links = document.querySelectorAll('nav a[href]');
@@ -68,13 +68,13 @@
       });
 
       if (matches.length === 0) {
-        results!.innerHTML = '<p class="text-sm text-[var(--color-text-secondary)] text-center py-8">No results found.</p>';
+        results!.innerHTML = '<p class="text-[length:var(--text-sm)] text-[var(--color-text-secondary)] text-center py-[var(--space-6)]">No results found.</p>';
       } else {
         results!.innerHTML = '';
         matches.forEach(m => {
           const a = document.createElement('a');
           a.href = m.href;
-          a.className = 'block px-3 py-2 rounded-lg text-sm hover:bg-[var(--color-border)]/50 transition-colors';
+          a.className = 'block min-h-[var(--tap-min-sm)] px-[var(--space-3)] py-[var(--space-2)] rounded-lg text-[length:var(--text-sm)] hover:bg-[var(--color-surface-hover)] transition-colors';
           a.textContent = m.title;
           results!.appendChild(a);
         });

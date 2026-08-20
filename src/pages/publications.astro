@@ -31,12 +31,12 @@ const venueTypes = [...new Set(publications.map(p => p.venueType))];
   </Fragment>
   <div class="animate-on-scroll">
     <div class="page-header">
-      <h1 class="text-3xl font-bold">Publications</h1>
-      <p class="text-[var(--color-text-secondary)] mt-2">{publications.length} publications</p>
+      <h1 class="text-[length:var(--text-h1)] font-[var(--weight-bold)]">Publications</h1>
+      <p class="nums text-[length:var(--text-sm)] text-[var(--color-text-secondary)] mt-[var(--space-2)]">{publications.length} publications</p>
     </div>
 
     <!-- Search and filter -->
-    <div class="mb-8 flex flex-col sm:flex-row gap-4">
+    <div class="mb-[var(--rhythm-section)] flex flex-col sm:flex-row sm:items-center gap-[var(--rhythm-block)]">
       <div class="relative flex-1">
         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -45,15 +45,15 @@ const venueTypes = [...new Set(publications.map(p => p.venueType))];
           id="pub-search"
           type="text"
           placeholder="Search publications..."
-          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/50 focus:border-[var(--color-accent)] transition-colors"
+          class="w-full min-h-[var(--tap-min)] pl-10 pr-4 py-2.5 rounded-xl bg-[var(--color-surface)] border border-[var(--color-rule)] text-[length:var(--text-sm)] focus:border-[var(--color-accent)] transition-colors"
         />
       </div>
-      <div class="flex flex-wrap gap-2" id="filter-chips">
-        <button data-filter="all" class="filter-chip active px-3 py-1.5 rounded-full text-xs font-medium bg-[var(--color-accent)] text-white transition-colors" aria-pressed="true">
+      <div class="flex flex-wrap items-center gap-[var(--space-2)]" id="filter-chips">
+        <button data-filter="all" class="filter-chip active pill pill-action" aria-pressed="true">
           All
         </button>
         {venueTypes.map(type => (
-          <button data-filter={type} class="filter-chip px-3 py-1.5 rounded-full text-xs font-medium bg-[var(--color-border)]/50 text-[var(--color-text-secondary)] hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors" aria-pressed="false">
+          <button data-filter={type} class="filter-chip pill pill-action" aria-pressed="false">
             {type}
           </button>
         ))}
@@ -98,12 +98,10 @@ const venueTypes = [...new Set(publications.map(p => p.venueType))];
       chips.forEach(chip => {
         chip.addEventListener('click', () => {
           chips.forEach(c => {
-            c.classList.remove('active', 'bg-[var(--color-accent)]', 'text-white');
-            c.classList.add('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]');
+            c.classList.remove('active');
             c.setAttribute('aria-pressed', 'false');
           });
-          chip.classList.add('active', 'bg-[var(--color-accent)]', 'text-white');
-          chip.classList.remove('bg-[var(--color-border)]/50', 'text-[var(--color-text-secondary)]');
+          chip.classList.add('active');
           chip.setAttribute('aria-pressed', 'true');
           activeFilter = (chip as HTMLElement).dataset.filter || 'all';
           filterPubs();

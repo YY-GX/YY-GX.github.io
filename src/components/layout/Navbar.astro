@@ -17,7 +17,7 @@ const isOverflowActive = overflowPages.some(p => currentPath === p.path || (p.pa
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Site title / logo -->
-      <a href="/" class="text-lg font-semibold text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors shrink-0">
+      <a href="/" class="text-[length:var(--text-lg)] font-[var(--weight-bold)] text-[var(--color-text)]! hover:text-[var(--color-accent)]! transition-colors shrink-0">
         {config.site.title}
       </a>
 
@@ -26,11 +26,12 @@ const isOverflowActive = overflowPages.some(p => currentPath === p.path || (p.pa
         {visiblePages.map(page => (
           <a
             href={page.path}
+            aria-current={currentPath === page.path || (page.path !== '/' && currentPath.startsWith(page.path)) ? 'page' : undefined}
             class:list={[
-              'px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap',
+              'px-[var(--space-3)] py-1.5 rounded-lg inline-flex items-center min-h-[2.5rem] text-[length:var(--text-sm)] font-[var(--weight-medium)] transition-colors whitespace-nowrap',
               currentPath === page.path || (page.path !== '/' && currentPath.startsWith(page.path))
-                ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10 nav-link-active'
-                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50'
+                ? 'text-[var(--color-accent)]! bg-[var(--color-accent)]/10 nav-link-active'
+                : 'text-[var(--color-text-secondary)]! hover:text-[var(--color-text)]! hover:bg-[var(--color-border)]/50'
             ]}
           >
             {page.label}
@@ -42,7 +43,7 @@ const isOverflowActive = overflowPages.some(p => currentPath === p.path || (p.pa
             <button
               id="more-btn"
               class:list={[
-                'px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1',
+                'px-[var(--space-3)] py-1.5 rounded-lg min-h-[2.5rem] text-[length:var(--text-sm)] font-[var(--weight-medium)] transition-colors whitespace-nowrap inline-flex items-center gap-1',
                 isOverflowActive
                   ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10'
                   : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50'
@@ -62,11 +63,12 @@ const isOverflowActive = overflowPages.some(p => currentPath === p.path || (p.pa
               {overflowPages.map(page => (
                 <a
                   href={page.path}
+                  aria-current={currentPath === page.path || (page.path !== '/' && currentPath.startsWith(page.path)) ? 'page' : undefined}
                   class:list={[
-                    'block px-4 py-2 text-sm transition-colors',
+                    'block px-[var(--space-4)] py-2 min-h-[var(--tap-min)] text-[length:var(--text-sm)] transition-colors',
                     currentPath === page.path || (page.path !== '/' && currentPath.startsWith(page.path))
-                      ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10'
-                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50'
+                      ? 'text-[var(--color-accent)]! bg-[var(--color-accent)]/10'
+                      : 'text-[var(--color-text-secondary)]! hover:text-[var(--color-text)]! hover:bg-[var(--color-border)]/50'
                   ]}
                 >
                   {page.label}
@@ -88,7 +90,7 @@ const isOverflowActive = overflowPages.some(p => currentPath === p.path || (p.pa
         <ThemeToggle />
         <button
           id="mobile-menu-btn"
-          class="p-2 rounded-lg text-[var(--color-text-secondary)] hover:bg-[var(--color-border)]/50 transition-colors"
+          class="min-w-[var(--tap-min)] min-h-[var(--tap-min)] inline-flex items-center justify-center rounded-lg text-[var(--color-text-secondary)] hover:bg-[var(--color-border)]/50 transition-colors"
           aria-label="Toggle menu"
           aria-expanded="false"
           aria-controls="mobile-menu"
@@ -101,16 +103,17 @@ const isOverflowActive = overflowPages.some(p => currentPath === p.path || (p.pa
     </div>
 
     <!-- Mobile nav menu -->
-    <div id="mobile-menu" class="hidden md:hidden pb-4">
+    <div id="mobile-menu" class="hidden md:hidden pb-[var(--rhythm-block)]">
       <div class="flex flex-col gap-1">
         {pages.map(page => (
           <a
             href={page.path}
+            aria-current={currentPath === page.path || (page.path !== '/' && currentPath.startsWith(page.path)) ? 'page' : undefined}
             class:list={[
-              'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+              'min-h-[var(--tap-min)] inline-flex items-center px-[var(--space-3)] py-2 rounded-lg text-[length:var(--text-base)] font-[var(--weight-medium)] transition-colors',
               currentPath === page.path || (page.path !== '/' && currentPath.startsWith(page.path))
-                ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/10'
-                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50'
+                ? 'text-[var(--color-accent)]! bg-[var(--color-accent)]/10'
+                : 'text-[var(--color-text-secondary)]! hover:text-[var(--color-text)]! hover:bg-[var(--color-border)]/50'
             ]}
           >
             {page.label}

@@ -5,9 +5,11 @@ import type { Publication } from '@lib/types';
 interface Props {
   pub: Publication;
   authorName: string;
+  variant?: 'full' | 'compact';
 }
 
-const { pub, authorName } = Astro.props;
+const { pub, authorName, variant = 'full' } = Astro.props;
+const isFull = variant === 'full';
 
 function formatAuthors(authors: string[], name: string): string {
   const parts = name.trim().split(/\s+/);
@@ -19,78 +21,120 @@ function formatAuthors(authors: string[], name: string): string {
     const aLast = aParts[aParts.length - 1] || '';
     const lastMatch = aLast === lastName;
     const firstMatch = aFirst === firstName || (aFirst.length <= 2 && aFirst[0] === firstName[0]);
-    return (lastMatch && firstMatch) ? `<strong class="text-[var(--color-text)]">${a}</strong>` : a;
+    return (lastMatch && firstMatch)
+      ? `<strong class="font-[var(--weight-medium)] text-[var(--color-text)]">${a}</strong>`
+      : a;
   }).join(', ');
 }
+
+const linkClass = 'pill pill-action';
 ---
 
 <div
-  class="p-4 sm:p-5 rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border)] border-l-2 border-l-[var(--color-accent)]/30 card-hover"
+  class="surface-card"
   data-pub-card
   data-venue-type={pub.venueType}
   data-title={pub.title}
   data-authors={pub.authors.join(', ')}
   data-venue={pub.venue}
 >
-  <div class="flex items-start gap-4">
-    <div class="flex-1 min-w-0">
-      <h3 class="font-medium leading-snug text-[var(--color-text)]">
+  <div class="grid gap-[var(--space-5)] sm:grid-cols-[minmax(0,1fr)_auto]">
+    <div class="min-w-0">
+      <!-- Venue badge as an eyebrow, above the title -->
+      <div class="mb-[var(--rhythm-tight)]">
+        <VenueBadge type={pub.venueType} />
+      </div>
+
+      <h3 class="text-[length:var(--text-md)] font-[var(--weight-bold)] leading-[var(--leading-snug)] text-[var(--color-text)]">
         {pub.pdf || pub.url ? (
-          <a href={pub.pdf || pub.url} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)] transition-colors">
+          <a
+            href={pub.pdf || pub.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pub-title-link"
+          >
             {pub.title}
           </a>
         ) : pub.title}
       </h3>
 
-      <p class="mt-1.5 text-sm text-[var(--color-text-secondary)]" set:html={formatAuthors(pub.authors, authorName)} />
+      <p
+        class="mt-[var(--rhythm-tight)] text-[length:var(--text-sm)] leading-[var(--leading-normal)] text-[var(--color-text-secondary)]"
+        set:html={formatAuthors(pub.authors, authorName)}
+      />
 
-      <div class="mt-2 flex flex-wrap items-center gap-2">
-        <VenueBadge type={pub.venueType} />
-        <span class="text-sm text-[var(--color-text-secondary)]">{pub.venue}</span>
-      </div>
+      {isFull && (
+        <p class="nums mt-[var(--rhythm-tight)] text-[length:var(--text-xs)] text-[var(--color-text-secondary)]">
+          {pub.venue}{pub.year ? ` · ${pub.year}` : ''}
+        </p>
+      )}
 
       <!-- Action links -->
-      <div class="mt-3 flex flex-wrap gap-2">
+      <div class="mt-[var(--space-3)] flex flex-wrap gap-[var(--space-2)]">
         {pub.pdf && (
-          <a href={pub.pdf} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">
+          <a href={pub.pdf} target="_blank" rel="noopener noreferrer" class={linkClass}>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             PDF
           </a>
         )}
         {pub.code && (
-          <a href={pub.code} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">
+          <a href={pub.code} target="_blank" rel="noopener noreferrer" class={linkClass}>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
             Code
           </a>
         )}
         {pub.video && (
-          <a href={pub.video} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">
+          <a href={pub.video} target="_blank" rel="noopener noreferrer" class={linkClass}>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             Video
           </a>
         )}
         {pub.slides && (
-          <a href={pub.slides} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">
+          <a href={pub.slides} target="_blank" rel="noopener noreferrer" class={linkClass}>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
             Slides
           </a>
         )}
         {pub.doi && (
-          <a href={`https://doi.org/${pub.doi}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-[var(--color-border)]/50 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)] transition-colors">
+          <a href={`https://doi.org/${pub.doi}`} target="_blank" rel="noopener noreferrer" class={linkClass}>
             DOI
           </a>
         )}
       </div>
     </div>
-    {pub.preview && (
-      <a href={`/images/publications/${pub.preview}`} target="_blank" rel="noopener noreferrer" class="hidden sm:block shrink-0" data-lightbox>
+
+    {isFull && pub.preview && (
+      <a
+        href={`/images/publications/${pub.preview}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden sm:block shrink-0"
+        data-lightbox
+        aria-label={`Figure from “${pub.title}”`}
+      >
         <img
           src={`/images/publications/${pub.preview}`}
           alt=""
-          class="w-24 h-24 md:w-28 md:h-28 rounded-lg object-contain shrink-0 border border-[var(--color-border)] bg-[var(--color-bg)] p-1"
+          class="w-24 sm:w-28 h-auto aspect-[4/3] object-contain border border-[var(--color-hairline)] bg-[var(--color-bg)] p-[var(--space-1)]"
           loading="lazy"
+          onerror="this.closest('a').style.display='none'"
         />
       </a>
     )}
   </div>
 </div>
+
+<style>
+  /* Unlayered `a { color: var(--color-accent) }` in global.css beats Tailwind's
+     @layer utilities, so the title colour must be set from a scoped rule. */
+  .pub-title-link {
+    color: var(--color-text);
+    transition: color var(--transition-fast);
+  }
+  .pub-title-link:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+</style>

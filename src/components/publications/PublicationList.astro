@@ -10,11 +10,11 @@ interface Props {
 const { pubsByYear, authorName } = Astro.props;
 ---
 
-<div class="space-y-10">
+<div class="space-y-[var(--rhythm-section)]">
   {[...pubsByYear.entries()].map(([year, pubs]) => (
     <section data-year-section={year} class="animate-on-scroll">
-      <h2 class="text-lg font-semibold mb-4 font-mono text-[var(--color-text-secondary)]">{year}</h2>
-      <div class="space-y-4">
+      <h2 class="rule-heading nums text-[length:var(--text-xl)] font-[var(--weight-bold)] text-[var(--color-text)] mb-[var(--rhythm-heading)]">{year}</h2>
+      <div class="space-y-[var(--rhythm-item)]">
         {pubs.map(pub => (
           <PublicationCard pub={pub} authorName={authorName} />
         ))}

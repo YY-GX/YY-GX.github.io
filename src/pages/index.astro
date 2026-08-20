@@ -17,13 +17,13 @@ try {
   hasNews = files.length > 0;
 } catch {}
 
-const gridCols = hasNews ? 'lg:grid-cols-2' : '';
+const gridCols = hasNews ? 'lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]' : '';
 ---
 
 <BaseLayout>
   <Hero />
 
-  <div class={`mt-8 grid grid-cols-1 ${gridCols} gap-12`}>
+  <div class={`mt-[var(--rhythm-section)] lg:mt-[var(--rhythm-section-lg)] grid grid-cols-1 gap-[var(--rhythm-section)] ${gridCols} lg:gap-[var(--space-7)]`}>
     <SelectedPapers />
     {hasNews && <NewsWidget />}
   </div>

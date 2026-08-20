@@ -82,25 +82,25 @@ export function getStaticPaths() {
 <BaseLayout title={post.title} description={post.description}>
   <article class="max-w-4xl mx-auto">
     <!-- Reading progress bar -->
-    <div id="reading-progress" class="fixed top-0 left-0 h-0.5 bg-[var(--color-accent)] z-[60] transition-all" style="width: 0%"></div>
+    <div id="reading-progress" class="fixed top-16 left-0 h-0.5 bg-[var(--color-accent)] z-[45] transition-all" style="width: 0%"></div>
 
     <!-- Post header -->
-    <header class="mb-10 animate-on-scroll">
-      <div class="flex flex-wrap gap-2 mb-3">
+    <header class="mb-[var(--rhythm-section-lg)] animate-on-scroll">
+      <div class="flex flex-wrap gap-[var(--space-2)] mb-[var(--space-3)]">
         {post.tags.map((tag: string) => (
-          <a href={`/blog?tag=${tag}`} class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--color-accent)]/10 text-[var(--color-accent)]">{tag}</a>
+          <a href={`/blog?tag=${tag}`} class="pill" style="background: var(--color-accent-soft); color: var(--color-accent);">{tag}</a>
         ))}
       </div>
-      <h1 class="text-3xl md:text-4xl font-bold leading-tight">{post.title}</h1>
-      <div class="mt-4 flex items-center gap-4 text-sm text-[var(--color-text-secondary)]">
-        <time class="font-mono">{formatDate(post.date)}</time>
+      <h1 class="text-[length:var(--text-hero)] font-[var(--weight-bold)] leading-[var(--leading-tight)] tracking-[var(--tracking-tight)]">{post.title}</h1>
+      <div class="mt-[var(--rhythm-block)] flex flex-wrap items-center gap-[var(--space-4)] text-[length:var(--text-sm)] text-[var(--color-text-secondary)]">
+        <time class="nums">{formatDate(post.date)}</time>
         <span>&middot;</span>
-        <span>{post.readingTime} min read</span>
+        <span class="nums">{post.readingTime} min read</span>
       </div>
     </header>
 
     <!-- Content with optional TOC sidebar -->
-    <div class="flex gap-10">
+    <div class="flex gap-[var(--space-7)]">
       <div class="prose flex-1 min-w-0" set:html={html} />
 
       {headings.length > 2 && config.blog.show_table_of_contents && (
@@ -111,17 +111,17 @@ export function getStaticPaths() {
     </div>
 
     <!-- Prev/Next navigation -->
-    <nav class="mt-16 pt-8 border-t border-[var(--color-border)] grid grid-cols-2 gap-4">
+    <nav class="mt-[var(--rhythm-section-lg)] pt-[var(--rhythm-section)] border-t border-[var(--color-hairline)] grid grid-cols-1 sm:grid-cols-2 gap-[var(--rhythm-item)]">
       {prevPost ? (
-        <a href={`/blog/${prevPost.slug}`} class="group p-4 rounded-xl border border-[var(--color-border)] hover:border-[var(--color-accent)]/50 transition-colors">
-          <span class="text-xs text-[var(--color-text-secondary)]">&larr; Previous</span>
-          <p class="mt-1 font-medium group-hover:text-[var(--color-accent)] transition-colors">{prevPost.title}</p>
+        <a href={`/blog/${prevPost.slug}`} class="surface-card group block">
+          <span class="eyebrow">&larr; Previous</span>
+          <p class="mt-[var(--space-1)] text-[length:var(--text-sm)] font-[var(--weight-medium)] text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">{prevPost.title}</p>
         </a>
       ) : <div />}
       {nextPost ? (
-        <a href={`/blog/${nextPost.slug}`} class="group p-4 rounded-xl border border-[var(--color-border)] hover:border-[var(--color-accent)]/50 transition-colors text-right">
-          <span class="text-xs text-[var(--color-text-secondary)]">Next &rarr;</span>
-          <p class="mt-1 font-medium group-hover:text-[var(--color-accent)] transition-colors">{nextPost.title}</p>
+        <a href={`/blog/${nextPost.slug}`} class="surface-card group block sm:text-right">
+          <span class="eyebrow">Next &rarr;</span>
+          <p class="mt-[var(--space-1)] text-[length:var(--text-sm)] font-[var(--weight-medium)] text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">{nextPost.title}</p>
         </a>
       ) : <div />}
     </nav>

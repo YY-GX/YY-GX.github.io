@@ -53,14 +53,14 @@ function renderSimpleMarkdown(md: string): string {
 ---
 
 <section class="animate-on-scroll">
-  <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+  <div class="flex flex-col md:flex-row gap-[var(--rhythm-block)] md:gap-[var(--space-7)] items-start">
     <!-- Profile photo -->
     <div class="shrink-0">
       <div class="avatar-frame">
         <img
           src={avatarSrc}
           alt={config.profile.name}
-          class="w-40 h-40 md:w-48 md:h-48 rounded-lg object-cover shadow-lg"
+          class="w-32 h-32 md:w-[10.5rem] md:h-[10.5rem] rounded-lg object-cover shadow-lg"
           data-avatar-img
           onerror="this.style.display='none'"
         />
@@ -68,24 +68,24 @@ function renderSimpleMarkdown(md: string): string {
     </div>
 
     <!-- Profile info -->
-    <div class="flex-1">
-      <h1 class="text-3xl md:text-4xl font-bold tracking-tight gradient-text">{config.profile.name}</h1>
-      <p class="mt-2 text-lg text-[var(--color-text-secondary)]">
+    <div class="flex-1 min-w-0 max-w-[var(--measure-prose)]">
+      <h1 class="text-[length:var(--text-hero)] font-[var(--weight-bold)] tracking-[var(--tracking-tight)] leading-[var(--leading-tight)] text-[var(--color-text)]">{config.profile.name}</h1>
+      <p class="mt-[var(--space-3)] text-[length:var(--text-lg)] leading-[var(--leading-snug)] text-[var(--color-text)]">
         {config.profile.position}{config.profile.affiliation ? `, ${config.profile.affiliation}` : ''}
       </p>
-      <p class="text-[var(--color-text-secondary)]">{config.profile.university}</p>
+      <p class="mt-[var(--space-1)] text-[length:var(--text-base)] text-[var(--color-text-secondary)]">{config.profile.university}</p>
 
       <!-- Social links -->
-      <div class="mt-4 flex flex-wrap gap-2">
+      <div class="mt-[var(--rhythm-block)] flex flex-wrap items-center gap-x-[var(--space-1)] gap-y-[var(--space-2)] -ml-[var(--space-3)]">
         {activeSocials.map(([key, url]) => (
           <a
             href={key === 'email' ? `mailto:${url}` : url}
             target={key === 'email' ? undefined : '_blank'}
             rel={key === 'email' ? undefined : 'noopener noreferrer'}
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10 transition-colors"
+            class="inline-flex items-center gap-[var(--space-2)] min-h-[var(--tap-min)] px-[var(--space-3)] rounded-[var(--radius-sm)] text-[length:var(--text-sm)] text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent-quiet)] transition-colors"
             aria-label={key.replace('_', ' ')}
           >
-            <svg class="w-4 h-4" viewBox={socialIcons[key]?.viewBox || '0 0 24 24'} fill="currentColor">
+            <svg class="w-4 h-4 shrink-0" viewBox={socialIcons[key]?.viewBox || '0 0 24 24'} fill="currentColor">
               <path d={socialIcons[key]?.path || socialIcons.email.path} />
             </svg>
             <span class="capitalize">{key.replace('_', ' ')}</span>
@@ -94,7 +94,7 @@ function renderSimpleMarkdown(md: string): string {
       </div>
 
       <!-- Bio -->
-      <div class="mt-6 text-[var(--color-text)] leading-relaxed max-w-2xl" set:html={renderSimpleMarkdown(extendedBio)} />
+      <div class="mt-[var(--rhythm-block)] text-[var(--color-text)] leading-[var(--leading-relaxed)]" set:html={renderSimpleMarkdown(extendedBio)} />
     </div>
   </div>
 </section>
