@@ -99,6 +99,7 @@ document.addEventListener('astro:after-swap', function() {
     ct = t; cp = p;
     document.documentElement.setAttribute('data-theme', t);
     document.documentElement.setAttribute('data-palette', p);
+    if (window.__ensureThemeFont) window.__ensureThemeFont(t);
     localStorage.setItem('lumina-theme', t);
     localStorage.setItem('lumina-palette', p);
     // Update active states
@@ -119,10 +120,11 @@ document.addEventListener('astro:after-swap', function() {
         btn.className = 'px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer';
         if (id === p) {
           btn.style.background = 'var(--color-accent)';
-          btn.style.color = 'white';
+          btn.style.color = 'var(--color-on-accent)';
         } else {
-          btn.style.background = 'var(--color-border)';
-          btn.style.opacity = '0.7';
+          btn.style.background = 'var(--color-surface-hover)';
+          btn.style.color = 'var(--color-text)';
+          btn.style.border = '1px solid var(--color-rule)';
         }
         g.appendChild(btn);
       });

@@ -51,14 +51,18 @@ const pageDescription = description || config.site.description;
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!--
-    Only the active theme's families are loaded (classic: Libre Baskerville for
-    headings + Crimson Pro for body, exactly as declared in themes/classic.css).
-    Trimmed from 11 families / 88,766 bytes to 2 families / 6,706 bytes of
-    render-blocking CSS. Switching themes via ThemePicker still works — colours,
-    spacing, radii and layout all switch — but the non-classic themes now fall
-    back to their local/system font stacks rather than their webfonts.
-    If the site's configured theme (site.config.yml -> theme.style) changes,
-    update this href to that theme's --font-heading / --font-body families.
+    Only the configured theme's families are render-blocking here (classic:
+    Libre Baskerville for headings + Crimson Pro for body, as declared in
+    themes/classic.css) - 2 families / 6,706 bytes instead of all 11 /
+    88,766 bytes.
+
+    The other ten themes are reachable through ThemePicker, so their families
+    are fetched on demand by __ensureThemeFont() below the first time a visitor
+    selects them. That keeps the default page load small without leaving the
+    non-classic themes falling back to system fonts.
+
+    If site.config.yml -> theme.style changes, move that theme's families into
+    the href below so the configured theme is never lazily loaded.
   -->
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
 
@@ -83,13 +87,39 @@ const pageDescription = description || config.site.description;
 
   <!-- Restore theme, palette, and dark mode from localStorage (before paint to prevent flash) -->
   <script is:inline>
+  // Families each theme declares in src/styles/themes/*.css, at the same
+  // weight/italic sets the original all-11 request used. classic is omitted:
+  // it ships in the static <link> above.
+  window.__LUMINA_FONTS = {
+    modern:    'family=Inter:wght@400;500;600;700;800',
+    aurora:    'family=Inter:wght@400;500;600;700;800',
+    ocean:     'family=Inter:wght@400;500;600;700;800',
+    bold:      'family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700',
+    retro:     'family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700',
+    minimal:   'family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700',
+    geek:      'family=JetBrains+Mono:wght@400;500;700',
+    elegant:   'family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400',
+    newspaper: 'family=Playfair+Display:wght@400;500;600;700&family=Source+Serif+4:wght@400;600'
+  };
+  window.__ensureThemeFont = function(t) {
+    var q = t && window.__LUMINA_FONTS[t];
+    if (!q) return;                                  // classic or unknown: nothing to fetch
+    var id = 'lumina-font-' + t;
+    if (document.getElementById(id)) return;         // already requested
+    var l = document.createElement('link');
+    l.id = id;
+    l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?' + q + '&display=swap';
+    document.head.appendChild(l);
+  };
+
   (function(){
     var t = localStorage.getItem('lumina-theme');
     var p = localStorage.getItem('lumina-palette');
     var dark = localStorage.getItem('theme');
     var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (t) document.documentElement.setAttribute('data-theme', t);
+    if (t) { document.documentElement.setAttribute('data-theme', t); window.__ensureThemeFont(t); }
     if (p) document.documentElement.setAttribute('data-palette', p);
     if (dark === 'dark' || (!dark && prefersDark)) {
       document.documentElement.classList.add('dark');
@@ -104,7 +134,7 @@ const pageDescription = description || config.site.description;
     var dark = localStorage.getItem('theme');
     var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (t) document.documentElement.setAttribute('data-theme', t);
+    if (t) { document.documentElement.setAttribute('data-theme', t); window.__ensureThemeFont(t); }
     if (p) document.documentElement.setAttribute('data-palette', p);
     if (dark === 'dark' || (!dark && prefersDark)) {
       document.documentElement.classList.add('dark');
