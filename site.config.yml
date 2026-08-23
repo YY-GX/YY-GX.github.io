@@ -30,7 +30,7 @@ social:
 pages:
   about: true
   publications: true
-  cv: true
+  cv: false
   projects: false
   news: false
   teaching: false
