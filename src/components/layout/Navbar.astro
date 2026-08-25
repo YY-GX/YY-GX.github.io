@@ -4,7 +4,12 @@ import ThemePicker from '../ui/ThemePicker.astro';
 import ThemeToggle from '../ui/ThemeToggle.astro';
 
 const config = getConfig();
-const pages = getEnabledPages();
+// Unlisted from the nav only. blog stays true in site.config.yml on purpose:
+// /blog/, its posts, the sitemap entry and the RSS feed are all still live and
+// indexed, so the section remains reachable by direct link, search and feed.
+// To hide a section outright instead, set it to false in site.config.yml.
+const HIDDEN_FROM_NAV = ['blog'];
+const pages = getEnabledPages().filter(page => !HIDDEN_FROM_NAV.includes(page.name));
 const currentPath = Astro.url.pathname;
 
 const MAX_VISIBLE = 7;
