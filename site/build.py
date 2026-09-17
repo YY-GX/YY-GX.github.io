@@ -66,13 +66,11 @@ SOCIAL = [s for s in SOCIAL if s[0]]
 # layout, and the live Astro site would only carry them as dead config keys.
 # ---------------------------------------------------------------------------
 NAME_ZH = "杨越"
-NAME_PHONETIC = "/yweh yahng/"
-# Per-character readings, used by the ruby variant below. Surname first, as
-# the name is written in Chinese.
-NAME_ZH_RUBY = [("杨", "yahng"), ("越", "yweh")]
-# "phon"  -> Yue Yang /yweh yahng/ (杨越)
-# "ruby"  -> Yue Yang (杨越) with each character annotated above it
-NAME_STYLE = "ruby"
+# The word "pronounced" is what does the work here. Setting a respelling beside
+# the Chinese name invites the reader to pair them character by character, and
+# a Chinese name is surname first, so the respelling then looks reversed.
+# Naming it as a pronunciation points it back at "Yue Yang" instead.
+NAME_PHONETIC = "yweh yahng"
 IDENTITY = "A CS PhD student at UNC Chapel Hill, with an M.S. in CS from Georgia Tech."
 
 # The research sentence, split into its three strands so each can be coloured
@@ -533,13 +531,10 @@ def paper_row(p):
 # --- pages -----------------------------------------------------------------
 
 def name_mark():
-    """The bit after the romanised name: either a respelling of it, or the
-    Chinese name with each character annotated above it."""
-    if NAME_STYLE == "ruby":
-        chars = "".join(f"<ruby>{c}<rt>{r}</rt></ruby>" for c, r in NAME_ZH_RUBY)
-        return f'<span class="name-alt">({chars})</span>'
-    return (f'<span class="name-phon">{html.escape(NAME_PHONETIC)}</span> '
-            f'<span class="name-alt">({html.escape(NAME_ZH)})</span>')
+    """Chinese name plus the pronunciation of the romanised name."""
+    return (f'<span class="name-alt">({html.escape(NAME_ZH)}'
+            f'<span class="name-phon">, pronounced &ldquo;{html.escape(NAME_PHONETIC)}&rdquo;</span>'
+            f')</span>')
 
 
 def research_html():

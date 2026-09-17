@@ -343,36 +343,11 @@ div.home-container .home-intro .name-alt {
 
 /* Strictly /.../ marks phonemic IPA and this is a respelling, but the slashes
    read as "pronunciation" to everyone, which is the point. */
-/* Ruby annotation: the reading sits above its own character, so there is no
-   left-to-right pairing for the reader to get wrong. Browser default rt is
-   50% and far too small next to 300-weight body text. */
-div.home-container .home-intro ruby {
-  ruby-position: over;
-  -webkit-ruby-position: before;
-  /* A Latin respelling is far wider than the character it sits over, so
-     adjacent annotations collide without explicit room. */
-  margin: 0 0.42em;
-}
-div.home-container .home-intro ruby:first-of-type { margin-left: 0.1em; }
-div.home-container .home-intro ruby:last-of-type { margin-right: 0.1em; }
-
-div.home-container .home-intro rt {
-  font-family: "Charter", Georgia, serif;
-  font-style: italic;
-  font-size: 0.62em;
-  line-height: 1.1;
-  color: var(--ink-muted);
-  letter-spacing: 0.01em;
-  padding-bottom: 0.15em;
-}
-
 div.home-container .home-intro .name-phon {
   font-family: "Charter", Georgia, serif;
   font-style: italic;
-  font-size: 0.84em;
   letter-spacing: 0.01em;
-  color: var(--ink-muted);
-  white-space: nowrap;
+  color: inherit;
 }
 
 /* Industry signal, one line, quieter than the research sentence. */
