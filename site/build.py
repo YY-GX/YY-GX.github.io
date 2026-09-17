@@ -304,11 +304,21 @@ HEAD = """<!DOCTYPE html>
     <title>{title}</title>
     <meta name="description" content="{desc}">
     <meta name="robots" content="all">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{title}">
+    <meta property="og:description" content="{desc}">
+    <meta property="og:url" content="{canonical}">
+    <meta property="og:image" content="{site}/favicon-512.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{title}">
+    <meta name="twitter:description" content="{desc}">
+    <meta name="twitter:image" content="{site}/favicon-512.png">
     <link rel="stylesheet" href="assets/stylesheets/main_free.css">
     <link rel="stylesheet" href="clarity/clarity.css">
     <link rel="stylesheet" href="assets/fontawesome-free-7.2.0-web/css/all.min.css">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
     <link rel="canonical" href="{canonical}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -461,7 +471,7 @@ def page(title, desc, current, body, hero=False, body_class="", slug=""):
     tag_html = ('I believe in ' + tag.split('I believe in ')[-1]) if tag else ''
     return (HEAD.format(title=html.escape(title), desc=html.escape(desc),
                         body_class=(' class="%s"' % body_class) if body_class else "",
-                        canonical=SITE_URL + "/" + slug,
+                        canonical=SITE_URL + "/" + slug, site=SITE_URL,
                         analytics=ANALYTICS_TPL.format(gid=GA_ID) if GA_ID else "",
                         jsonld=json_ld() if slug == "" else "")
             + f'    <div{cls}>\n' + nav(current) + body + '    </div>\n'
