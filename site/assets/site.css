@@ -346,7 +346,10 @@ div.home-container .home-intro .name-alt {
 div.home-container .home-intro .name-phon {
   font-family: "Charter", Georgia, serif;
   font-style: italic;
+  font-size: 0.84em;
   letter-spacing: 0.01em;
+  color: var(--ink-muted);
+  white-space: nowrap;
 }
 
 /* Industry signal, one line, quieter than the research sentence. */

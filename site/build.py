@@ -551,9 +551,14 @@ def build_home():
             '        <div class="home-container">\n'
             '            <div class="home-intro">\n'
             '                <h1 class="title">Hello 👋</h1>\n'
+            # Phonetic sits directly after the romanised name, which is what
+            # it describes; the Chinese name keeps its own parentheses. Pairing
+            # them inside one bracket invited the reader to match them element
+            # by element, and a Chinese name is surname first, so the order
+            # looked wrong.
             f'                <p>I am {html.escape(NAME)} '
-            f'<span class="name-alt">({html.escape(NAME_ZH)}, '
-            f'<span class="name-phon">{html.escape(NAME_PHONETIC)}</span>)</span>,<br>\n'
+            f'<span class="name-phon">{html.escape(NAME_PHONETIC)}</span> '
+            f'<span class="name-alt">({html.escape(NAME_ZH)})</span>,<br>\n'
             f'                   {html.escape(IDENTITY)}</p>\n'
             f'                <p class="home-research">{research_html()}</p>\n'
             f'                <p class="home-previously">Previously: {prev}</p>\n'
