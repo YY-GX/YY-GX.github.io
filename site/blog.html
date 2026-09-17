@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Yue Yang</title>
+    <meta name="description" content="Blog">
+    <meta name="robots" content="all">
+    <link rel="stylesheet" href="assets/stylesheets/main_free.css">
+    <link rel="stylesheet" href="clarity/clarity.css">
+    <link rel="stylesheet" href="assets/fontawesome-free-7.2.0-web/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="canonical" href="https://yy-gx.github.io/blog.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L4FWDSZJVD');
+    </script>
+</head>
+<body>
+    <div>
+    <div class="nav-bar" id="nav-bar">
+        <div class="container">
+            <div class="nav-container">
+                <div class="menu">
+                        <a href="index.html">Home</a>
+                        <a href="about.html">About</a>
+                        <a href="publications.html">Publications</a>
+                    <div class="menu-dot"></div>
+                </div>
+                <div class="social">
+                        <a href="https://scholar.google.com/citations?user=NafmySAAAAAJ" class="fa-solid fa-graduation-cap" aria-label="Google Scholar" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://github.com/YY-GX" class="fa-brands fa-github" aria-label="GitHub" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://twitter.com/YYang9923" class="fa-brands fa-x-twitter" aria-label="Twitter" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://www.linkedin.com/in/yue-yang-6a1493185/" class="fa-brands fa-linkedin-in" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="mailto:yygx@cs.unc.edu" class="fa-regular fa-envelope" aria-label="Email"></a>
+                </div>
+            </div>
+            <div class="nav-container-small">
+                <div class="menu-bar">
+                    <button class="menu-default" aria-label="Menu" aria-expanded="false"
+                            onclick="document.getElementById('nav-bar').classList.toggle('open');
+                                     this.setAttribute('aria-expanded', document.getElementById('nav-bar').classList.contains('open'));">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+                <div class="mobile-menu">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="publications.html">Publications</a>
+                    <div class="social-row">
+                        <a href="https://scholar.google.com/citations?user=NafmySAAAAAJ" class="fa-solid fa-graduation-cap" aria-label="Google Scholar" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://github.com/YY-GX" class="fa-brands fa-github" aria-label="GitHub" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://twitter.com/YYang9923" class="fa-brands fa-x-twitter" aria-label="Twitter" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://www.linkedin.com/in/yue-yang-6a1493185/" class="fa-brands fa-linkedin-in" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="mailto:yygx@cs.unc.edu" class="fa-regular fa-envelope" aria-label="Email"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-head"><h1>Blog</h1></div>
+        <div class="news-row">
+            <div class="news-when">June 2025</div>
+            <div class="news-body"><a href="post-getting_started.html"><b>Getting Started</b></a><br>Too much work to be done :)</div>
+        </div>
+    </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-row">
+                <p class="footer-main">Yue Yang &middot; Chapel Hill, NC</p>
+                <div class="footer-fine">
+                    <span class="footer-motto">I believe in <a href="http://slow-science.org/" target="_blank" rel="noopener noreferrer">Slow Science</a></span>
+                    <span class="footer-credit">Layout adapted from <a href="https://shikun.io/projects/clarity" target="_blank" rel="noopener noreferrer">Clarity</a> by <a href="https://shikun.io/" target="_blank" rel="noopener noreferrer">Shikun Liu</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="lightbox" id="lightbox" hidden tabindex="-1" role="dialog" aria-modal="true" aria-label="Enlarged figure">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <figure>
+            <img src="" alt="">
+            <figcaption>
+                <span class="lightbox-title"></span>
+                <span class="lightbox-blurb"></span>
+            </figcaption>
+        </figure>
+    </div>
+    <script>
+    // Figure lightbox.
+    (function () {
+      var box = document.getElementById('lightbox');
+      if (!box) return;
+      var img = box.querySelector('img');
+      var cap = box.querySelector('.lightbox-title');
+      var blurb = box.querySelector('.lightbox-blurb');
+      var closeBtn = box.querySelector('.lightbox-close');
+      var opener = null;
+
+      function open(btn) {
+        opener = btn;
+        img.src = btn.getAttribute('data-full');
+        img.alt = 'Figure from ' + btn.getAttribute('data-caption');
+        cap.textContent = btn.getAttribute('data-caption');
+        var b = btn.getAttribute('data-blurb') || '';
+        blurb.textContent = b;
+        blurb.hidden = !b;
+        box.hidden = false;
+        document.body.style.overflow = 'hidden';
+        box.focus();
+      }
+
+      function close() {
+        box.hidden = true;
+        img.src = '';
+        document.body.style.overflow = '';
+        if (opener) { opener.focus(); opener = null; }
+      }
+
+      document.querySelectorAll('.thumb-zoom').forEach(function (btn) {
+        btn.addEventListener('click', function () { open(btn); });
+      });
+      closeBtn.addEventListener('click', close);
+      // Click anywhere outside the figure closes; clicks on the image do not.
+      box.addEventListener('click', function (e) {
+        if (e.target === box) close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !box.hidden) close();
+      });
+    })();
+
+    // Slide the dot under the active link, and follow the pointer on hover.
+    (function () {
+      var menu = document.querySelector('.nav-bar .menu');
+      if (!menu) return;
+      var dot = menu.querySelector('.menu-dot');
+      var active = menu.querySelector('a.active');
+      function place(el) {
+        if (!el) { dot.style.opacity = 0; return; }
+        dot.style.left = (el.offsetLeft + el.offsetWidth / 2 - 4) + 'px';
+        dot.style.opacity = 1;
+      }
+      menu.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('mouseenter', function () { place(a); });
+      });
+      menu.addEventListener('mouseleave', function () { place(active); });
+      window.addEventListener('load', function () { place(active); });
+      window.addEventListener('resize', function () { place(active); });
+    })();
+
+    // BibTeX disclosure: reveal the citation, and copy it on a second click.
+    (function () {
+      document.querySelectorAll('.cite-toggle').forEach(function (btn) {
+        var pre = document.getElementById(btn.getAttribute('aria-controls'));
+        if (!pre) return;
+        btn.addEventListener('click', function () {
+          var open = pre.hidden === false;
+          if (!open) {
+            pre.hidden = false;
+            btn.setAttribute('aria-expanded', 'true');
+            return;
+          }
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(pre.innerText).then(function () {
+              var label = btn.firstChild;
+              var was = label.nodeValue;
+              label.nodeValue = 'Copied ';
+              setTimeout(function () { label.nodeValue = was; }, 1200);
+            });
+          }
+          pre.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+    </script>
+</body>
+</html>

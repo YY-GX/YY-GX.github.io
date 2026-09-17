@@ -1,0 +1,832 @@
+/* ---------------------------------------------------------------------------
+   site.css — the parts shikun.io has that the Clarity template does not.
+
+   Base layer is Clarity (CC0, unmodified): assets/stylesheets/main_free.css
+   supplies the reset, typography, .button/.icon, tables and .container's
+   padding ladder. This file adds:
+
+     1. the top navigation bar with the sliding dot
+     2. the split home hero, locked to one viewport (no scrolling)
+     3. publication rows
+     4. news rows
+     5. shared polish — links, focus rings, selection, footer
+
+   Written from measurements of the rendered shikun.io, not copied from it:
+   Clarity is CC0, his personal site's stylesheet is not offered for reuse.
+   Reference metrics: nav 1.5em vertical padding, links 24px/500, dot 8px
+   #ff9800 animated on `left`, hero 1fr/1fr at >=769px with 5-10vw gap.
+   His nav face is "Athletics" (proprietary) - Poppins here, which Clarity
+   itself ships.
+--------------------------------------------------------------------------- */
+
+:root {
+  --ink: #353535;
+  --ink-soft: #5c5c5c;
+  --ink-muted: #8a8a8a;
+  --dot: #ff9800;
+  --hero-bg: #e0e4e6;
+  --rule: #e3e3e3;
+  --rule-soft: #ededed;
+  --tint: #f6f6f6;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::selection { background: var(--dot); color: #fff; }
+
+html { scroll-behavior: smooth; }
+
+/* Clarity's base sets link colour per-context; keep prose links quiet and
+   underlined rather than coloured, which is what shikun.io does. */
+.container p a,
+.news-body a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--ink-muted);
+  transition: text-decoration-color 0.2s var(--ease);
+}
+.container p a:hover { text-decoration-color: var(--ink); }
+
+:focus-visible {
+  outline: 2px solid var(--dot);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* --- 1. navigation ------------------------------------------------------- */
+
+div.nav-bar {
+  background-color: transparent;
+  top: 0;
+  width: 100%;
+  position: absolute;
+  z-index: 9999;
+}
+
+div.nav-bar .nav-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 8vw;
+  padding: 1.5em 0;
+  position: relative;
+}
+
+/* shikun.io uses justify-content:space-between inside a 2fr column with a
+   25vw gap, which suits his four short labels. Ours are wider, so they filled
+   the column exactly and ran together. An explicit gap spaces them at any
+   label length. */
+div.nav-bar .menu {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2.4em;
+  position: relative;
+}
+
+div.nav-bar .menu a {
+  position: relative;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-size: 24px;
+  font-family: "Poppins", sans-serif;
+  padding-bottom: 0.5em;
+  transition: color 0.2s var(--ease);
+}
+
+div.nav-bar .menu a:hover,
+div.nav-bar .menu a.active { color: var(--ink); }
+
+div.nav-bar .menu .menu-dot {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: var(--dot);
+  border-radius: 50%;
+  transition: left 0.3s var(--ease), opacity 0.3s var(--ease);
+  opacity: 0;
+  pointer-events: none;
+}
+
+div.nav-bar .social {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.15em;
+  padding-bottom: 0.5em;
+}
+
+div.nav-bar .social a {
+  color: var(--ink-muted);
+  font-size: 19px;
+  text-decoration: none;
+  transition: color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+div.nav-bar .social a:hover {
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+div.nav-bar .nav-container-small { display: none; }
+
+@media screen and (max-width: 768px) {
+  div.nav-bar .nav-container { display: none; }
+  div.nav-bar .nav-container-small { display: block; padding: 1.1em 0; }
+  div.nav-bar .menu-bar { display: flex; justify-content: flex-end; }
+  /* Clarity styles bare <button> like its .button pill, which paints a grey
+     capsule behind the bars. Strip it back to a plain icon button. */
+  div.nav-bar .menu-default,
+  div.nav-bar .menu-default:hover,
+  div.nav-bar .menu-default:focus {
+    background: none !important;
+    background-color: transparent !important;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    cursor: pointer;
+    padding: 6px;
+    margin: 0;
+    line-height: 0;
+    color: var(--ink);
+  }
+  /* flex + gap rather than margins: collapsing sibling margins made the bar
+     positions imprecise, so the open-state X did not converge cleanly. */
+  div.nav-bar .menu-default {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  div.nav-bar .menu-default span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    margin: 0;
+    background: currentColor;
+    transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+  }
+  div.nav-bar.open .menu-default span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  div.nav-bar.open .menu-default span:nth-child(2) { opacity: 0; }
+  div.nav-bar.open .menu-default span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  /* The nav is position:absolute, so an open panel with no background lets the
+     page text show straight through the links. Give it a solid surface. */
+  div.nav-bar.open {
+    background-color: #fff;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.07);
+  }
+  body.home div.nav-bar.open { background-color: var(--hero-bg); box-shadow: none; }
+
+  div.nav-bar .mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: 0.55em;
+    padding: 0.6em 0 1.4em;
+  }
+  div.nav-bar.open .mobile-menu { display: flex; }
+  /* Direct children only. Scoping this to `.mobile-menu a` also hit the social
+     icons, and it outranks FontAwesome's own .fa-brands/.fa-solid
+     font-family (0,2,2 vs 0,1,0), so every icon fell back to Poppins and
+     rendered as a tofu box. */
+  div.nav-bar .mobile-menu > a {
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  div.nav-bar .mobile-menu .social-row {
+    display: flex;
+    gap: 1.2em;
+    padding-top: 0.5em;
+  }
+  div.nav-bar .mobile-menu .social-row a { font-size: 19px; color: var(--ink-muted); }
+}
+
+/* --- 2. home hero, locked to one viewport -------------------------------- */
+
+/* The tinted band. Clarity uses #E0E4E6 for its project-page cover; shikun.io's
+   own home is plain white. Keeping the tint here because it distinguishes the
+   home page from the white inner pages. */
+.hero-band {
+  background-color: var(--hero-bg);
+  color: var(--ink);
+}
+
+body.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.home .hero-band {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body.home footer { flex: 0 0 auto; }
+
+/* Desktop: the whole page is exactly one viewport and never scrolls. */
+@media screen and (min-width: 769px) {
+  body.home { height: 100vh; overflow: hidden; }
+
+  /* Clarity's .container carries `flex: 1`, so as a flex child it grows and
+     swallows the band, defeating justify-content:center. Pin it to its own
+     height and the hero centres properly. */
+  body.home .hero-band > .container { flex: 0 0 auto; }
+
+  /* The nav is position:absolute and so takes no space - without this the
+     portrait rides up underneath it and collides with the social icons. */
+  body.home .hero-band { padding-top: 5.5em; }
+
+  body.home .home-container { padding: 0; }
+  body.home .home-profile img { max-height: 58vh; object-fit: cover; }
+}
+
+div.home-container {
+  padding: 14vh 0 6vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 8vw;
+  align-items: center;
+}
+
+div.home-container .home-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+div.home-container .home-intro h1.title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35em;
+}
+
+div.home-container .home-intro p {
+  padding: 0 0 0.9em;
+  line-height: 1.6;
+  max-width: 34em;
+}
+
+div.home-container .home-intro p em { color: var(--ink-soft); }
+
+/* Was italic, inherited from shikun.io's <em> second paragraph. Dropped once
+   the three strands became coloured: colour already separates them, so italic
+   was a second emphasis doing the same job, and italic hurts readability at
+   this length. The secondary grey stays, so the hierarchy under the identity
+   line survives without it. */
+div.home-container .home-intro .home-research { color: var(--ink-soft); }
+
+/* The three research strands. Muted cool tones: they must read as one
+   sentence first and as three categories second, so saturation is kept low
+   and the weight is nudged rather than changed. All three are checked against
+   the #e0e4e6 hero for AA body contrast.
+   When the publications page gets topic groups, set `href` in RESEARCH_PARTS
+   and these become links; the hover rule below already covers that case. */
+/* Three cool hues, each solved to land on the SAME contrast (5.2) against the
+   #e0e4e6 hero rather than the same lightness. That matters: at equal
+   lightness a teal is perceptually far brighter than a blue or an indigo, so
+   a uniform lightness either fails AA on the teal (3.4 at L=38) or drags the
+   other two down into near-black. Hence the teal sits at L=28 and the indigo
+   at L=46 while all three read as equally present.
+   Two earlier attempts and why they failed:
+     - one hue at three depths: the lightest step lands at 2.9 contrast on a
+       light background, so it is unreadable or indistinguishable.
+     - uniformly dark (L=26): distinct from body text but the hues converge
+       toward black, dropping blue-vs-indigo to 11 dE. */
+:root {
+  --ra-skills: #3a5f88;   /* blue   */
+  --ra-data:   #2b6561;   /* teal   */
+  --ra-hri:    #664f9a;   /* indigo */
+}
+
+div.home-container .home-intro .ra {
+  text-decoration: none;
+}
+
+div.home-container .home-intro .ra-skills { color: var(--ra-skills); }
+div.home-container .home-intro .ra-data   { color: var(--ra-data); }
+div.home-container .home-intro .ra-hri    { color: var(--ra-hri); }
+
+/* Only anchors get an affordance; plain spans stay inert. */
+div.home-container .home-intro a.ra {
+  text-decoration: underline;
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: currentColor;
+  opacity: 0.95;
+  transition: opacity 0.2s var(--ease);
+}
+
+div.home-container .home-intro a.ra:hover { opacity: 1; }
+
+/* Chinese name + pronunciation: present but clearly secondary to the
+   romanised name. CJK stack first, since neither Poppins nor Charter carries
+   Han glyphs and the default fallback can be ugly. */
+div.home-container .home-intro .name-alt {
+  font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC",
+               "Microsoft YaHei", "Poppins", sans-serif;
+  font-size: 0.86em;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+/* Strictly /.../ marks phonemic IPA and this is a respelling, but the slashes
+   read as "pronunciation" to everyone, which is the point. */
+div.home-container .home-intro .name-phon {
+  font-family: "Charter", Georgia, serif;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+/* Industry signal, one line, quieter than the research sentence. */
+div.home-container .home-intro .home-previously {
+  font-size: 0.82em;
+  line-height: 1.55;
+  color: var(--ink-muted);
+  padding-top: 0.3em;
+}
+
+div.home-container .home-intro .home-previously .sep {
+  padding-left: 0.4em;
+  opacity: 0.55;
+}
+
+div.home-container .home-intro > div { padding-top: 0.6em; }
+
+div.home-container .home-profile img {
+  width: 100%;
+  display: block;
+}
+
+@media screen and (min-width: 769px) {
+  div.home-container {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5vw;
+    row-gap: 0;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  div.home-container { column-gap: 10vw; }
+}
+
+/* --- 3. publication rows ------------------------------------------------- */
+
+.pub-year {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding: 2.6em 0 0.6em;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 0.4em;
+}
+
+.paper-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 0.9em;
+  padding: 1.7em 0;
+  border-bottom: 1px solid var(--rule-soft);
+  align-items: start;
+  transition: background-color 0.2s var(--ease);
+}
+
+@media screen and (min-width: 769px) {
+  .paper-row {
+    grid-template-columns: 200px 1fr;
+    column-gap: 2.2vw;
+    row-gap: 0;
+  }
+  /* Rows whose figure is missing keep the (empty) first track, so every title
+     stays on one vertical line down the page. */
+  .paper-row.no-thumb > .paper-info { grid-column: 2; }
+}
+
+/* Teaser figures keep their own proportions. A forced 4:3 box with
+   object-fit:cover cropped the sides off every one of them - these run from
+   0.95 to 3.26 wide, so WatchAct would have lost most of its width. Height is
+   capped so an unusually tall figure cannot dominate the row. */
+/* --- thumbnail: click to enlarge ----------------------------------------- */
+
+.paper-row .paper-thumb {
+  /* the hint is absolutely placed against this box */
+  position: relative;
+  padding-bottom: 1.15em;
+}
+
+/* Clarity styles every bare <button> as its pill, so reset before restyling. */
+.paper-row .paper-thumb .thumb-zoom,
+.paper-row .paper-thumb .thumb-zoom:hover,
+.paper-row .paper-thumb .thumb-zoom:focus {
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: none !important;
+  background-color: transparent !important;
+  box-shadow: none;
+  line-height: 0;
+  cursor: zoom-in;
+  width: auto;
+  text-align: left;
+}
+
+.paper-row .paper-thumb .thumb-zoom img {
+  transition: opacity 0.2s var(--ease);
+}
+
+.paper-row .paper-thumb .thumb-zoom:hover img { opacity: 0.82; }
+
+/* Sits below the figure, reserved space so revealing it never shifts the row. */
+.paper-row .paper-thumb .thumb-hint {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-family: "Poppins", sans-serif;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--ink-muted);
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+  pointer-events: none;
+}
+
+/* Only on devices that actually hover - a touch device would show it forever. */
+@media (hover: hover) {
+  .paper-row .paper-thumb:hover .thumb-hint,
+  .paper-row .paper-thumb .thumb-zoom:focus-visible ~ .thumb-hint { opacity: 1; }
+}
+
+/* --- lightbox ------------------------------------------------------------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 5vw;
+  background: rgba(18, 18, 18, 0.93);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  cursor: zoom-out;
+}
+
+/* Focused programmatically when the box opens so screen readers land inside
+   it; no visible ring, since the user did not tab here. */
+.lightbox:focus { outline: none; }
+
+.lightbox[hidden] { display: none; }
+
+.lightbox figure {
+  margin: 0;
+  max-width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9em;
+  cursor: default;
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  display: block;
+  background: #fff;
+  border-radius: 3px;
+}
+
+.lightbox figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55em;
+  text-align: center;
+  max-width: 44em;
+}
+
+.lightbox .lightbox-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #f2f2f2;
+}
+
+/* The 20-second read. Charter here, not Poppins: at this length a serif is
+   easier on the eye, and it separates the description from the title. */
+.lightbox .lightbox-blurb {
+  font-family: "Charter", Georgia, serif;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #c4c4c4;
+}
+
+.lightbox .lightbox-blurb[hidden] { display: none; }
+
+.lightbox .lightbox-close,
+.lightbox .lightbox-close:hover,
+.lightbox .lightbox-close:focus {
+  position: absolute;
+  top: 2vh;
+  right: 2.5vw;
+  background: none !important;
+  background-color: transparent !important;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0.2em 0.4em;
+  font-size: 34px;
+  line-height: 1;
+  color: #d8d8d8;
+  cursor: pointer;
+}
+
+.lightbox .lightbox-close:hover { color: #fff; }
+
+.paper-row .paper-thumb img {
+  /* auto width + max constraints, so the border hugs the image instead of
+     leaving letterbox gaps on a near-square figure. */
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 170px;
+  display: block;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: #fff;
+}
+
+/* Grid items default to min-width:auto, so a wide <pre> stretches the track
+   instead of scrolling inside it and the citation runs off the page. */
+.paper-row .paper-info { min-width: 0; }
+
+.paper-row .paper-info .paper-title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 0 0.4em;
+}
+
+.paper-row .paper-info .paper-authors {
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 0 0 0.25em;
+  color: var(--ink-soft);
+}
+
+.paper-row .paper-info .paper-authors b { color: var(--ink); font-weight: 700; }
+
+/* Equal-contribution footnote: sits at the end of the author line but must
+   read as an annotation, not as another author. */
+.paper-row .paper-info .equal-note {
+  display: inline-block;
+  margin-left: 0.6em;
+  font-size: 11.5px;
+  font-style: italic;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.paper-row .paper-info .paper-venue {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+.paper-row .paper-info .paper-links { padding-top: 0.8em; }
+
+.paper-row .paper-info .paper-links .button {
+  font-size: 12px;
+  padding: 0.45em 0.9em;
+}
+
+/* --- 4. news rows -------------------------------------------------------- */
+
+.news-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 0.25em;
+  padding: 1.25em 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+@media screen and (min-width: 769px) {
+  .news-row {
+    grid-template-columns: 150px 1fr;
+    column-gap: 2.2vw;
+    row-gap: 0;
+  }
+}
+
+.news-row .news-when {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  white-space: nowrap;
+  padding-top: 0.15em;
+}
+
+.news-row .news-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.news-row .news-body b { color: var(--ink); font-weight: 600; }
+
+/* --- 5. shared ----------------------------------------------------------- */
+
+/* Inner pages: the nav is absolutely positioned, so the first heading needs
+   clearance under it. */
+.page-head { padding: 16vh 0 1.2em; }
+.page-head + .page-head,
+.container .page-head ~ .page-head { padding-top: 4.5em; }
+
+.page-head h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.25em;
+}
+
+.page-head p.text { color: var(--ink-muted); margin: 0; }
+
+/* Clarity's p.text carries no margin, so consecutive paragraphs ran together. */
+.container p.text {
+  line-height: 1.7;
+  margin: 0 0 1.15em;
+  max-width: 46em;
+}
+.container p.text:last-child { margin-bottom: 0; }
+
+footer {
+  border-top: 1px solid var(--rule-soft);
+  margin-top: 5em;
+  padding: 2em 0;
+}
+
+footer .footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6em 2em;
+}
+
+footer .footer-main {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+/* Fine print, deliberately quiet in the corner: the Slow Science line and the
+   Clarity credit. Clarity is CC0 and needs no attribution, so this is courtesy
+   and must not compete with anything.
+   Three things fought us here: Clarity sets `footer p { font-style: italic }`
+   and `font-family: Charter`, which at 11px reads as mushy serif italic; and a
+   single long line was both ugly and the first thing to wrap. Two short
+   right-aligned lines in a non-italic sans read as chrome, not prose. */
+footer .footer-fine {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  text-align: right;
+}
+
+footer .footer-fine span {
+  font-size: 10.5px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: #a6a6a6;
+  padding: 0;
+}
+
+/* The personal line gets Charter italic: Clarity ships the face, and a serif
+   italic reads as a motto rather than as chrome. Nudged up a little because a
+   serif at 10.5px is harder to read than a sans at the same size. */
+footer .footer-fine .footer-motto {
+  font-family: "Charter", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 12.5px;
+  letter-spacing: 0.005em;
+  color: #9b9b9b;
+}
+
+/* Visible as a link at rest, but only just: a hairline underline at roughly a
+   third of the text's weight, set well clear of the descenders. */
+footer .footer-fine .footer-motto a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: rgba(120, 120, 120, 0.45);
+  border-bottom: 0;
+  transition: color 0.2s var(--ease), text-decoration-color 0.2s var(--ease);
+}
+
+footer .footer-fine .footer-motto a:hover {
+  color: var(--ink-soft);
+  text-decoration-color: var(--ink-soft);
+}
+
+/* The credit stays plainer and quieter than the motto. */
+footer .footer-fine .footer-credit {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+}
+
+footer .footer-fine a {
+  /* Clarity's responsive blocks set an absolute font-size on `a`
+     (a, p, td, ... { font-size: 18px }), which beats the earlier
+     `a { font-size: inherit }`. Without this the links rendered at 18px
+     inside 10.5px text. */
+  font-size: inherit;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+footer .footer-fine a:hover {
+  color: var(--ink-soft);
+  border-bottom-color: #c9c9c9;
+}
+
+@media screen and (max-width: 768px) {
+  footer .footer-row { flex-direction: column; align-items: flex-start; gap: 1em; }
+  footer .footer-fine { align-items: flex-start; text-align: left; }
+}
+
+/* Same trap as the footer: any container we size down needs its links to
+   inherit, or Clarity's absolute `a` font-size wins. */
+.news-row .news-body a,
+.paper-row .paper-info a,
+footer a { font-size: inherit; }
+
+/* --- citation disclosure ------------------------------------------------- */
+
+.paper-row .paper-cite {
+  margin: 0.9em 0 0;
+  padding: 0.9em 1.1em;
+  background: var(--tint);
+  border: 1px solid var(--rule-soft);
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.paper-row .paper-cite code {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  white-space: pre;
+  background: none;
+  padding: 0;
+}
+
+/* Clarity gives a bare <button> a border that its <a class="button"> pills
+   don't have, so the BibTeX chip looked heavier than its neighbours. */
+.paper-row .paper-links .cite-toggle {
+  font: inherit;
+  font-size: 12px;
+  padding: 0.45em 0.9em;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+}
+
+body.home footer { margin-top: 0; border-top: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
