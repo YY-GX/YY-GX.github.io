@@ -67,6 +67,12 @@ SOCIAL = [s for s in SOCIAL if s[0]]
 # ---------------------------------------------------------------------------
 NAME_ZH = "杨越"
 NAME_PHONETIC = "/yweh yahng/"
+# Per-character readings, used by the ruby variant below. Surname first, as
+# the name is written in Chinese.
+NAME_ZH_RUBY = [("杨", "yahng"), ("越", "yweh")]
+# "phon"  -> Yue Yang /yweh yahng/ (杨越)
+# "ruby"  -> Yue Yang (杨越) with each character annotated above it
+NAME_STYLE = "ruby"
 IDENTITY = "A CS PhD student at UNC Chapel Hill, with an M.S. in CS from Georgia Tech."
 
 # The research sentence, split into its three strands so each can be coloured
@@ -526,6 +532,16 @@ def paper_row(p):
 
 # --- pages -----------------------------------------------------------------
 
+def name_mark():
+    """The bit after the romanised name: either a respelling of it, or the
+    Chinese name with each character annotated above it."""
+    if NAME_STYLE == "ruby":
+        chars = "".join(f"<ruby>{c}<rt>{r}</rt></ruby>" for c, r in NAME_ZH_RUBY)
+        return f'<span class="name-alt">({chars})</span>'
+    return (f'<span class="name-phon">{html.escape(NAME_PHONETIC)}</span> '
+            f'<span class="name-alt">({html.escape(NAME_ZH)})</span>')
+
+
 def research_html():
     """The research sentence with each strand wrapped in its own colour class,
     and optionally linked once `href` is set in RESEARCH_PARTS."""
@@ -556,9 +572,7 @@ def build_home():
             # them inside one bracket invited the reader to match them element
             # by element, and a Chinese name is surname first, so the order
             # looked wrong.
-            f'                <p>I am {html.escape(NAME)} '
-            f'<span class="name-phon">{html.escape(NAME_PHONETIC)}</span> '
-            f'<span class="name-alt">({html.escape(NAME_ZH)})</span>,<br>\n'
+            f'                <p>I am {html.escape(NAME)} {name_mark()},<br>\n'
             f'                   {html.escape(IDENTITY)}</p>\n'
             f'                <p class="home-research">{research_html()}</p>\n'
             f'                <p class="home-previously">Previously: {prev}</p>\n'
