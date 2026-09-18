@@ -293,23 +293,18 @@ div.home-container .home-intro .home-research { color: var(--ink-soft); }
    the #e0e4e6 hero for AA body contrast.
    When the publications page gets topic groups, set `href` in RESEARCH_PARTS
    and these become links; the hover rule below already covers that case. */
-/* Palette: terracotta / slate / sage. The terracotta and sage as given
-   (#e07a5f, #81b29a) measure 2.31 and 1.87 against the #e0e4e6 hero, well
-   under the 4.5 needed for body text, so both are darkened to the same 5.2
-   the previous set had. Hue and saturation are untouched, so the palette still
-   reads as terracotta and sage rather than as generic dark tones. The slate
-   sand #f2cc8f is the hardest of the set: yellow carries high luminance, so
-   at 1.19 it is unusable for text and only reaches AA at 28% lightness, by
-   which point it reads as bronze rather than sand. It also sits closer to the
-   terracotta than the slate it replaced (29 dE against 66), so the two warm
-   strands are distinguishable but no longer obviously so.
+/* Terracotta / purple / sage. The purple is used exactly as given: at 5.66
+   against the #e0e4e6 hero it clears AA on its own. The terracotta and sage
+   as supplied (#e07a5f, #81b29a) measured 2.31 and 1.87, so both are darkened
+   to about 5.2 with hue and saturation untouched, keeping the palette's
+   character. All three separate cleanly from each other, 67 to 72 dE.
    Hover states drop a further 11 points of lightness. */
 :root {
   --ra-skills: #a13b1f;   /* terracotta, from #e07a5f */
-  --ra-data:   #80550f;   /* sand, from #f2cc8f */
+  --ra-data:   #783f8e;   /* purple, as given */
   --ra-hri:    #3d6451;   /* sage, from #81b29a */
   --ra-skills-on: #722a16;
-  --ra-data-on:   #4e3309;
+  --ra-data-on:   #572e67;
   --ra-hri-on:    #284135;
 }
 
