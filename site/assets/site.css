@@ -293,25 +293,20 @@ div.home-container .home-intro .home-research { color: var(--ink-soft); }
    the #e0e4e6 hero for AA body contrast.
    When the publications page gets topic groups, set `href` in RESEARCH_PARTS
    and these become links; the hover rule below already covers that case. */
-/* Three cool hues, each solved to land on the SAME contrast (5.2) against the
-   #e0e4e6 hero rather than the same lightness. That matters: at equal
-   lightness a teal is perceptually far brighter than a blue or an indigo, so
-   a uniform lightness either fails AA on the teal (3.4 at L=38) or drags the
-   other two down into near-black. Hence the teal sits at L=28 and the indigo
-   at L=46 while all three read as equally present.
-   Two earlier attempts and why they failed:
-     - one hue at three depths: the lightest step lands at 2.9 contrast on a
-       light background, so it is unreadable or indistinguishable.
-     - uniformly dark (L=26): distinct from body text but the hues converge
-       toward black, dropping blue-vs-indigo to 11 dE. */
+/* Palette: terracotta / slate / sage. The terracotta and sage as given
+   (#e07a5f, #81b29a) measure 2.31 and 1.87 against the #e0e4e6 hero, well
+   under the 4.5 needed for body text, so both are darkened to the same 5.2
+   the previous set had. Hue and saturation are untouched, so the palette still
+   reads as terracotta and sage rather than as generic dark tones. The slate
+   was already at 7.88 and is used exactly as given.
+   Hover states drop a further 11 points of lightness. */
 :root {
-  --ra-skills: #3a5f88;   /* blue   */
-  --ra-data:   #2b6561;   /* teal   */
-  --ra-hri:    #664f9a;   /* indigo */
-  /* Hover: same hue and saturation, 11 points darker. */
-  --ra-skills-on: #294461;
-  --ra-data-on:   #1a3e3b;
-  --ra-hri-on:    #4d3c75;
+  --ra-skills: #a13b1f;   /* terracotta, from #e07a5f */
+  --ra-data:   #3d405b;   /* slate, as given */
+  --ra-hri:    #3d6451;   /* sage, from #81b29a */
+  --ra-skills-on: #722a16;
+  --ra-data-on:   #262839;
+  --ra-hri-on:    #284135;
 }
 
 div.home-container .home-intro .ra {
