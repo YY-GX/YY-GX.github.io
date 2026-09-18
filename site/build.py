@@ -752,16 +752,15 @@ if __name__ == "__main__":
 
     # The .html scheme was live briefly; keep those paths pointing at the real
     # page so nothing that was shared in between breaks.
-    for stale, target in [("publications.html", "/publications/"),
-                          ("about.html", "/about/"),
-                          ("blog.html", "/blog/"),
-                          # /cv/ was live and indexed until it was hidden, so
-                          # people still arrive from bookmarks and search. Send
-                          # them home rather than to a dead end; the CV itself
-                          # stays unlisted.
-                          ("cv/index.html", "/")] + \
-                         [("post-%s.html" % q["slug"], "/blog/%s/" % q["slug"]) for q in posts]:
-        pages[stale] = redirect_stub(target)
+    # Only /cv/, which was live and indexed until the page was hidden, so people
+    # still arrive there from bookmarks and search.
+    #
+    # There are deliberately NO foo.html stubs beside foo/index.html. Having
+    # both makes the path ambiguous: GitHub Pages answers /publications with
+    # publications.html, and a crawler that normalises the trailing slash then
+    # bounces between the stub and the real page and reports a redirect loop.
+    # The .html paths were only live for a day, so nothing depends on them.
+    pages["cv/index.html"] = redirect_stub("/")
 
     pages["robots.txt"] = ("User-agent: *\nAllow: /\n\n"
                            f"Sitemap: {SITE_URL}/sitemap.xml\n")
