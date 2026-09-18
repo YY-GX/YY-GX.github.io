@@ -308,6 +308,10 @@ div.home-container .home-intro .home-research { color: var(--ink-soft); }
   --ra-skills: #3a5f88;   /* blue   */
   --ra-data:   #2b6561;   /* teal   */
   --ra-hri:    #664f9a;   /* indigo */
+  /* Hover: same hue and saturation, 11 points darker. */
+  --ra-skills-on: #294461;
+  --ra-data-on:   #1a3e3b;
+  --ra-hri-on:    #4d3c75;
 }
 
 div.home-container .home-intro .ra {
@@ -321,14 +325,28 @@ div.home-container .home-intro .ra-hri    { color: var(--ra-hri); }
 /* Only anchors get an affordance; plain spans stay inert. */
 div.home-container .home-intro a.ra {
   text-decoration: underline;
-  text-decoration-thickness: 0.5px;
+  text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  text-decoration-color: currentColor;
-  opacity: 0.95;
-  transition: opacity 0.2s var(--ease);
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  transition: color 0.18s var(--ease),
+              text-decoration-color 0.18s var(--ease),
+              text-decoration-thickness 0.18s var(--ease);
 }
 
-div.home-container .home-intro a.ra:hover { opacity: 1; }
+/* Darken and firm up the underline on hover. Opacity alone, which is what this
+   used to do, moved 0.95 to 1 and was invisible. */
+div.home-container .home-intro a.ra:hover,
+div.home-container .home-intro a.ra:focus-visible {
+  text-decoration-thickness: 2px;
+  text-decoration-color: currentColor;
+}
+
+div.home-container .home-intro a.ra-skills:hover,
+div.home-container .home-intro a.ra-skills:focus-visible { color: var(--ra-skills-on); }
+div.home-container .home-intro a.ra-data:hover,
+div.home-container .home-intro a.ra-data:focus-visible   { color: var(--ra-data-on); }
+div.home-container .home-intro a.ra-hri:hover,
+div.home-container .home-intro a.ra-hri:focus-visible    { color: var(--ra-hri-on); }
 
 /* Chinese name + pronunciation: present but clearly secondary to the
    romanised name. CJK stack first, since neither Poppins nor Charter carries
