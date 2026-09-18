@@ -79,11 +79,11 @@ IDENTITY = "A CS PhD student at UNC Chapel Hill, with an M.S. in CS from Georgia
 RESEARCH_LEAD = "I work on long-horizon robot manipulation:"
 RESEARCH_PARTS = [
     ("skills", "learning skills and the way to chain them",
-     "publications.html#skills"),
+     "/publications/#skills"),
     ("data", "generating the data to train them",
-     "publications.html#data"),
+     "/publications/#data"),
     ("hri", "what people and robots need to tell each other to work together",
-     "publications.html#hri"),
+     "/publications/#hri"),
 ]
 
 # Publication topics. The first three share their keys, labels and colours with
@@ -99,8 +99,11 @@ PREVIOUSLY = ["Meta Reality Labs Research",
 
 # Blog and Résumé are hidden for now. blog.html / post-*.html are still
 # generated and reachable by URL; add the tuples back to show them again.
-NAV = [("Home", "index.html"), ("About", "about.html"),
-       ("Publications", "publications.html")]
+# Directory-style, root-relative. These are the URLs the old Astro site
+# published and Google indexed; the .html scheme the first static build used
+# turned every one of them into a 404.
+NAV = [("Home", "/"), ("About", "/about/"),
+       ("Publications", "/publications/")]
 
 
 # --- content ---------------------------------------------------------------
@@ -329,17 +332,17 @@ HEAD = """<!DOCTYPE html>
     <meta name="twitter:title" content="{title}">
     <meta name="twitter:description" content="{desc}">
     <meta name="twitter:image" content="{site}/favicon-512.png">
-    <link rel="stylesheet" href="assets/stylesheets/main_free.css">
-    <link rel="stylesheet" href="clarity/clarity.css">
-    <link rel="stylesheet" href="assets/fontawesome-free-7.2.0-web/css/all.min.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+    <link rel="stylesheet" href="/assets/stylesheets/main_free.css">
+    <link rel="stylesheet" href="/clarity/clarity.css">
+    <link rel="stylesheet" href="/assets/fontawesome-free-7.2.0-web/css/all.min.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
     <link rel="canonical" href="{canonical}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/site.css">
+    <link rel="stylesheet" href="/assets/site.css">
 {analytics}{jsonld}</head>
 <body{body_class}>
 """
@@ -548,11 +551,11 @@ def paper_row(p):
     # The hint is always in the DOM (opacity 0) so revealing it on hover cannot
     # shift the row.
     thumb = (f'        <div class="paper-thumb">\n'
-             f'            <button class="thumb-zoom" data-full="images/publications/full/{p["preview"]}"'
+             f'            <button class="thumb-zoom" data-full="/images/publications/full/{p["preview"]}"'
              f' data-caption="{html.escape(p["title"], quote=True)}"'
              f' data-blurb="{html.escape(p["blurb"], quote=True)}"'
              f' aria-label="Enlarge figure from {html.escape(p["title"], quote=True)}">\n'
-             f'                <img src="images/publications/{p["preview"]}"'
+             f'                <img src="/images/publications/{p["preview"]}"'
              f' alt="Figure from {html.escape(p["title"], quote=True)}" loading="lazy">\n'
              f'            </button>\n'
              f'            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>\n'
@@ -615,6 +618,29 @@ def research_html():
     return html.escape(RESEARCH_LEAD) + " " + "".join(out) + "."
 
 
+def build_404():
+    body = ('    <div class="container">\n'
+            '        <div class="page-head"><h1>Page not found</h1>\n'
+            '        <p class="text">That address does not exist here. It may be from an '
+            'older version of this site.</p></div>\n'
+            '        <p class="text"><a href="/" class="button icon">Home '
+            '<i class="fa-solid fa-arrow-right"></i></a></p>\n'
+            '    </div>\n')
+    return page(f"Page not found | {NAME}", "Page not found", "/", body, slug="404")
+
+
+def redirect_stub(target):
+    """Client-side redirect: GitHub Pages cannot issue a 301."""
+    t = html.escape(target)
+    return ('<!DOCTYPE html><html><head><meta charset="UTF-8">'
+            f'<link rel="canonical" href="{SITE_URL}{t}">'
+            f'<meta http-equiv="refresh" content="0; url={t}">'
+            '<meta name="robots" content="noindex">'
+            f'<title>Moved</title></head><body>'
+            f'<p>This page has moved to <a href="{t}">{t}</a>.</p>'
+            '</body></html>\n')
+
+
 def build_home():
     # &nbsp; before the separator so it can never start a wrapped line, and a
     # normal space after it so the break happens between the two entries.
@@ -634,7 +660,7 @@ def build_home():
             f'                <p class="home-research">{research_html()}</p>\n'
             f'                <p class="home-previously">Previously: {prev}</p>\n'
             '                <div>\n'
-            '                    <a href="about.html" class="button icon">Read More '
+            '                    <a href="/about/" class="button icon">Read More '
             '<i class="fa-solid fa-arrow-right"></i></a>\n'
             '                </div>\n'
             '            </div>\n'
@@ -642,7 +668,7 @@ def build_home():
             '                <img src="images/avatar.jpg" alt="Portrait">\n'
             '            </div>\n'
             '        </div>\n    </div>\n')
-    return page(NAME, BIO, "index.html", body, hero=True, body_class="home", slug="")
+    return page(NAME, BIO, "/", body, hero=True, body_class="home", slug="")
 
 
 def build_about(news):
@@ -661,7 +687,7 @@ def build_about(news):
                  f'            <div class="news-body"><b>{html.escape(n["title"])}</b> {n["body"]}</div>\n'
                  '        </div>\n')
     body += '    </div>\n'
-    return page(f"About | {NAME}", "About " + NAME, "about.html", body, slug="about.html")
+    return page(f"About | {NAME}", "About " + NAME, "/about/", body, slug="about/")
 
 
 def build_publications(papers):
@@ -683,7 +709,7 @@ def build_publications(papers):
             body += paper_row(p)
     body += '    </div>\n'
     return page(f"Publications | {NAME}", f"Publications by {NAME}",
-                "publications.html", body, slug="publications.html")
+                "/publications/", body, slug="publications/")
 
 
 def build_blog(posts):
@@ -692,11 +718,11 @@ def build_blog(posts):
     for p in posts:
         body += ('        <div class="news-row">\n'
                  f'            <div class="news-when">{p["when"]}</div>\n'
-                 f'            <div class="news-body"><a href="post-{p["slug"]}.html">'
+                 f'            <div class="news-body"><a href="/blog/{p["slug"]}/">'
                  f'<b>{html.escape(p["title"])}</b></a><br>{html.escape(p["desc"])}</div>\n'
                  '        </div>\n')
     body += '    </div>\n'
-    return page(f"Blog | {NAME}", "Blog", "blog.html", body, slug="blog.html")
+    return page(f"Blog | {NAME}", "Blog", "/blog/", body, slug="blog/")
 
 
 def build_post(p):
@@ -706,31 +732,46 @@ def build_post(p):
     for para in p["body"]:
         body += f'        <p class="text">{para}</p>\n'
     body += '    </div>\n'
-    return page(f'{p["title"]} | {NAME}', p["desc"], "blog.html", body, slug=f'post-{p["slug"]}.html')
+    return page(f'{p["title"]} | {NAME}', p["desc"], "/blog/", body, slug=f'blog/{p["slug"]}/')
 
 
 if __name__ == "__main__":
     papers, news, posts = bib_entries(), news_items(), blog_posts()
-    pages = {"index.html": build_home(),
-             "about.html": build_about(news),
-             "publications.html": build_publications(papers),
-             "blog.html": build_blog(posts)}
-    for p in posts:
-        pages[f'post-{p["slug"]}.html'] = build_post(p)
-    # robots + sitemap, matching what the previous Astro site published
+
+    # Directory-style paths, restoring the URLs the Astro site published.
+    pages = {"index.html":              build_home(),
+             "about/index.html":        build_about(news),
+             "publications/index.html": build_publications(papers),
+             "blog/index.html":         build_blog(posts)}
+    for q in posts:
+        pages["blog/%s/index.html" % q["slug"]] = build_post(q)
+
+    # GitHub Pages serves this for any unmatched path. It carries the analytics
+    # snippet, so a broken inbound link is visible rather than silent.
+    pages["404.html"] = build_404()
+
+    # The .html scheme was live briefly; keep those paths pointing at the real
+    # page so nothing that was shared in between breaks.
+    for stale, target in [("publications.html", "/publications/"),
+                          ("about.html", "/about/"),
+                          ("blog.html", "/blog/")] + \
+                         [("post-%s.html" % q["slug"], "/blog/%s/" % q["slug"]) for q in posts]:
+        pages[stale] = redirect_stub(target)
+
     pages["robots.txt"] = ("User-agent: *\nAllow: /\n\n"
                            f"Sitemap: {SITE_URL}/sitemap.xml\n")
-    urls = "".join(
-        f"  <url><loc>{SITE_URL}/{'' if fn == 'index.html' else fn}</loc></url>\n"
-        for fn in ["index.html", "about.html", "publications.html", "blog.html"]
-        + [f'post-{q["slug"]}.html' for q in posts])
+    urls = "".join(f"  <url><loc>{SITE_URL}/{u}</loc></url>\n"
+                   for u in ["", "about/", "publications/", "blog/"]
+                   + ["blog/%s/" % q["slug"] for q in posts])
     pages["sitemap.xml"] = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                             + urls + "</urlset>\n")
 
     for fn, content in pages.items():
-        with open(os.path.join(OUT, fn), "w", encoding="utf-8") as f:
+        path = os.path.join(OUT, fn)
+        os.makedirs(os.path.dirname(path), exist_ok=True) if os.path.dirname(fn) else None
+        with open(path, "w", encoding="utf-8") as f:
             f.write(content)
-    missing = sum(1 for p in papers if not p["preview"])
-    print(f"wrote {len(pages)} pages: {len(papers)} publications "
+    missing = sum(1 for q in papers if not q["preview"])
+    print(f"wrote {len(pages)} files: {len(papers)} publications "
           f"({missing} without a figure), {len(news)} news, {len(posts)} post(s)")
