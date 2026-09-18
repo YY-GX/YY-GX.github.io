@@ -374,15 +374,11 @@ FOOT = """    <footer>
       var chips = [].slice.call(bar.querySelectorAll('.tag-chip'));
       var rows = [].slice.call(document.querySelectorAll('.paper-row'));
       var years = [].slice.call(document.querySelectorAll('.pub-year'));
-      var count = document.getElementById('pub-count');
 
       function apply(topic) {{
-        var shown = 0;
         rows.forEach(function (r) {{
           var t = (r.getAttribute('data-topics') || '').split(' ');
-          var on = topic === 'all' || t.indexOf(topic) !== -1;
-          r.hidden = !on;
-          if (on) shown++;
+          r.hidden = !(topic === 'all' || t.indexOf(topic) !== -1);
         }});
         // A year heading with nothing under it should go too.
         years.forEach(function (y) {{
@@ -398,7 +394,6 @@ FOOT = """    <footer>
           c.classList.toggle('is-on', on);
           c.setAttribute('aria-pressed', on ? 'true' : 'false');
         }});
-        if (count) count.textContent = shown;
         if (history.replaceState) {{
           history.replaceState(null, '', topic === 'all' ? location.pathname : '#' + topic);
         }}
@@ -678,8 +673,7 @@ def build_publications(papers):
                   f' aria-pressed="false">{label} <span class="tag-n">{n}</span></button>\n')
 
     body = ('    <div class="container">\n'
-            '        <div class="page-head"><h1>Publications</h1>\n'
-            f'        <p class="text"><span id="pub-count">{len(papers)}</span> publications.</p></div>\n'
+            '        <div class="page-head"><h1>Publications</h1></div>\n'
             '        <div class="tag-bar" role="group" aria-label="Filter by topic">\n'
             f'{chips}'
             '        </div>\n')

@@ -77,8 +77,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="page-head"><h1>Publications</h1>
-        <p class="text"><span id="pub-count">19</span> publications.</p></div>
+        <div class="page-head"><h1>Publications</h1></div>
         <div class="tag-bar" role="group" aria-label="Filter by topic">
             <button class="tag-chip is-on" data-topic="all" aria-pressed="true">All</button>
             <button class="tag-chip tag-skills" data-topic="skills" aria-pressed="false">Skill learning &amp; chaining <span class="tag-n">7</span></button>
@@ -574,15 +573,11 @@
       var chips = [].slice.call(bar.querySelectorAll('.tag-chip'));
       var rows = [].slice.call(document.querySelectorAll('.paper-row'));
       var years = [].slice.call(document.querySelectorAll('.pub-year'));
-      var count = document.getElementById('pub-count');
 
       function apply(topic) {
-        var shown = 0;
         rows.forEach(function (r) {
           var t = (r.getAttribute('data-topics') || '').split(' ');
-          var on = topic === 'all' || t.indexOf(topic) !== -1;
-          r.hidden = !on;
-          if (on) shown++;
+          r.hidden = !(topic === 'all' || t.indexOf(topic) !== -1);
         });
         // A year heading with nothing under it should go too.
         years.forEach(function (y) {
@@ -598,7 +593,6 @@
           c.classList.toggle('is-on', on);
           c.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
-        if (count) count.textContent = shown;
         if (history.replaceState) {
           history.replaceState(null, '', topic === 'all' ? location.pathname : '#' + topic);
         }

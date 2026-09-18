@@ -114,15 +114,11 @@
       var chips = [].slice.call(bar.querySelectorAll('.tag-chip'));
       var rows = [].slice.call(document.querySelectorAll('.paper-row'));
       var years = [].slice.call(document.querySelectorAll('.pub-year'));
-      var count = document.getElementById('pub-count');
 
       function apply(topic) {
-        var shown = 0;
         rows.forEach(function (r) {
           var t = (r.getAttribute('data-topics') || '').split(' ');
-          var on = topic === 'all' || t.indexOf(topic) !== -1;
-          r.hidden = !on;
-          if (on) shown++;
+          r.hidden = !(topic === 'all' || t.indexOf(topic) !== -1);
         });
         // A year heading with nothing under it should go too.
         years.forEach(function (y) {
@@ -138,7 +134,6 @@
           c.classList.toggle('is-on', on);
           c.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
-        if (count) count.textContent = shown;
         if (history.replaceState) {
           history.replaceState(null, '', topic === 'all' ? location.pathname : '#' + topic);
         }
