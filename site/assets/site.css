@@ -382,6 +382,55 @@ div.home-container .home-profile img {
   div.home-container { column-gap: 10vw; }
 }
 
+/* --- topic tags ---------------------------------------------------------- */
+
+.tag-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  padding: 0.4em 0 0.2em;
+}
+
+.tag-bar .tag-chip,
+.tag-bar .tag-chip:hover,
+.tag-bar .tag-chip:focus {
+  font-family: "Poppins", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 0.62em 0.95em;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-full, 999px);
+  background: transparent !important;
+  color: var(--ink-muted);
+  cursor: pointer;
+  box-shadow: none;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease),
+              background-color 0.2s var(--ease);
+}
+
+.tag-bar .tag-chip:hover { color: var(--ink); border-color: var(--ink-muted); }
+
+.tag-bar .tag-chip .tag-n {
+  font-size: 0.85em;
+  opacity: 0.55;
+  padding-left: 0.3em;
+}
+
+/* Active tag takes the colour its strand has on the home page, so arriving
+   from a coloured phrase lands on a chip of the same colour. */
+.tag-bar .tag-chip.is-on {
+  color: #fff;
+  border-color: transparent;
+}
+.tag-bar .tag-chip.is-on[data-topic="all"]     { background: var(--ink-soft) !important; }
+.tag-bar .tag-chip.is-on[data-topic="skills"]  { background: var(--ra-skills) !important; }
+.tag-bar .tag-chip.is-on[data-topic="data"]    { background: var(--ra-data) !important; }
+.tag-bar .tag-chip.is-on[data-topic="hri"]     { background: var(--ra-hri) !important; }
+.tag-bar .tag-chip.is-on[data-topic="earlier"] { background: var(--ink-muted) !important; }
+
+.paper-row[hidden], .pub-year[hidden] { display: none !important; }
+
 /* --- 3. publication rows ------------------------------------------------- */
 
 .pub-year {

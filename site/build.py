@@ -78,10 +78,21 @@ IDENTITY = "A CS PhD student at UNC Chapel Hill, with an M.S. in CS from Georgia
 # into a link later, just fill in its `href`: the renderer already handles it.
 RESEARCH_LEAD = "I work on long-horizon robot manipulation:"
 RESEARCH_PARTS = [
-    ("skills", "learning skills and the way to chain them", ""),
-    ("data", "generating the data to train them", ""),
-    ("hri", "what people and robots need to tell each other to work together", ""),
+    ("skills", "learning skills and the way to chain them",
+     "publications.html#skills"),
+    ("data", "generating the data to train them",
+     "publications.html#data"),
+    ("hri", "what people and robots need to tell each other to work together",
+     "publications.html#hri"),
 ]
+
+# Publication topics. The first three share their keys, labels and colours with
+# RESEARCH_PARTS above, so a strand on the home page lands on this page with the
+# matching tag already selected. A paper may carry more than one.
+TOPICS = [("skills", "Skill learning &amp; chaining"),
+          ("data", "Data generation"),
+          ("hri", "Human-robot interaction"),
+          ("earlier", "Earlier work")]
 # Reverse chronological: Meta (Jun-Aug 2026) then MERL (Jan-Apr 2026).
 PREVIOUSLY = ["Meta Reality Labs Research",
               "Mitsubishi Electric Research Laboratories (MERL)"]
@@ -222,6 +233,7 @@ def bib_entries():
              "dataset": fields.get("dataset", ""),
              "equal": [n.strip() for n in fields.get("equal", "").split(",") if n.strip()],
              "blurb": fields.get("blurb", ""),
+             "topics": [t.strip() for t in fields.get("topics", "").split(",") if t.strip()],
              "preview": preview,
              "selected": fields.get("selected", "").lower() == "true"}
         e["bibtex"] = bibtex_string(kind, key.strip(), e)
@@ -354,6 +366,60 @@ FOOT = """    <footer>
         </figure>
     </div>
     <script>
+    // Topic filter. The URL hash selects a tag, so a research strand on the
+    // home page can link straight into a filtered view.
+    (function () {{
+      var bar = document.querySelector('.tag-bar');
+      if (!bar) return;
+      var chips = [].slice.call(bar.querySelectorAll('.tag-chip'));
+      var rows = [].slice.call(document.querySelectorAll('.paper-row'));
+      var years = [].slice.call(document.querySelectorAll('.pub-year'));
+      var count = document.getElementById('pub-count');
+
+      function apply(topic) {{
+        var shown = 0;
+        rows.forEach(function (r) {{
+          var t = (r.getAttribute('data-topics') || '').split(' ');
+          var on = topic === 'all' || t.indexOf(topic) !== -1;
+          r.hidden = !on;
+          if (on) shown++;
+        }});
+        // A year heading with nothing under it should go too.
+        years.forEach(function (y) {{
+          var any = false, n = y.nextElementSibling;
+          while (n && !n.classList.contains('pub-year')) {{
+            if (n.classList.contains('paper-row') && !n.hidden) {{ any = true; break; }}
+            n = n.nextElementSibling;
+          }}
+          y.hidden = !any;
+        }});
+        chips.forEach(function (c) {{
+          var on = c.getAttribute('data-topic') === topic;
+          c.classList.toggle('is-on', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        }});
+        if (count) count.textContent = shown;
+        if (history.replaceState) {{
+          history.replaceState(null, '', topic === 'all' ? location.pathname : '#' + topic);
+        }}
+      }}
+
+      chips.forEach(function (c) {{
+        c.addEventListener('click', function () {{
+          var t = c.getAttribute('data-topic');
+          // Clicking the active tag clears it, so the filter is never a trap.
+          apply(c.classList.contains('is-on') && t !== 'all' ? 'all' : t);
+        }});
+      }});
+
+      function fromHash() {{
+        var h = (location.hash || '').replace('#', '');
+        apply(chips.some(function (c) {{ return c.getAttribute('data-topic') === h; }}) ? h : 'all');
+      }}
+      window.addEventListener('hashchange', fromHash);
+      fromHash();
+    }})();
+
     // Figure lightbox.
     (function () {{
       var box = document.getElementById('lightbox');
@@ -516,7 +582,8 @@ def paper_row(p):
                  f'<i class="fa-regular fa-copy"></i></button>')
     row = "\n                ".join(x for x in links if x)
 
-    return (f'    <div class="paper-row{"" if p["preview"] else " no-thumb"}">\n'
+    return (f'    <div class="paper-row{"" if p["preview"] else " no-thumb"}"'
+            f' data-topics="{" ".join(p["topics"])}">\n'
             f'{thumb}'
             '        <div class="paper-info">\n'
             f'            <p class="paper-title">{html.escape(p["title"])}</p>\n'
@@ -603,11 +670,21 @@ def build_about(news):
 
 
 def build_publications(papers):
+    chips = ('            <button class="tag-chip is-on" data-topic="all"'
+             ' aria-pressed="true">All</button>\n')
+    for key, label in TOPICS:
+        n = sum(1 for p in papers if key in p["topics"])
+        chips += (f'            <button class="tag-chip tag-{key}" data-topic="{key}"'
+                  f' aria-pressed="false">{label} <span class="tag-n">{n}</span></button>\n')
+
     body = ('    <div class="container">\n'
             '        <div class="page-head"><h1>Publications</h1>\n'
-            f'        <p class="text">{len(papers)} publications.</p></div>\n')
+            f'        <p class="text"><span id="pub-count">{len(papers)}</span> publications.</p></div>\n'
+            '        <div class="tag-bar" role="group" aria-label="Filter by topic">\n'
+            f'{chips}'
+            '        </div>\n')
     for year in sorted({p["year"] for p in papers}, reverse=True):
-        body += f'        <div class="pub-year">{year}</div>\n'
+        body += f'        <div class="pub-year" data-year="{year}">{year}</div>\n'
         for p in [q for q in papers if q["year"] == year]:
             body += paper_row(p)
     body += '    </div>\n'

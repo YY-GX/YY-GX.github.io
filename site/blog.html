@@ -106,6 +106,60 @@
         </figure>
     </div>
     <script>
+    // Topic filter. The URL hash selects a tag, so a research strand on the
+    // home page can link straight into a filtered view.
+    (function () {
+      var bar = document.querySelector('.tag-bar');
+      if (!bar) return;
+      var chips = [].slice.call(bar.querySelectorAll('.tag-chip'));
+      var rows = [].slice.call(document.querySelectorAll('.paper-row'));
+      var years = [].slice.call(document.querySelectorAll('.pub-year'));
+      var count = document.getElementById('pub-count');
+
+      function apply(topic) {
+        var shown = 0;
+        rows.forEach(function (r) {
+          var t = (r.getAttribute('data-topics') || '').split(' ');
+          var on = topic === 'all' || t.indexOf(topic) !== -1;
+          r.hidden = !on;
+          if (on) shown++;
+        });
+        // A year heading with nothing under it should go too.
+        years.forEach(function (y) {
+          var any = false, n = y.nextElementSibling;
+          while (n && !n.classList.contains('pub-year')) {
+            if (n.classList.contains('paper-row') && !n.hidden) { any = true; break; }
+            n = n.nextElementSibling;
+          }
+          y.hidden = !any;
+        });
+        chips.forEach(function (c) {
+          var on = c.getAttribute('data-topic') === topic;
+          c.classList.toggle('is-on', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        if (count) count.textContent = shown;
+        if (history.replaceState) {
+          history.replaceState(null, '', topic === 'all' ? location.pathname : '#' + topic);
+        }
+      }
+
+      chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+          var t = c.getAttribute('data-topic');
+          // Clicking the active tag clears it, so the filter is never a trap.
+          apply(c.classList.contains('is-on') && t !== 'all' ? 'all' : t);
+        });
+      });
+
+      function fromHash() {
+        var h = (location.hash || '').replace('#', '');
+        apply(chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all');
+      }
+      window.addEventListener('hashchange', fromHash);
+      fromHash();
+    })();
+
     // Figure lightbox.
     (function () {
       var box = document.getElementById('lightbox');

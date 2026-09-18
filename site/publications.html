@@ -78,9 +78,16 @@
     </div>
     <div class="container">
         <div class="page-head"><h1>Publications</h1>
-        <p class="text">19 publications.</p></div>
-        <div class="pub-year">2026</div>
-    <div class="paper-row">
+        <p class="text"><span id="pub-count">19</span> publications.</p></div>
+        <div class="tag-bar" role="group" aria-label="Filter by topic">
+            <button class="tag-chip is-on" data-topic="all" aria-pressed="true">All</button>
+            <button class="tag-chip tag-skills" data-topic="skills" aria-pressed="false">Skill learning &amp; chaining <span class="tag-n">7</span></button>
+            <button class="tag-chip tag-data" data-topic="data" aria-pressed="false">Data generation <span class="tag-n">4</span></button>
+            <button class="tag-chip tag-hri" data-topic="hri" aria-pressed="false">Human-robot interaction <span class="tag-n">6</span></button>
+            <button class="tag-chip tag-earlier" data-topic="earlier" aria-pressed="false">Earlier work <span class="tag-n">4</span></button>
+        </div>
+        <div class="pub-year" data-year="2026">2026</div>
+    <div class="paper-row" data-topics="skills">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/icra27_halter.jpg" data-caption="From Rollout to Reset: A Graph-Based Harness for Autonomous Long-Horizon Manipulation Evaluation" data-blurb="Testing a real robot means a human resetting every object between rollouts, which eats hours and leaves the starting state undefined, so results rarely reproduce. Long tasks make it worse. We build a scene graph, let an LLM read it to score the run and plan the cleanup, then chain small skills to reset." aria-label="Enlarge figure from From Rollout to Reset: A Graph-Based Harness for Autonomous Long-Horizon Manipulation Evaluation">
                 <img src="images/publications/icra27_halter.jpg" alt="Figure from From Rollout to Reset: A Graph-Based Harness for Autonomous Long-Horizon Manipulation Evaluation" loading="lazy">
@@ -104,7 +111,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="skills">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/icra27_egr.png" data-caption="Evidence-Gated Cross-Modal Invariance for Robust Vision-Language-Action Policies" data-blurb="Block a camera that shows nothing useful and a multi-sensor robot policy still falls apart, because training on narrow demos ties the sensors together instead of to the task. Our fix scores, frame by frame, which sensor carries evidence, then trains the policy to ignore the useless ones and work from the useful one alone." aria-label="Enlarge figure from Evidence-Gated Cross-Modal Invariance for Robust Vision-Language-Action Policies">
                 <img src="images/publications/icra27_egr.png" alt="Figure from Evidence-Gated Cross-Modal Invariance for Robust Vision-Language-Action Policies" loading="lazy">
@@ -128,7 +135,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="data">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/icra27_densereward.jpg" data-caption="DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation" data-blurb="Reward models for robots mostly say pass or fail at the end of a run, which tells a learner nothing about where things went wrong. Fake failures made by relabeling good runs look nothing like a dropped cup, so we build realistic ones in simulation and train a model that scores progress frame by frame." aria-label="Enlarge figure from DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation">
                 <img src="images/publications/icra27_densereward.jpg" alt="Figure from DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation" loading="lazy">
@@ -152,7 +159,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="skills">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/ral_furniturevla.jpg" data-caption="FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model" data-blurb="Assembling real furniture takes two arms and over 1500 control steps, but most robot assembly work stops at toy parts and a single arm. We build a simulation data pipeline and a VR rig that lets one person drive both arms. The policy predicts how far along it is, so it moves on by itself." aria-label="Enlarge figure from FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model">
                 <img src="images/publications/ral_furniturevla.jpg" alt="Figure from FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model" loading="lazy">
@@ -176,7 +183,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="skills">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/icra27_watchact.png" data-caption="WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation" data-blurb="A robot helping a person needs to know what they already did and why, yet manipulation benchmarks hand a policy one instruction and one snapshot. WatchAct builds 3,000 cases pairing real human video with a matching simulator scene and a runnable task, then scores planning and execution separately so you see which half broke." aria-label="Enlarge figure from WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation">
                 <img src="images/publications/icra27_watchact.png" alt="Figure from WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation" loading="lazy">
@@ -201,7 +208,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="skills">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/icra27_lilovla.webp" data-caption="LiLo-VLA: Compositional Long-Horizon Manipulation via Linked Object-Centric Policies" data-blurb="A skill trained on a tidy table gets distracted by a mug it never needed, and one slip in a chain ruins everything after. We split the job: one module drives the arm to the right place, a second looks only at the object being touched. The split lets the robot replan and reuse skills." aria-label="Enlarge figure from LiLo-VLA: Compositional Long-Horizon Manipulation via Linked Object-Centric Policies">
                 <img src="images/publications/icra27_lilovla.webp" alt="Figure from LiLo-VLA: Compositional Long-Horizon Manipulation via Linked Object-Centric Policies" loading="lazy">
@@ -226,7 +233,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="skills">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/corl26_yu.jpg" data-caption="When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs" data-blurb="Tell a VLA to pick up the bowl where it usually trained on the plate, and it often grabs the plate anyway: the visual habit beats the words. We build a test set that swaps instructions on familiar layouts, then run each policy beside a language-blind twin and use the gap to steer it back." aria-label="Enlarge figure from When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs">
                 <img src="images/publications/corl26_yu.jpg" alt="Figure from When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs" loading="lazy">
@@ -251,8 +258,8 @@
 }</code></pre>
         </div>
     </div>
-        <div class="pub-year">2025</div>
-    <div class="paper-row">
+        <div class="pub-year" data-year="2025">2025</div>
+    <div class="paper-row" data-topics="hri">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/tfr25.png" data-caption="Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station" data-blurb="Astronauts will one day hand jobs to autonomous rovers, but only if they can judge when a rover is likely to fail. We spent two weeks with a Mars Desert Research Station crew in Utah, running a ground robot that estimates its own competence and reports it, then watched how the crew planned around it." aria-label="Enlarge figure from Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station">
                 <img src="images/publications/tfr25.png" alt="Figure from Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station" loading="lazy">
@@ -275,7 +282,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="data">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/iros25.png" data-caption="Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis" data-blurb="Robot data is expensive, so a pretrained policy often meets your lab table and objects only on deployment day. Instead of collecting more, we replay real trajectories in a simulator with swapped objects, then paste those motions back onto inpainted real video. The output is new training clips with real backgrounds and physically believable motion." aria-label="Enlarge figure from Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis">
                 <img src="images/publications/iros25.png" alt="Figure from Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis" loading="lazy">
@@ -300,7 +307,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="skills">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/ral25.png" data-caption="BOSS: Benchmark for Observation Space Shift in Long-Horizon Task" data-blurb="Run one skill and it quietly rewrites the scene for the next one: the drawer is now open, the mug is now in the gripper, and the second policy has never seen that. We call this observation space shift, build a benchmark that isolates it three ways, and ask whether more varied demos are enough." aria-label="Enlarge figure from BOSS: Benchmark for Observation Space Shift in Long-Horizon Task">
                 <img src="images/publications/ral25.png" alt="Figure from BOSS: Benchmark for Observation Space Shift in Long-Horizon Task" loading="lazy">
@@ -325,7 +332,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="hri">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/hrilbr25.png" data-caption="Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality" data-blurb="Working with a robot on a long task, you often cannot tell which step it thinks comes next, and some steps have more than one sensible answer. We use augmented reality as a two-way channel: the robot shows what it intends to do when a subtask is ambiguous, and adjusts to what the person answers." aria-label="Enlarge figure from Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality">
                 <img src="images/publications/hrilbr25.png" alt="Figure from Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality" loading="lazy">
@@ -348,8 +355,8 @@
 }</code></pre>
         </div>
     </div>
-        <div class="pub-year">2024</div>
-    <div class="paper-row">
+        <div class="pub-year" data-year="2024">2024</div>
+    <div class="paper-row" data-topics="data hri">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/iros24.png" data-caption="ARCADE: Scalable Demonstration Collection and Generation via Augmented Reality for Imitation Learning" data-blurb="Imitation learning needs dozens of demonstrations per task, and each one is a person tediously driving a robot arm through the same motion. Wearing a headset, a person does the task once with their bare hands, and the system turns that single demo into many synthetic ones. Tested on a real Fetch robot." aria-label="Enlarge figure from ARCADE: Scalable Demonstration Collection and Generation via Augmented Reality for Imitation Learning">
                 <img src="images/publications/iros24.png" alt="Figure from ARCADE: Scalable Demonstration Collection and Generation via Augmented Reality for Imitation Learning" loading="lazy">
@@ -374,7 +381,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="hri">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/secure-1.png" data-caption="Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding" data-blurb="Anyone can teach a robot a task by demonstrating it, but nothing stops the learned policy from swinging a knife toward your hand. So the user demonstrates safety too, drawing where the line is for them, and we turn that into a shield that blocks unsafe actions while leaving the task mostly alone." aria-label="Enlarge figure from Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding">
                 <img src="images/publications/secure-1.png" alt="Figure from Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding" loading="lazy">
@@ -398,7 +405,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="data hri">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/egocentric_side.png" data-caption="Augmented Reality Demonstrations for Scalable Robot Imitation Learning" data-blurb="Most demonstration data comes from people already trained to drive a robot arm, which keeps the pool of teachers small. Our HoloLens 2 setup lets someone with no robotics background record a demonstration by moving their own hand, and we check the recordings by replaying them on a real arm for reach, push and pick-and-place." aria-label="Enlarge figure from Augmented Reality Demonstrations for Scalable Robot Imitation Learning">
                 <img src="images/publications/egocentric_side.png" alt="Figure from Augmented Reality Demonstrations for Scalable Robot Imitation Learning" loading="lazy">
@@ -421,7 +428,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="earlier">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/annot_hands.png" data-caption="Annotated Hands for Generative Models" data-blurb="Image generators got very good, and still produce hands with six fingers and thumbs bent the wrong way. We add three extra channels to every training image that mark where the hand and its joints are, giving the model structure it otherwise has to guess. Tried on both a GAN and a diffusion model." aria-label="Enlarge figure from Annotated Hands for Generative Models">
                 <img src="images/publications/annot_hands.png" alt="Figure from Annotated Hands for Generative Models" loading="lazy">
@@ -445,8 +452,8 @@
 }</code></pre>
         </div>
     </div>
-        <div class="pub-year">2022</div>
-    <div class="paper-row">
+        <div class="pub-year" data-year="2022">2022</div>
+    <div class="paper-row" data-topics="hri">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/corl22.png" data-caption="Safe Inverse Reinforcement Learning via Control Barrier Function" data-blurb="Inverse reinforcement learning copies the reward behind a demonstration, but nothing in it keeps a fast car or drone from hitting a wall. Rather than filtering actions afterwards, we fold a control barrier function straight into the training loss, so safety and reward-matching are learned together. Tested on a 2D racecar and a 3D drone." aria-label="Enlarge figure from Safe Inverse Reinforcement Learning via Control Barrier Function">
                 <img src="images/publications/corl22.png" alt="Figure from Safe Inverse Reinforcement Learning via Control Barrier Function" loading="lazy">
@@ -470,8 +477,8 @@
 }</code></pre>
         </div>
     </div>
-        <div class="pub-year">2020</div>
-    <div class="paper-row">
+        <div class="pub-year" data-year="2020">2020</div>
+    <div class="paper-row" data-topics="earlier">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/iclr21.jpg" data-caption="Discriminative Cross-Modal Data Augmentation for Medical Imaging Applications" data-blurb="Labeled medical images are scarce: privacy limits sharing and few clinicians have time to annotate. One fix is translating scans from one modality into another, but a translator trained alone makes images that look right but add nothing. We train the translator jointly with the diagnosis model, so the prediction task steers what gets generated." aria-label="Enlarge figure from Discriminative Cross-Modal Data Augmentation for Medical Imaging Applications">
                 <img src="images/publications/iclr21.jpg" alt="Figure from Discriminative Cross-Modal Data Augmentation for Medical Imaging Applications" loading="lazy">
@@ -495,7 +502,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row">
+    <div class="paper-row" data-topics="earlier">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="images/publications/full/cvpr21.png" data-caption="Supervised Pretraining or Self-supervised Pretraining? A Tale of Two Transfer Learning Paradigms" data-blurb="Should you pretrain with labels or without them? The honest answer used to be to try both and see, which burns a lot of compute. We run that comparison carefully, varying how far the source domain sits from the target, how much pretraining data there is, and how imbalanced the source labels are." aria-label="Enlarge figure from Supervised Pretraining or Self-supervised Pretraining? A Tale of Two Transfer Learning Paradigms">
                 <img src="images/publications/cvpr21.png" alt="Figure from Supervised Pretraining or Self-supervised Pretraining? A Tale of Two Transfer Learning Paradigms" loading="lazy">
@@ -518,7 +525,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row no-thumb">
+    <div class="paper-row no-thumb" data-topics="earlier">
         <div class="paper-info">
             <p class="paper-title">MedDialog: Large-scale medical dialogue dataset</p>
             <p class="paper-authors">Guangtao Zeng, Wenmian Yang, Zeqian Ju, <b>Yue Yang</b>, Sicheng Wang, Ruisi Zhang, Meng Zhou, Jiaqi Zeng, Xiangyu Dong, Ruoyu Zhang, Penghui Zhu, Shu Chen, Pengtao Xie</p>
@@ -559,6 +566,60 @@
         </figure>
     </div>
     <script>
+    // Topic filter. The URL hash selects a tag, so a research strand on the
+    // home page can link straight into a filtered view.
+    (function () {
+      var bar = document.querySelector('.tag-bar');
+      if (!bar) return;
+      var chips = [].slice.call(bar.querySelectorAll('.tag-chip'));
+      var rows = [].slice.call(document.querySelectorAll('.paper-row'));
+      var years = [].slice.call(document.querySelectorAll('.pub-year'));
+      var count = document.getElementById('pub-count');
+
+      function apply(topic) {
+        var shown = 0;
+        rows.forEach(function (r) {
+          var t = (r.getAttribute('data-topics') || '').split(' ');
+          var on = topic === 'all' || t.indexOf(topic) !== -1;
+          r.hidden = !on;
+          if (on) shown++;
+        });
+        // A year heading with nothing under it should go too.
+        years.forEach(function (y) {
+          var any = false, n = y.nextElementSibling;
+          while (n && !n.classList.contains('pub-year')) {
+            if (n.classList.contains('paper-row') && !n.hidden) { any = true; break; }
+            n = n.nextElementSibling;
+          }
+          y.hidden = !any;
+        });
+        chips.forEach(function (c) {
+          var on = c.getAttribute('data-topic') === topic;
+          c.classList.toggle('is-on', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        if (count) count.textContent = shown;
+        if (history.replaceState) {
+          history.replaceState(null, '', topic === 'all' ? location.pathname : '#' + topic);
+        }
+      }
+
+      chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+          var t = c.getAttribute('data-topic');
+          // Clicking the active tag clears it, so the filter is never a trap.
+          apply(c.classList.contains('is-on') && t !== 'all' ? 'all' : t);
+        });
+      });
+
+      function fromHash() {
+        var h = (location.hash || '').replace('#', '');
+        apply(chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all');
+      }
+      window.addEventListener('hashchange', fromHash);
+      fromHash();
+    })();
+
     // Figure lightbox.
     (function () {
       var box = document.getElementById('lightbox');
