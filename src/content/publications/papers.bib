@@ -12,7 +12,9 @@
   code={https://github.com/YY-GX/HALTER},
   preview={icra27_halter.jpg},
   blurb={Testing a real robot means a human resetting every object between rollouts, which eats hours and leaves the starting state undefined, so results rarely reproduce. Long tasks make it worse. We build a scene graph, let an LLM read it to score the run and plan the cleanup, then chain small skills to reset.},
-  topics={skills}
+  topics={skills},
+  doi={10.48550/arXiv.2609.19413}
+  date={2026-09-16}
 }
 
 @article{yang2026sensing,
@@ -24,7 +26,9 @@
   website={https://yy-gx.github.io/EGR/},
   preview={icra27_egr.png},
   blurb={Block a camera that shows nothing useful and a multi-sensor robot policy still falls apart, because training on narrow demos ties the sensors together instead of to the task. Our fix scores, frame by frame, which sensor carries evidence, then trains the policy to ignore the useless ones and work from the useful one alone.},
-  topics={skills}
+  topics={skills},
+  doi={10.48550/arXiv.2609.03142}
+  date={2026-09-02}
 }
 
 @article{fang2026densereward,
@@ -36,7 +40,9 @@
   website={https://dense-reward.github.io/},
   preview={icra27_densereward.jpg},
   blurb={Reward models for robots mostly say pass or fail at the end of a run, which tells a learner nothing about where things went wrong. Fake failures made by relabeling good runs look nothing like a dropped cup, so we build realistic ones in simulation and train a model that scores progress frame by frame.},
-  topics={data}
+  topics={data},
+  doi={10.48550/arXiv.2607.13033}
+  date={2026-07-14}
 }
 
 @article{ma2026furniturevla,
@@ -48,7 +54,9 @@
   website={https://dannymcy.github.io/furniturevla/},
   preview={ral_furniturevla.jpg},
   blurb={Assembling real furniture takes two arms and over 1500 control steps, but most robot assembly work stops at toy parts and a single arm. We build a simulation data pipeline and a VR rig that lets one person drive both arms. The policy predicts how far along it is, so it moves on by itself.},
-  topics={skills}
+  topics={skills},
+  doi={10.48550/arXiv.2607.01212}
+  date={2026-07-01}
 }
 
 @article{li2026watchact,
@@ -61,7 +69,9 @@
   code={https://github.com/Baiqi-Li/WatchAct},
   preview={icra27_watchact.png},
   blurb={A robot helping a person needs to know what they already did and why, yet manipulation benchmarks hand a policy one instruction and one snapshot. WatchAct builds 3,000 cases pairing real human video with a matching simulator scene and a runnable task, then scores planning and execution separately so you see which half broke.},
-  topics={skills}
+  topics={skills},
+  doi={10.48550/arXiv.2606.26443}
+  date={2026-06-24}
 }
 
 @article{yang2026lilo,
@@ -74,7 +84,9 @@
   website={https://yy-gx.github.io/LiLo-VLA/},
   code={https://github.com/YY-GX/LiLo-VLA},
   blurb={A skill trained on a tidy table gets distracted by a mug it never needed, and one slip in a chain ruins everything after. We split the job: one module drives the arm to the right place, a second looks only at the object being touched. The split lets the robot replan and reuse skills.},
-  topics={skills}
+  topics={skills},
+  doi={10.48550/arXiv.2602.21531}
+  date={2026-02-25}
 }
 
 @article{fang2026vision,
@@ -87,7 +99,9 @@
   website={https://vla-cf.github.io/},
   code={https://github.com/yuffish/LIBERO-CF},
   blurb={Tell a VLA to pick up the bowl where it usually trained on the plate, and it often grabs the plate anyway: the visual habit beats the words. We build a test set that swaps instructions on familiar layouts, then run each policy beside a language-blind twin and use the gap to steer it back.},
-  topics={skills}
+  topics={skills},
+  doi={10.48550/arXiv.2602.17659}
+  date={2026-02-19}
 }
 
 @article{conlon2025competency,
@@ -99,7 +113,9 @@
   pdf={https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11154044},
   preview={tfr25.png},
   blurb={Astronauts will one day hand jobs to autonomous rovers, but only if they can judge when a rover is likely to fail. We spent two weeks with a Mars Desert Research Station crew in Utah, running a ground robot that estimates its own competence and reports it, then watched how the crew planned around it.},
-  topics={hri}
+  topics={hri},
+  doi={10.1109/TFR.2025.3607856}
+  date={2025}
 }
 
 @article{fang2025rebot,
@@ -112,7 +128,9 @@
   website={https://yuffish.github.io/rebot/},
   code={https://github.com/yuffish/rebot},
   blurb={Robot data is expensive, so a pretrained policy often meets your lab table and objects only on deployment day. Instead of collecting more, we replay real trajectories in a simulator with swapped objects, then paste those motions back onto inpainted real video. The output is new training clips with real backgrounds and physically believable motion.},
-  topics={data}
+  topics={data},
+  doi={10.1109/IROS60139.2025.11246305}
+  date={2025-10-19}
 }
 
 
@@ -127,7 +145,9 @@
   website={https://boss-benchmark.github.io/},
   code={https://github.com/Boss-Benchmark/BOSS},
   blurb={Run one skill and it quietly rewrites the scene for the next one: the drawer is now open, the mug is now in the gripper, and the second policy has never seen that. We call this observation space shift, build a benchmark that isolates it three ways, and ask whether more varied demos are enough.},
-  topics={skills}
+  topics={skills},
+  doi={10.1109/LRA.2025.3585390}
+  date={2025-09}
 }
 
 @inproceedings{ma2025supporting,
@@ -140,7 +160,9 @@
   preview={hrilbr25.png},
   organization={IEEE},
   blurb={Working with a robot on a long task, you often cannot tell which step it thinks comes next, and some steps have more than one sensible answer. We use augmented reality as a two-way channel: the robot shows what it intends to do when a subtask is ambiguous, and adjusts to what the person answers.},
-  topics={hri}
+  topics={hri},
+  doi={10.1109/HRI61500.2025.10973947}
+  date={2025-03-04}
 }
 
 @inproceedings{yang2024arcade,
@@ -155,7 +177,9 @@
   website={https://yy-gx.github.io/ARCADE/},
   code={https://github.com/YY-GX/ARCADE/tree/Unity_ROS},
   blurb={Imitation learning needs dozens of demonstrations per task, and each one is a person tediously driving a robot arm through the same motion. Wearing a headset, a person does the task once with their bare hands, and the system turns that single demo into many synthetic ones. Tested on a real Fetch robot.},
-  topics={data, hri}
+  topics={data, hri},
+  doi={10.1109/IROS58592.2024.10801810}
+  date={2024-10-14}
 }
 
 @inproceedings{yang2024enhancing,
@@ -170,7 +194,9 @@
   selected = {true},
   code={https://github.com/CORE-Robotics-Lab/SECURE},
   blurb={Anyone can teach a robot a task by demonstrating it, but nothing stops the learned policy from swinging a knife toward your hand. So the user demonstrates safety too, drawing where the line is for them, and we turn that into a shield that blocks unsafe actions while leaving the task mostly alone.},
-  topics={hri}
+  topics={hri},
+  doi={10.1145/3610977.3635002}
+  date={2024-03-11}
 }
 
 @inproceedings{yang2024augmented,
@@ -182,7 +208,9 @@
   preview={egocentric_side.png},
   pdf={https://arxiv.org/pdf/2403.13910},
   blurb={Most demonstration data comes from people already trained to drive a robot arm, which keeps the pool of teachers small. Our HoloLens 2 setup lets someone with no robotics background record a demonstration by moving their own hand, and we check the recordings by replaying them on a real arm for reach, push and pick-and-place.},
-  topics={data, hri}
+  topics={data, hri},
+  doi={10.48550/arXiv.2403.13910}
+  date={2024-03-20}
 }
 
 @article{yang2024annotated,
@@ -195,7 +223,9 @@
   pdf={https://arxiv.org/pdf/2401.15075.pdf},
   dataset={https://github.com/YY-GX/Annotated-Hands-Dataset},
   blurb={Image generators got very good, and still produce hands with six fingers and thumbs bent the wrong way. We add three extra channels to every training image that mark where the hand and its joints are, giving the model structure it otherwise has to guess. Tried on both a GAN and a diffusion model.},
-  topics={earlier}
+  topics={earlier},
+  doi={10.48550/arXiv.2401.15075}
+  date={2024-01-26}
 }
 
 @inproceedings{yue2022cbfirl,
@@ -208,7 +238,9 @@
   preview={corl22.png},
   code={https://github.com/YY-GX/CBFIRL},
   blurb={Inverse reinforcement learning copies the reward behind a demonstration, but nothing in it keeps a fast car or drone from hitting a wall. Rather than filtering actions afterwards, we fold a control barrier function straight into the training loss, so safety and reward-matching are learned together. Tested on a 2D racecar and a 3D drone.},
-  topics={hri}
+  topics={hri},
+  doi={10.48550/arXiv.2212.02753}
+  date={2022-12-06}
 }
 
 @article{yang2020discriminative,
@@ -221,7 +253,9 @@
   pdf={https://arxiv.org/pdf/2010.03468.pdf},
   code={https://github.com/YY-GX/DUIIT},
   blurb={Labeled medical images are scarce: privacy limits sharing and few clinicians have time to annotate. One fix is translating scans from one modality into another, but a translator trained alone makes images that look right but add nothing. We train the translator jointly with the diagnosis model, so the prediction task steers what gets generated.},
-  topics={earlier}
+  topics={earlier},
+  doi={10.48550/arXiv.2010.03468}
+  date={2020-10-07}
 }
 
 @article{yang2020transfer,
@@ -233,17 +267,21 @@
   pdf={https://arxiv.org/pdf/2007.04234.pdf},
   preview={cvpr21.png},
   blurb={Should you pretrain with labels or without them? The honest answer used to be to try both and see, which burns a lot of compute. We run that comparison carefully, varying how far the source domain sits from the target, how much pretraining data there is, and how imbalanced the source labels are.},
-  topics={earlier}
+  topics={earlier},
+  doi={10.48550/arXiv.2007.04234}
+  date={2020-06-19}
 }
 
 @inproceedings{zeng2020meddialog,
-  title={MedDialog: Large-scale medical dialogue dataset},
-  author={Zeng, Guangtao and Yang, Wenmian and Ju, Zeqian and Yang, Yue and Wang, Sicheng and Zhang, Ruisi and Zhou, Meng and Zeng, Jiaqi and Dong, Xiangyu and Zhang, Ruoyu and Zhu, Penghui and Chen, Shu and Xie, Pengtao},
+  title={MedDialog: Large-scale Medical Dialogue Datasets},
+  author={Zeng, Guangtao and Yang, Wenmian and Ju, Zeqian and Yang, Yue and Wang, Sicheng and Zhang, Ruisi and Zhou, Meng and Zeng, Jiaqi and Dong, Xiangyu and Zhang, Ruoyu and Fang, Hongchao and Zhu, Penghui and Chen, Shu and Xie, Pengtao},
   booktitle={Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
   bibtex_show={true},
   year={2020},
   pdf={https://par.nsf.gov/servlets/purl/10279920},
   abbr={EMNLP' 20},
-  topics={earlier}
+  topics={earlier},
+  doi={10.18653/v1/2020.emnlp-main.743}
+  date={2020-11}
 }
 

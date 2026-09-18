@@ -237,6 +237,7 @@ def bib_entries():
              "equal": [n.strip() for n in fields.get("equal", "").split(",") if n.strip()],
              "blurb": fields.get("blurb", ""),
              "topics": [t.strip() for t in fields.get("topics", "").split(",") if t.strip()],
+             "doi": fields.get("doi", ""), "date": fields.get("date", ""),
              "preview": preview,
              "selected": fields.get("selected", "").lower() == "true"}
         e["bibtex"] = bibtex_string(kind, key.strip(), e)
@@ -522,18 +523,68 @@ ANALYTICS_TPL = """    <script async src="https://www.googletagmanager.com/gtag/
 
 
 def json_ld():
-    """Person markup, same shape the previous Astro site emitted."""
+    """Person markup. sameAs is what lets a machine decide this Yue Yang is the
+    same entity across sites, which matters because the name is shared by many
+    active researchers; only identifiers verified against his own DOIs go in."""
     import json as _json
+    same = [u for u, _, _ in SOCIAL if u.startswith("http")]
+    for key in ("orcid", "semantic_scholar", "dblp"):
+        v = S(key)
+        if v and v not in same:
+            same.append(v)
     data = {"@context": "https://schema.org", "@type": "Person",
             "name": NAME, "jobTitle": POSITION,
-            "affiliation": {"@type": "Organization", "name": UNIVERSITY},
-            "url": SITE_URL, "email": EMAIL,
-            "sameAs": [u for u, _, _ in SOCIAL if u.startswith("http")]}
+            "affiliation": {"@type": "CollegeOrUniversity", "name": UNIVERSITY},
+            "alumniOf": [{"@type": "CollegeOrUniversity",
+                          "name": "Georgia Institute of Technology"}],
+            "knowsAbout": ["Robot learning", "Long-horizon manipulation",
+                           "Skill chaining", "Vision-Language-Action models",
+                           "Robot data generation", "Imitation learning",
+                           "Human-robot interaction", "Augmented reality"],
+            "url": SITE_URL, "email": EMAIL, "sameAs": same}
+    if S("orcid"):
+        data["identifier"] = {"@type": "PropertyValue", "propertyID": "ORCID",
+                              "value": S("orcid")}
     return ('    <script type="application/ld+json">'
             + _json.dumps(data) + "</script>\n")
 
 
-def page(title, desc, current, body, hero=False, body_class="", slug=""):
+def scholarly_ld(papers):
+    """One ScholarlyArticle per paper. Without this the publication list is just
+    styled text: nothing tells a crawler these are papers, who wrote them, or
+    where they appeared."""
+    import json as _json
+    items = []
+    for i, q in enumerate(papers, 1):
+        art = {"@type": "ScholarlyArticle", "name": q["title"],
+               "author": [{"@type": "Person", "name": a} for a in q["authors"]]}
+        if q["date"]:
+            art["datePublished"] = q["date"]
+        elif q["year"]:
+            art["datePublished"] = q["year"]
+        if q["doi"]:
+            art["identifier"] = {"@type": "PropertyValue", "propertyID": "DOI",
+                                 "value": q["doi"]}
+            art["sameAs"] = "https://doi.org/" + q["doi"]
+        # Only claim a publication venue for work that actually appeared in one.
+        if q["venue"] and not q["venue"].lower().startswith("in submission"):
+            art["publication"] = q["venue"]
+        else:
+            art["creativeWorkStatus"] = "Under review"
+        url = q["website"] or q["pdf"]
+        if url:
+            art["url"] = url
+        if q["blurb"]:
+            art["abstract"] = q["blurb"]
+        items.append({"@type": "ListItem", "position": i, "item": art})
+    data = {"@context": "https://schema.org", "@type": "ItemList",
+            "name": f"Publications by {NAME}", "numberOfItems": len(items),
+            "itemListElement": items}
+    return ('    <script type="application/ld+json">'
+            + _json.dumps(data) + "</script>\n")
+
+
+def page(title, desc, current, body, hero=False, body_class="", slug="", extra_ld=""):
     cls = ' class="hero-band"' if hero else ""
     tag = footer_tagline()
     tag_html = ('I believe in ' + tag.split('I believe in ')[-1]) if tag else ''
@@ -541,7 +592,7 @@ def page(title, desc, current, body, hero=False, body_class="", slug=""):
                         body_class=(' class="%s"' % body_class) if body_class else "",
                         canonical=SITE_URL + "/" + slug, site=SITE_URL,
                         analytics=ANALYTICS_TPL.format(gid=GA_ID) if GA_ID else "",
-                        jsonld=json_ld() if slug == "" else "")
+                        jsonld=(json_ld() if slug == "" else "") + extra_ld)
             + f'    <div{cls}>\n' + nav(current) + body + '    </div>\n'
             + FOOT.format(name=html.escape(NAME), tagline=tag_html))
 
@@ -687,7 +738,10 @@ def build_about(news):
                  f'            <div class="news-body"><b>{html.escape(n["title"])}</b> {n["body"]}</div>\n'
                  '        </div>\n')
     body += '    </div>\n'
-    return page(f"About | {NAME}", "About " + NAME, "/about/", body, slug="about/")
+    return page(f"About | {NAME}",
+                f"{NAME} is a CS PhD student at UNC Chapel Hill working on "
+                "long-horizon robot manipulation. Advisors, background, and news.",
+                "/about/", body, slug="about/")
 
 
 def build_publications(papers):
@@ -708,8 +762,13 @@ def build_publications(papers):
         for p in [q for q in papers if q["year"] == year]:
             body += paper_row(p)
     body += '    </div>\n'
-    return page(f"Publications | {NAME}", f"Publications by {NAME}",
-                "/publications/", body, slug="publications/")
+    return page(
+        f"Publications | {NAME}",
+        "Peer-reviewed papers and preprints on long-horizon robot manipulation, "
+        "skill learning and chaining, robot data generation, and human-robot "
+        f"interaction, by {NAME} (UNC Chapel Hill).",
+        "/publications/", body, slug="publications/",
+        extra_ld=scholarly_ld(papers))
 
 
 def build_blog(posts):
@@ -761,6 +820,12 @@ if __name__ == "__main__":
     # bounces between the stub and the real page and reports a redirect loop.
     # The .html paths were only live for a day, so nothing depends on them.
     pages["cv/index.html"] = redirect_stub("/")
+
+    # Written by hand and kept in the repo; copied through so it ships.
+    llms = os.path.join(SRC, "src/content/llms.txt")
+    if os.path.exists(llms):
+        with open(llms, encoding="utf-8") as f:
+            pages["llms.txt"] = f.read()
 
     pages["robots.txt"] = ("User-agent: *\nAllow: /\n\n"
                            f"Sitemap: {SITE_URL}/sitemap.xml\n")

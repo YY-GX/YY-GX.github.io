@@ -10,7 +10,7 @@ site:
 profile:
   name: "Yue Yang"
   position: "PhD Student, Department of Computer Science"
-  affiliation: ""
+  affiliation: "Department of Computer Science"
   university: "The University of North Carolina at Chapel Hill"
   email: "yygx@cs.unc.edu"
   avatar: "/images/avatar.jpg"
@@ -22,8 +22,8 @@ social:
   github: "https://github.com/YY-GX"
   twitter: "https://twitter.com/YYang9923"
   linkedin: "https://www.linkedin.com/in/yue-yang-6a1493185/"
-  orcid: ""
-  semantic_scholar: ""
+  orcid: "https://orcid.org/0009-0000-8433-6246"
+  semantic_scholar: "https://www.semanticscholar.org/author/2292430956"
   dblp: ""
   email: "yygx@cs.unc.edu"
 
