@@ -754,7 +754,12 @@ if __name__ == "__main__":
     # page so nothing that was shared in between breaks.
     for stale, target in [("publications.html", "/publications/"),
                           ("about.html", "/about/"),
-                          ("blog.html", "/blog/")] + \
+                          ("blog.html", "/blog/"),
+                          # /cv/ was live and indexed until it was hidden, so
+                          # people still arrive from bookmarks and search. Send
+                          # them home rather than to a dead end; the CV itself
+                          # stays unlisted.
+                          ("cv/index.html", "/")] + \
                          [("post-%s.html" % q["slug"], "/blog/%s/" % q["slug"]) for q in posts]:
         pages[stale] = redirect_stub(target)
 
