@@ -11,6 +11,7 @@ Run:  python3 build.py
 """
 import os
 import re
+import hashlib as _hashlib
 import html
 
 OUT = os.path.dirname(os.path.abspath(__file__))
@@ -76,7 +77,12 @@ IDENTITY = "A CS PhD student at UNC Chapel Hill, with an M.S. in CS from Georgia
 # The research sentence, split into its three strands so each can be coloured
 # and, once the publications page is grouped by topic, linked. To turn a strand
 # into a link later, just fill in its `href`: the renderer already handles it.
-RESEARCH_LEAD = "I work on long-horizon robot manipulation:"
+# The lead names the research area and links to the Research Focus section,
+# which is where that area is actually laid out. The three strands after the
+# colon keep pointing at the publications filter.
+RESEARCH_LEAD_PRE = "I work on"
+RESEARCH_LEAD_KEY = "robot learning for reliable long-horizon manipulation"
+RESEARCH_LEAD_HREF = "/about/#research-focus"
 RESEARCH_PARTS = [
     ("skills", "learning skills and the way to chain them",
      "/publications/#skills"),
@@ -162,6 +168,15 @@ MONTHS = ["January", "February", "March", "April", "May", "June", "July",
           "August", "September", "October", "November", "December"]
 
 
+# A small Font Awesome mark per kind of news, so the column scans by type.
+# Font Awesome is already loaded for the social row, so this costs nothing.
+NEWS_ICONS = {"paper": "fa-solid fa-file-lines",
+              "talk": "fa-solid fa-microphone-lines",
+              "position": "fa-solid fa-briefcase",
+              "milestone": "fa-solid fa-graduation-cap",
+              "event": "fa-regular fa-calendar-check"}
+
+
 def news_items():
     d = os.path.join(SRC, "src/content/news")
     out = []
@@ -171,7 +186,10 @@ def news_items():
         fm, body = split_frontmatter(open(os.path.join(d, fn), encoding="utf-8").read())
         date = yaml_get(fm, "date")
         y, m = (date.split("-") + ["1"])[:2]
+        kind = yaml_get(fm, "type") or "paper"
         out.append({"sort": date, "when": f"{MONTHS[int(m) - 1]} {y}",
+                    "kind": kind,
+                    "icon": NEWS_ICONS.get(kind, NEWS_ICONS["paper"]),
                     "title": yaml_get(fm, "title"),
                     "body": md_inline(body.replace("\n", " ").strip())})
     return sorted(out, key=lambda n: n["sort"], reverse=True)
@@ -277,6 +295,13 @@ def venue_label(v, year):
 
 # --- markup ----------------------------------------------------------------
 
+# Cache-buster for the stylesheet. python -m http.server and GitHub Pages both
+# let a browser hold on to an old site.css, which silently drops new rules.
+CSS_VERSION = _hashlib.md5(
+    open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                      "assets", "site.css"), "rb").read()).hexdigest()[:8]
+
+
 def nav(current):
     def link(label, href):
         # kept out of the f-string: py3.9 rejects backslashes in f-string exprs
@@ -343,7 +368,7 @@ HEAD = """<!DOCTYPE html>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css">
+    <link rel="stylesheet" href="/assets/site.css?v={cssv}">
 {analytics}{jsonld}</head>
 <body{body_class}>
 """
@@ -506,6 +531,52 @@ FOOT = """    <footer>
         }});
       }});
     }})();
+
+
+    // Research Focus figure. Hovering the pill previews that column's work and
+    // it closes again on the way out; clicking pins it open. The preview is
+    // what tells a first-time reader the pill does anything at all.
+    (function () {{
+      var hoverable = window.matchMedia('(hover: hover)').matches;
+      document.querySelectorAll('.rf-more').forEach(function (btn) {{
+        var box = document.getElementById(btn.getAttribute('data-target'));
+        if (!box) return;
+        var pinned = false, peek = false, timer = null;
+        function sync() {{
+          var open = pinned || peek;
+          box.classList.toggle('is-open', open);
+          btn.classList.toggle('is-open', open);
+          btn.classList.toggle('is-pinned', pinned);
+          btn.setAttribute('aria-expanded', String(open));
+        }}
+        btn.addEventListener('click', function () {{
+          // A click is authoritative. Without resetting the preview too, a
+          // click that unpins leaves peek true - the pointer is still on the
+          // pill - and the column stays open, so it looks stuck.
+          pinned = !pinned;
+          peek = pinned;
+          sync();
+        }});
+        if (!hoverable) return;
+        function enter() {{ clearTimeout(timer); peek = true; sync(); }}
+        function leave() {{
+          clearTimeout(timer);
+          // The connector sits between the pill and the list, so leaving one to
+          // reach the other must not count as leaving.
+          timer = setTimeout(function () {{ peek = false; sync(); }}, 140);
+        }}
+        btn.addEventListener('mouseenter', enter);
+        btn.addEventListener('mouseleave', leave);
+        // The list keeps an open column open, but hovering it never opens one:
+        // otherwise drifting across the lower half of the figure pops columns.
+        box.addEventListener('mouseenter', function () {{
+          if (box.classList.contains('is-open')) enter();
+        }});
+        box.addEventListener('mouseleave', leave);
+        btn.addEventListener('focus', enter);
+        btn.addEventListener('blur', leave);
+      }});
+    }})();
     </script>
 </body>
 </html>
@@ -589,6 +660,7 @@ def page(title, desc, current, body, hero=False, body_class="", slug="", extra_l
     tag = footer_tagline()
     tag_html = ('I believe in ' + tag.split('I believe in ')[-1]) if tag else ''
     return (HEAD.format(title=html.escape(title), desc=html.escape(desc),
+                        cssv=CSS_VERSION,
                         body_class=(' class="%s"' % body_class) if body_class else "",
                         canonical=SITE_URL + "/" + slug, site=SITE_URL,
                         analytics=ANALYTICS_TPL.format(gid=GA_ID) if GA_ID else "",
@@ -666,7 +738,175 @@ def research_html():
         out.append(tag)
         if i < len(RESEARCH_PARTS) - 1:
             out.append(", ")
-    return html.escape(RESEARCH_LEAD) + " " + "".join(out) + "."
+    lead = (f'{html.escape(RESEARCH_LEAD_PRE)} '
+            f'<a class="ra-lead" href="{RESEARCH_LEAD_HREF}">'
+            f'{html.escape(RESEARCH_LEAD_KEY)}</a>:')
+    return lead + " " + "".join(out) + "."
+
+
+# ---------------------------------------------------------------------------
+# The research statement above the figure. Written for two readers at once: the
+# prose carries the argument for peers, the keyword band underneath carries the
+# terms a recruiter or a search scans for, so neither job spoils the other.
+# ---------------------------------------------------------------------------
+RESEARCH_STATEMENT = [
+    "My research focuses on robot learning for reliable long-horizon "
+    "manipulation. I investigate how learned skills can remain robust as task "
+    "contexts change and be composed to accomplish extended tasks. This goal "
+    "connects my work on skill learning, robot data generation, and "
+    "human-robot interaction.",
+
+    "I develop methods for learning and composing reusable skills, collecting "
+    "and synthesizing training data, and enabling people to teach and guide "
+    "robots. These efforts span task-relevant policy learning, intent "
+    "communication, and learning safety constraints from demonstrations. "
+    "Through benchmarks and evaluation systems, I study the capabilities and "
+    "failure modes of learned policies.",
+]
+
+# Five, not ten. Platforms and tools (humanoid, bimanual, vision-tactile,
+# AR/VR) belong to the individual projects, not beside the research areas.
+RESEARCH_KEYWORDS = [
+    "Long-horizon manipulation", "Compositional robot learning",
+    "Multimodal robustness", "Robot data synthesis",
+    "Human-robot interaction",
+]
+
+
+def research_statement_html():
+    """Prose left, keywords right. The prose needs a short measure to stay
+    readable, which leaves the rest of the container empty, and the keywords
+    are exactly the thing that belongs beside it rather than under it."""
+    out = '        <div class="rf-intro">\n            <div class="rf-statement">\n'
+    # Both paragraphs in one voice: the opening one used to be set larger as a
+    # lede, which read as two different pieces of text rather than one statement.
+    for para in RESEARCH_STATEMENT:
+        out += f'                <p>{html.escape(para)}</p>\n'
+    out += ('            </div>\n'
+            '            <aside class="rf-keys">\n'
+            '                <span class="rf-keys-label">Keywords</span>\n'
+            '                <ul>\n')
+    for k in RESEARCH_KEYWORDS:
+        out += f'                    <li>{k}</li>\n'
+    out += ('                </ul>\n'
+            '            </aside>\n'
+            '        </div>\n')
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Research Focus figure. Three research areas side by side and one evaluation
+# band across the bottom. No arrows between the areas: an earlier version drew
+# a closed loop (failures choosing the next data collection, interaction
+# flowing back into training data) that the papers do not demonstrate.
+#   (key, heading, publications tag, scope line,
+#    [(sub-area, [(paper label, url, contribution), ...]), ...])
+# ---------------------------------------------------------------------------
+LILO = "https://yy-gx.github.io/LiLo-VLA/"
+ARCADE = "https://yy-gx.github.io/ARCADE/"
+ARDEMO = "https://arxiv.org/pdf/2403.13910"
+
+RESEARCH_FOCUS = [
+    ("skills", "Learning and Composing Robot Skills", "skills",
+     "Developing reusable manipulation skills and robust policies for "
+     "long-horizon execution.",
+     [("Skill Composition and Long-Horizon Execution",
+       [("LiLo-VLA", LILO,
+         "Object-centric skill composition with failure recovery"),
+        ("FurnitureVLA", "https://dannymcy.github.io/furniturevla/",
+         "Progress-aware VLA policies for long-horizon bimanual assembly")]),
+      ("Multimodal Robustness and Language Grounding",
+       [("EGR", "https://yy-gx.github.io/EGR/",
+         "Evidence-guided regularization for multimodal policy robustness"),
+        ("Counterfactual VLA", "https://vla-cf.github.io/",
+         "Counterfactual evaluation and action guidance for language "
+         "following")])]),
+
+    ("data", "Robot Data Collection and Synthesis", "data",
+     "Scaling robot learning through demonstration interfaces and synthetic "
+     "training data.",
+     [("Demonstration Interfaces",
+       [("ARCADE", ARCADE,
+         "AR-assisted demonstration collection and synthetic expansion"),
+        ("AR Demonstrations", ARDEMO,
+         "Hand-based demonstration collection through augmented reality")]),
+      ("Synthetic Data and Reward Learning",
+       [("ReBot", "https://yuffish.github.io/rebot/",
+         "Real-to-sim-to-real video synthesis for VLA adaptation"),
+        ("DenseReward", "https://dense-reward.github.io/",
+         "Dense reward learning from synthesized failure trajectories")])]),
+
+    ("hri", "Human-Robot Interaction and Safe Learning", "hri",
+     "Supporting robot teaching, intent communication, and learning from "
+     "human safety demonstrations.",
+     [("Intent Alignment and Competency Communication",
+       [("AR Intent",
+         "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10973947",
+         "AR-mediated intention alignment in collaborative tasks"),
+        ("Competency-Aware",
+         "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11154044",
+         "Robot competency communication for collaborative exploration")]),
+      ("Safety Learning from Demonstrations",
+       [("SECURE", "https://dl.acm.org/doi/pdf/10.1145/3610977.3635002",
+         "Learning safety constraints from demonstrations for CBF shielding"),
+        ("Safe IRL via CBF", "https://arxiv.org/pdf/2212.02753",
+         "CBF-informed optimization for safer inverse reinforcement "
+         "learning")])]),
+]
+
+# Cuts across all three areas, so it gets its own band rather than a column.
+RESEARCH_EVAL = (
+    "eval", "Benchmarking and Evaluation", "",
+    "Diagnosing policy failures and developing systematic evaluation for "
+    "robot manipulation.",
+    [("Benchmarks and Evaluation Systems",
+      [("BOSS", "https://boss-benchmark.github.io/",
+        "Benchmarking observation shifts induced by skill chaining"),
+       ("HALTER", "https://yy-gx.github.io/HALTER/",
+        "Scene-graph-based scoring and autonomous reset for long-horizon "
+        "evaluation"),
+       ("WatchAct", "https://baiqi-li.github.io/watchact_page/",
+        "Benchmarking manipulation grounded in human behavior videos")])],
+)
+
+
+def _rf_card(key, heading, tag, scope, groups, index=None):
+    head = f'            <div class="col-head {key}">\n'
+    if index:
+        head += f'                <span class="idx">{index}</span>\n'
+    title = html.escape(heading)
+    if tag:
+        title = f'<a href="/publications/#{tag}">{title}</a>'
+    head += (f'                <h3>{title}</h3>\n'
+             f'                <p class="q">{html.escape(scope)}</p>\n'
+             f'                <button class="rf-more" data-target="rf-{key}"'
+             f' aria-controls="rf-{key}" aria-expanded="false">'
+             '<span class="lbl">Papers</span>'
+             '<span class="chev"></span></button>\n'
+             '            </div>\n'
+             f'            <div class="tick {key}"></div>\n'
+             f'            <div class="rf-body {key}" id="rf-{key}">\n')
+    for title, rows in groups:
+        head += ('                <div class="sub">\n'
+                 f'                    <h4>{html.escape(title)}</h4>\n'
+                 '                    <ul class="items">\n')
+        for label, url, what in rows:
+            head += ('                        <li>'
+                     f'<a href="{html.escape(url)}" target="_blank" '
+                     f'rel="noopener noreferrer">{html.escape(label)}</a>'
+                     f'<span class="what">{html.escape(what)}</span></li>\n')
+        head += ('                    </ul>\n'
+                 '                </div>\n')
+    return head + '            </div>\n'
+
+
+def research_focus_html():
+    out = '        <div class="rf">\n'
+    for i, (key, heading, tag, scope, groups) in enumerate(RESEARCH_FOCUS):
+        out += _rf_card(key, heading, tag, scope, groups, index="0%d" % (i + 1))
+    key, heading, tag, scope, groups = RESEARCH_EVAL
+    out += _rf_card(key, heading, tag, scope, groups)
+    return out + '        </div>\n'
 
 
 def build_404():
@@ -731,10 +971,18 @@ def build_about(news):
             '        <div class="page-head"><h1>About</h1></div>\n')
     for p in about_paragraphs():
         body += f'        <p class="text">{p}</p>\n'
+    # id only, no tabindex: making the target focusable meant a hash jump
+    # drew the global :focus-visible ring around the whole heading block.
+    body += '        <div class="page-head" id="research-focus">'\
+           '<h1>Research Focus</h1></div>\n'
+    body += research_statement_html()
+    body += research_focus_html()
     body += '        <div class="page-head"><h1>News</h1></div>\n'
     for n in news:
-        body += ('        <div class="news-row">\n'
+        body += (f'        <div class="news-row" data-kind="{n["kind"]}">\n'
                  f'            <div class="news-when">{n["when"]}</div>\n'
+                 f'            <div class="news-mark"><i class="{n["icon"]}"'
+                 ' aria-hidden="true"></i></div>\n'
                  f'            <div class="news-body"><b>{html.escape(n["title"])}</b> {n["body"]}</div>\n'
                  '        </div>\n')
     body += '    </div>\n'

@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css">
+    <link rel="stylesheet" href="/assets/site.css?v=2dfb3a31">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -81,42 +81,180 @@
         <p class="text">Hey there! I'm a Computer Science PhD student at <a href="https://www.unc.edu/" target="_blank" rel="noopener noreferrer">The University of North Carolina at Chapel Hill (UNC-CH)</a>, lucky to be co-advised by <a href="https://www.danszafir.com/" target="_blank" rel="noopener noreferrer">Prof. Daniel J. Szafir</a> and <a href="https://www.gedasbertasius.com/" target="_blank" rel="noopener noreferrer">Prof. Gedas Bertasius</a>, and to work closely with <a href="https://dingmyu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Mingyu Ding</a>. Before coming to UNC, I earned my Master's degree in Computer Science at <a href="https://www.gatech.edu/" target="_blank" rel="noopener noreferrer">Georgia Institute of Technology (GaTech)</a>, where I got to work with <a href="https://core-robotics.gatech.edu/people/matthew-gombolay/" target="_blank" rel="noopener noreferrer">Prof. Matthew Gombolay</a> and had the chance to collaborate with <a href="https://faculty.cc.gatech.edu/~turk/" target="_blank" rel="noopener noreferrer">Prof. Greg Turk</a>.</p>
         <p class="text">I have also spent time in industry research. At Meta Reality Labs Research I worked with my manager Chuan Qin, alongside Yuan Tian, Ziyi Kou, Eric Whitmire, and Li Guan. Earlier in 2026, I was at Mitsubishi Electric Research Laboratories (MERL), where Diego Romeres was my manager and I worked closely with Siddarth Jain, Chiori Hori, and Toshiaki Koike-Akino.</p>
         <p class="text">I've been super fortunate to learn from and work with these amazing folks. Excited for what comes next on this journey!</p>
+        <div class="page-head" id="research-focus"><h1>Research Focus</h1></div>
+        <div class="rf-intro">
+            <div class="rf-statement">
+                <p>My research focuses on robot learning for reliable long-horizon manipulation. I investigate how learned skills can remain robust as task contexts change and be composed to accomplish extended tasks. This goal connects my work on skill learning, robot data generation, and human-robot interaction.</p>
+                <p>I develop methods for learning and composing reusable skills, collecting and synthesizing training data, and enabling people to teach and guide robots. These efforts span task-relevant policy learning, intent communication, and learning safety constraints from demonstrations. Through benchmarks and evaluation systems, I study the capabilities and failure modes of learned policies.</p>
+            </div>
+            <aside class="rf-keys">
+                <span class="rf-keys-label">Keywords</span>
+                <ul>
+                    <li>Long-horizon manipulation</li>
+                    <li>Compositional robot learning</li>
+                    <li>Multimodal robustness</li>
+                    <li>Robot data synthesis</li>
+                    <li>Human-robot interaction</li>
+                </ul>
+            </aside>
+        </div>
+        <div class="rf">
+            <div class="col-head skills">
+                <span class="idx">01</span>
+                <h3><a href="/publications/#skills">Learning and Composing Robot Skills</a></h3>
+                <p class="q">Developing reusable manipulation skills and robust policies for long-horizon execution.</p>
+                <button class="rf-more" data-target="rf-skills" aria-controls="rf-skills" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
+            </div>
+            <div class="tick skills"></div>
+            <div class="rf-body skills" id="rf-skills">
+                <div class="sub">
+                    <h4>Skill Composition and Long-Horizon Execution</h4>
+                    <ul class="items">
+                        <li><a href="https://yy-gx.github.io/LiLo-VLA/" target="_blank" rel="noopener noreferrer">LiLo-VLA</a><span class="what">Object-centric skill composition with failure recovery</span></li>
+                        <li><a href="https://dannymcy.github.io/furniturevla/" target="_blank" rel="noopener noreferrer">FurnitureVLA</a><span class="what">Progress-aware VLA policies for long-horizon bimanual assembly</span></li>
+                    </ul>
+                </div>
+                <div class="sub">
+                    <h4>Multimodal Robustness and Language Grounding</h4>
+                    <ul class="items">
+                        <li><a href="https://yy-gx.github.io/EGR/" target="_blank" rel="noopener noreferrer">EGR</a><span class="what">Evidence-guided regularization for multimodal policy robustness</span></li>
+                        <li><a href="https://vla-cf.github.io/" target="_blank" rel="noopener noreferrer">Counterfactual VLA</a><span class="what">Counterfactual evaluation and action guidance for language following</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-head data">
+                <span class="idx">02</span>
+                <h3><a href="/publications/#data">Robot Data Collection and Synthesis</a></h3>
+                <p class="q">Scaling robot learning through demonstration interfaces and synthetic training data.</p>
+                <button class="rf-more" data-target="rf-data" aria-controls="rf-data" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
+            </div>
+            <div class="tick data"></div>
+            <div class="rf-body data" id="rf-data">
+                <div class="sub">
+                    <h4>Demonstration Interfaces</h4>
+                    <ul class="items">
+                        <li><a href="https://yy-gx.github.io/ARCADE/" target="_blank" rel="noopener noreferrer">ARCADE</a><span class="what">AR-assisted demonstration collection and synthetic expansion</span></li>
+                        <li><a href="https://arxiv.org/pdf/2403.13910" target="_blank" rel="noopener noreferrer">AR Demonstrations</a><span class="what">Hand-based demonstration collection through augmented reality</span></li>
+                    </ul>
+                </div>
+                <div class="sub">
+                    <h4>Synthetic Data and Reward Learning</h4>
+                    <ul class="items">
+                        <li><a href="https://yuffish.github.io/rebot/" target="_blank" rel="noopener noreferrer">ReBot</a><span class="what">Real-to-sim-to-real video synthesis for VLA adaptation</span></li>
+                        <li><a href="https://dense-reward.github.io/" target="_blank" rel="noopener noreferrer">DenseReward</a><span class="what">Dense reward learning from synthesized failure trajectories</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-head hri">
+                <span class="idx">03</span>
+                <h3><a href="/publications/#hri">Human-Robot Interaction and Safe Learning</a></h3>
+                <p class="q">Supporting robot teaching, intent communication, and learning from human safety demonstrations.</p>
+                <button class="rf-more" data-target="rf-hri" aria-controls="rf-hri" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
+            </div>
+            <div class="tick hri"></div>
+            <div class="rf-body hri" id="rf-hri">
+                <div class="sub">
+                    <h4>Intent Alignment and Competency Communication</h4>
+                    <ul class="items">
+                        <li><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=10973947" target="_blank" rel="noopener noreferrer">AR Intent</a><span class="what">AR-mediated intention alignment in collaborative tasks</span></li>
+                        <li><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=11154044" target="_blank" rel="noopener noreferrer">Competency-Aware</a><span class="what">Robot competency communication for collaborative exploration</span></li>
+                    </ul>
+                </div>
+                <div class="sub">
+                    <h4>Safety Learning from Demonstrations</h4>
+                    <ul class="items">
+                        <li><a href="https://dl.acm.org/doi/pdf/10.1145/3610977.3635002" target="_blank" rel="noopener noreferrer">SECURE</a><span class="what">Learning safety constraints from demonstrations for CBF shielding</span></li>
+                        <li><a href="https://arxiv.org/pdf/2212.02753" target="_blank" rel="noopener noreferrer">Safe IRL via CBF</a><span class="what">CBF-informed optimization for safer inverse reinforcement learning</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-head eval">
+                <h3>Benchmarking and Evaluation</h3>
+                <p class="q">Diagnosing policy failures and developing systematic evaluation for robot manipulation.</p>
+                <button class="rf-more" data-target="rf-eval" aria-controls="rf-eval" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
+            </div>
+            <div class="tick eval"></div>
+            <div class="rf-body eval" id="rf-eval">
+                <div class="sub">
+                    <h4>Benchmarks and Evaluation Systems</h4>
+                    <ul class="items">
+                        <li><a href="https://boss-benchmark.github.io/" target="_blank" rel="noopener noreferrer">BOSS</a><span class="what">Benchmarking observation shifts induced by skill chaining</span></li>
+                        <li><a href="https://yy-gx.github.io/HALTER/" target="_blank" rel="noopener noreferrer">HALTER</a><span class="what">Scene-graph-based scoring and autonomous reset for long-horizon evaluation</span></li>
+                        <li><a href="https://baiqi-li.github.io/watchact_page/" target="_blank" rel="noopener noreferrer">WatchAct</a><span class="what">Benchmarking manipulation grounded in human behavior videos</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="page-head"><h1>News</h1></div>
-        <div class="news-row">
+        <div class="news-row" data-kind="paper">
             <div class="news-when">September 2026</div>
+            <div class="news-mark"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
             <div class="news-body"><b>Paper accepted at CoRL 2026</b> Our paper "When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs" has been accepted at the Conference on Robot Learning (CoRL 2026).</div>
         </div>
-        <div class="news-row">
+        <div class="news-row" data-kind="position">
             <div class="news-when">May 2026</div>
+            <div class="news-mark"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></div>
             <div class="news-body"><b>Internship at Meta Reality Labs Research</b> I started my internship as a Research Scientist Intern at Meta Reality Labs Research.</div>
         </div>
-        <div class="news-row">
+        <div class="news-row" data-kind="position">
             <div class="news-when">January 2026</div>
+            <div class="news-mark"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></div>
             <div class="news-body"><b>Internship at MERL</b> I started my internship as a Research Scientist Intern at Mitsubishi Electric Research Laboratories (MERL) at Boston :0</div>
         </div>
-        <div class="news-row">
+        <div class="news-row" data-kind="paper">
             <div class="news-when">September 2025</div>
+            <div class="news-mark"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
             <div class="news-body"><b>Paper accepted at T-FR</b> Our paper "Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station" accepted at IEEE Transactions on Field Robotics (T-FR).</div>
         </div>
-        <div class="news-row">
+        <div class="news-row" data-kind="paper">
             <div class="news-when">June 2025</div>
+            <div class="news-mark"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
             <div class="news-body"><b>Paper accepted at IROS 2025</b> Our paper "Rebot: Scaling Robot Learning with Real-to-Sim-to-Real Robotic Video Synthesis" has been accepted at IEEE/RSJ IROS 2025.</div>
         </div>
-        <div class="news-row">
+        <div class="news-row" data-kind="paper">
             <div class="news-when">June 2025</div>
+            <div class="news-mark"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
             <div class="news-body"><b>Paper accepted at RA-L</b> Our paper "BOSS: Benchmark for Observation Space Shift in Long-Horizon Task" has been accepted at IEEE Robotics and Automation Letters.</div>
         </div>
-        <div class="news-row">
+        <div class="news-row" data-kind="paper">
             <div class="news-when">January 2025</div>
+            <div class="news-mark"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
             <div class="news-body"><b>Paper accepted at HRI 2025</b> Our paper "Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality" accepted at ACM/IEEE HRI 2025.</div>
         </div>
-        <div class="news-row">
+        <div class="news-row" data-kind="talk">
             <div class="news-when">October 2024</div>
+            <div class="news-mark"><i class="fa-solid fa-microphone-lines" aria-hidden="true"></i></div>
             <div class="news-body"><b>Presented at IROS 2024</b> Presented our work on safe learning from demonstrations at IROS 2024 in Abu Dhabi.</div>
         </div>
-        <div class="news-row">
-            <div class="news-when">January 2024</div>
-            <div class="news-body"><b>Paper accepted at HRI 2024</b> Our paper on augmented reality for robot learning from demonstration has been accepted at ACM/IEEE HRI 2024.</div>
+        <div class="news-row" data-kind="paper">
+            <div class="news-when">June 2024</div>
+            <div class="news-mark"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
+            <div class="news-body"><b>Paper accepted at IROS 2024</b> Our paper "ARCADE: Scalable Demonstration Collection and Generation via Augmented Reality for Imitation Learning" has been accepted at IEEE/RSJ IROS 2024.</div>
+        </div>
+        <div class="news-row" data-kind="event">
+            <div class="news-when">May 2024</div>
+            <div class="news-mark"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i></div>
+            <div class="news-body"><b>Attended Upper Bound 2024</b> Attended <a href="https://upperbound.ai/" target="_blank" rel="noopener noreferrer">Upper Bound</a>, Amii's annual AI conference, in Edmonton, Alberta.</div>
+        </div>
+        <div class="news-row" data-kind="talk">
+            <div class="news-when">March 2024</div>
+            <div class="news-mark"><i class="fa-solid fa-microphone-lines" aria-hidden="true"></i></div>
+            <div class="news-body"><b>Attended HRI 2024</b> Attended ACM/IEEE HRI 2024 in Boulder, Colorado. Our SECURE paper was presented by my labmate, and I presented the workshop version of ARCADE at <a href="https://vam-hri.github.io/" target="_blank" rel="noopener noreferrer">VAM-HRI</a>.</div>
+        </div>
+        <div class="news-row" data-kind="paper">
+            <div class="news-when">December 2023</div>
+            <div class="news-mark"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
+            <div class="news-body"><b>Paper accepted at HRI 2024</b> Our paper "Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding" has been accepted at ACM/IEEE HRI 2024.</div>
+        </div>
+        <div class="news-row" data-kind="milestone">
+            <div class="news-when">August 2023</div>
+            <div class="news-mark"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></div>
+            <div class="news-body"><b>Started my PhD at UNC Chapel Hill</b> Joined the Department of Computer Science at <a href="https://www.unc.edu/" target="_blank" rel="noopener noreferrer">UNC Chapel Hill</a> as a CS PhD student, co-advised by <a href="https://www.danszafir.com/" target="_blank" rel="noopener noreferrer">Prof. Daniel J. Szafir</a> and <a href="https://www.gedasbertasius.com/" target="_blank" rel="noopener noreferrer">Prof. Gedas Bertasius</a>.</div>
+        </div>
+        <div class="news-row" data-kind="milestone">
+            <div class="news-when">May 2023</div>
+            <div class="news-mark"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></div>
+            <div class="news-body"><b>Graduated from Georgia Tech</b> Received my M.S. in Computer Science from the <a href="https://www.gatech.edu/" target="_blank" rel="noopener noreferrer">Georgia Institute of Technology</a>.</div>
         </div>
     </div>
     </div>
@@ -276,6 +414,52 @@
           pre.hidden = true;
           btn.setAttribute('aria-expanded', 'false');
         });
+      });
+    })();
+
+
+    // Research Focus figure. Hovering the pill previews that column's work and
+    // it closes again on the way out; clicking pins it open. The preview is
+    // what tells a first-time reader the pill does anything at all.
+    (function () {
+      var hoverable = window.matchMedia('(hover: hover)').matches;
+      document.querySelectorAll('.rf-more').forEach(function (btn) {
+        var box = document.getElementById(btn.getAttribute('data-target'));
+        if (!box) return;
+        var pinned = false, peek = false, timer = null;
+        function sync() {
+          var open = pinned || peek;
+          box.classList.toggle('is-open', open);
+          btn.classList.toggle('is-open', open);
+          btn.classList.toggle('is-pinned', pinned);
+          btn.setAttribute('aria-expanded', String(open));
+        }
+        btn.addEventListener('click', function () {
+          // A click is authoritative. Without resetting the preview too, a
+          // click that unpins leaves peek true - the pointer is still on the
+          // pill - and the column stays open, so it looks stuck.
+          pinned = !pinned;
+          peek = pinned;
+          sync();
+        });
+        if (!hoverable) return;
+        function enter() { clearTimeout(timer); peek = true; sync(); }
+        function leave() {
+          clearTimeout(timer);
+          // The connector sits between the pill and the list, so leaving one to
+          // reach the other must not count as leaving.
+          timer = setTimeout(function () { peek = false; sync(); }, 140);
+        }
+        btn.addEventListener('mouseenter', enter);
+        btn.addEventListener('mouseleave', leave);
+        // The list keeps an open column open, but hovering it never opens one:
+        // otherwise drifting across the lower half of the figure pops columns.
+        box.addEventListener('mouseenter', function () {
+          if (box.classList.contains('is-open')) enter();
+        });
+        box.addEventListener('mouseleave', leave);
+        btn.addEventListener('focus', enter);
+        btn.addEventListener('blur', leave);
       });
     })();
     </script>

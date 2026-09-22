@@ -308,6 +308,29 @@ div.home-container .home-intro .home-research { color: var(--ink-soft); }
   --ra-hri-on:    #284135;
 }
 
+/* The lead phrase names the research area and goes to the Research Focus
+   section. Weight and ink rather than a fourth colour: it has to read as the
+   sentence's subject, above the three coloured strands, not beside them. */
+div.home-container .home-intro .ra-lead {
+  font-size: inherit;                /* Clarity sets an absolute size on a */
+  /* Clarity's body weight is 300, so 600 read as a headline dropped into a
+     sentence. One step to 400 plus the darker ink is enough to lift it above
+     the three strands without shouting. */
+  font-weight: 400;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, var(--ink) 28%, transparent);
+  transition: text-decoration-color 0.18s var(--ease),
+              text-decoration-thickness 0.18s var(--ease);
+}
+div.home-container .home-intro .ra-lead:hover,
+div.home-container .home-intro .ra-lead:focus-visible {
+  text-decoration-thickness: 2px;
+  text-decoration-color: currentColor;
+}
+
 div.home-container .home-intro .ra {
   text-decoration: none;
 }
@@ -697,10 +720,27 @@ div.home-container .home-profile img {
 
 @media screen and (min-width: 769px) {
   .news-row {
-    grid-template-columns: 150px 1fr;
-    column-gap: 2.2vw;
+    grid-template-columns: 150px 20px 1fr;
+    column-gap: 1.4vw;
     row-gap: 0;
   }
+}
+
+/* The type mark. One muted colour for all of them - the icon carries the
+   distinction, and the figure above already spends the page's colour. */
+.news-row .news-mark {
+  font-size: 12.5px;
+  line-height: 1;
+  color: var(--ink-muted);
+  padding-top: 0.42em;
+}
+
+@media screen and (max-width: 768px) {
+  /* Single column: the mark rides with the date instead of owning a row. */
+  .news-row { grid-template-columns: auto 1fr; column-gap: 0.55em; }
+  .news-row .news-when { grid-column: 2; }
+  .news-row .news-mark { grid-row: 1; grid-column: 1; padding-top: 0.3em; }
+  .news-row .news-body { grid-column: 1 / -1; }
 }
 
 .news-row .news-when {
@@ -890,5 +930,321 @@ body.home footer { margin-top: 0; border-top: 0; }
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+  }
+}
+
+/* ---- the research statement and its keyword sidebar -------------------
+   Prose keeps a short measure or it reads as a wall; that leaves the right of
+   the container empty, so the keywords sit there instead of underneath. */
+.rf-intro {
+  display: grid;
+  /* Spans the container, so its outer edges line up with the figure below.
+     The prose keeps its own measure inside a wide track, and the slack falls
+     into the gutter rather than stretching the lines. */
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 260px);
+  column-gap: 3vw;
+  align-items: start;
+  margin-top: 0.2em;
+}
+
+/* No cap: the prose fills its track so the block's outer edges match the
+   figure below. The container bounds it at ~800px on the widest windows. */
+.rf-statement { font-size: 15px; }
+
+.rf-statement p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  margin: 0 0 1.05em;
+}
+
+.rf-statement p:last-of-type { margin-bottom: 0; }
+
+/* Bold marks the four claims a skimmer should come away with. */
+.rf-statement b { color: var(--ink); font-weight: 600; }
+
+/* The named systems link to their project pages. Underline only on hover, so
+   three links in one paragraph do not shred it. */
+.rf-statement a {
+  font-size: inherit;                /* Clarity sets an absolute size on a */
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  transition: border-color 0.2s ease;
+}
+.rf-statement a:hover { border-bottom-color: var(--ink); }
+
+/* Deliberately not the publications tag chips: those are outlined,
+   full-radius and clickable, and these are none of the three. */
+.rf-keys {
+  padding-left: 1.1em;
+  border-left: 2px solid var(--rule);
+  padding-top: 0.5em;
+}
+
+.rf-keys-label {
+  display: block;
+  font: 600 10px "Poppins", sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 0.9em;
+}
+
+.rf-keys ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+}
+
+.rf-keys li {
+  font-family: "Poppins", sans-serif;
+  font-size: 11.5px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--ink) 6%, #fff);
+  border-radius: 2px;
+  padding: 0.42em 0.62em;
+}
+
+@media screen and (max-width: 1000px) {
+  .rf-intro { grid-template-columns: 1fr; row-gap: 1.8em; }
+  .rf-keys { border-left: 0; border-top: 2px solid var(--rule); padding: 1em 0 0; }
+}
+
+/* =====================================================================
+   Research Focus figure (About page)
+   Three research areas side by side, then one evaluation band across the
+   bottom. No arrows between the areas: an earlier version drew a closed
+   loop the papers do not demonstrate.
+   ===================================================================== */
+.rf {
+  display: grid;
+  /* minmax(0,...) not 1fr: a 1fr track can be widened by its own content,
+     so one long line in one column would resize all three. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 2.2vw;
+  align-items: start;
+  margin-top: 3.2em;
+}
+
+/* Flat children placed by hand, so the three heads share row 1 and end at the
+   same baseline however differently their text wraps. */
+.rf > .col-head { grid-row: 1; align-self: stretch; }
+.rf > .tick { grid-row: 2; }
+.rf > .rf-body { grid-row: 3; }
+.rf > .skills { grid-column: 1; }
+.rf > .data { grid-column: 2; }
+.rf > .hri { grid-column: 3; }
+
+.rf .skills { --c: #a13b1f; }
+.rf .data { --c: #783f8e; }
+.rf .hri { --c: #3d6451; }
+/* The band is deliberately neutral: it cuts across the three areas rather
+   than standing beside them as a fourth. */
+.rf .eval { --c: #4a5f7a; }
+
+.rf > .eval { grid-column: 1 / -1; }
+.rf > .col-head.eval { grid-row: 4; margin-top: 1.5em; }
+.rf > .tick.eval { grid-row: 5; }
+.rf > .rf-body.eval { grid-row: 6; }
+
+/* ---- a card head: heavy rule on top in the area's colour, hairline
+   elsewhere, faint tint of the same colour behind. Flat, like the rest of
+   the template, no shadows. ---- */
+.rf .col-head {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--c) 26%, #fff);
+  border-top: 4px solid var(--c);
+  background: color-mix(in srgb, var(--c) 4%, #fff);
+  padding: 1.1em 1.15em 2em;
+  text-align: center;
+}
+
+/* The band runs the full width, so it does not need a column's height to hold
+   two lines of text. */
+.rf .col-head.eval { padding: 0.9em 1.15em 1.6em; }
+.rf .col-head.eval h3 { margin-bottom: 0.3em; }
+
+.rf .col-head .idx {
+  display: block;
+  font: 600 10px "Poppins", sans-serif;
+  letter-spacing: 0.16em;
+  color: color-mix(in srgb, var(--c) 55%, #fff);
+  margin-bottom: 0.5em;
+}
+
+.rf .col-head h3 {
+  font: 700 14.5px/1.35 "Poppins", sans-serif;
+  color: var(--c);
+  margin: 0 0 0.5em;
+  /* Clarity puts padding: 1.5vh 0 on every h3, which on a tall window opened a
+     50px gap inside the box and moved with the viewport height. */
+  padding: 0;
+  letter-spacing: -0.005em;
+}
+
+.rf .col-head h3 a {
+  font: inherit;                     /* Clarity sets an absolute size on a */
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.rf .col-head h3 a:hover { border-bottom-color: currentColor; }
+
+.rf .col-head .q {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ---- the control: a pill straddling the head's bottom edge ---- */
+.rf .rf-more {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  /* Clarity styles bare <button>, and its margin-bottom: 10px was lifting
+     this off the border it is supposed to straddle. */
+  margin: 0;
+  padding: 0.5em 0.85em;
+  font: 600 10.5px/1 "Poppins", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--c);
+  border: 1px solid var(--c);
+  border-radius: var(--radius-full, 999px);
+  background: #fff;
+  cursor: pointer;
+  outline: 0;
+  box-shadow: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  z-index: 1;
+}
+.rf .rf-more .chev {
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.28s ease;
+}
+.rf .rf-more.is-open .chev { transform: translateY(1px) rotate(-135deg); }
+.rf .rf-more:hover,
+.rf .rf-more.is-pinned { background: var(--c); color: #fff; }
+.rf .rf-more:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 25%, transparent);
+}
+
+/* down connector from the head into the stack of sub-areas */
+.rf .tick { height: 26px; position: relative; }
+.rf .tick::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid color-mix(in srgb, var(--c) 45%, #fff);
+}
+.rf .tick::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  width: 6px;
+  height: 6px;
+  border-left: 1px solid color-mix(in srgb, var(--c) 45%, #fff);
+  border-bottom: 1px solid color-mix(in srgb, var(--c) 45%, #fff);
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+/* ---- a sub-area: its name, then the work ---- */
+.rf .sub {
+  border: 1px solid color-mix(in srgb, var(--c) 22%, #fff);
+  margin-bottom: 12px;
+}
+.rf .sub:last-child { margin-bottom: 0; }
+
+.rf .sub > h4 {
+  font: 700 12.5px/1.35 "Poppins", sans-serif;
+  color: var(--ink);
+  margin: 0;
+  padding: 0.7em 0.85em;
+  background: color-mix(in srgb, var(--c) 5%, #fff);
+}
+
+/* Collapsed by default; the pill opens it. max-height rather than a 0fr/1fr
+   grid row, which Safari only learned recently. */
+.rf .sub .items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.34s ease;
+}
+.rf .rf-body.is-open .sub .items {
+  max-height: 340px;
+  border-top: 1px solid color-mix(in srgb, var(--c) 22%, #fff);
+}
+.rf .sub .items > li {
+  padding: 0.55em 0.85em;
+  font-size: 12px;
+  line-height: 1.5;
+  border-bottom: 1px solid color-mix(in srgb, var(--c) 12%, #fff);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.26s ease, transform 0.26s ease;
+}
+.rf .rf-body.is-open .sub .items > li { opacity: 1; transform: none; }
+/* stagger, so the rows arrive rather than appear */
+.rf .rf-body.is-open .sub .items > li:nth-child(2) { transition-delay: 0.06s; }
+.rf .rf-body.is-open .sub .items > li:nth-child(3) { transition-delay: 0.12s; }
+.rf .sub .items > li:last-child { border-bottom: 0; }
+
+.rf .sub .items a {
+  display: block;
+  font-size: inherit;                /* Clarity sets an absolute size on a */
+  font-weight: 600;
+  color: var(--c);
+  text-decoration: none;
+}
+.rf .sub .items a:hover { text-decoration: underline; }
+.rf .sub .items .what {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+/* The band is full width, so its three systems sit side by side. */
+.rf .rf-body.eval .sub .items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.rf .rf-body.eval .sub .items > li { border-bottom: 0; }
+.rf .rf-body.eval .sub .items > li + li {
+  border-left: 1px solid color-mix(in srgb, var(--c) 12%, #fff);
+}
+
+@media screen and (max-width: 1000px) {
+  .rf { grid-template-columns: 1fr; }
+  .rf > * { grid-row: auto; grid-column: auto; }
+  .rf > .col-head { margin-top: 2.4em; }
+  .rf > .col-head:first-child { margin-top: 0; }
+  .rf .rf-body.eval .sub .items { grid-template-columns: 1fr; }
+  .rf .rf-body.eval .sub .items > li + li {
+    border-left: 0;
+    border-top: 1px solid color-mix(in srgb, var(--c) 12%, #fff);
   }
 }

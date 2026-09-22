@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css">
+    <link rel="stylesheet" href="/assets/site.css?v=2dfb3a31">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -701,6 +701,52 @@
           pre.hidden = true;
           btn.setAttribute('aria-expanded', 'false');
         });
+      });
+    })();
+
+
+    // Research Focus figure. Hovering the pill previews that column's work and
+    // it closes again on the way out; clicking pins it open. The preview is
+    // what tells a first-time reader the pill does anything at all.
+    (function () {
+      var hoverable = window.matchMedia('(hover: hover)').matches;
+      document.querySelectorAll('.rf-more').forEach(function (btn) {
+        var box = document.getElementById(btn.getAttribute('data-target'));
+        if (!box) return;
+        var pinned = false, peek = false, timer = null;
+        function sync() {
+          var open = pinned || peek;
+          box.classList.toggle('is-open', open);
+          btn.classList.toggle('is-open', open);
+          btn.classList.toggle('is-pinned', pinned);
+          btn.setAttribute('aria-expanded', String(open));
+        }
+        btn.addEventListener('click', function () {
+          // A click is authoritative. Without resetting the preview too, a
+          // click that unpins leaves peek true - the pointer is still on the
+          // pill - and the column stays open, so it looks stuck.
+          pinned = !pinned;
+          peek = pinned;
+          sync();
+        });
+        if (!hoverable) return;
+        function enter() { clearTimeout(timer); peek = true; sync(); }
+        function leave() {
+          clearTimeout(timer);
+          // The connector sits between the pill and the list, so leaving one to
+          // reach the other must not count as leaving.
+          timer = setTimeout(function () { peek = false; sync(); }, 140);
+        }
+        btn.addEventListener('mouseenter', enter);
+        btn.addEventListener('mouseleave', leave);
+        // The list keeps an open column open, but hovering it never opens one:
+        // otherwise drifting across the lower half of the figure pops columns.
+        box.addEventListener('mouseenter', function () {
+          if (box.classList.contains('is-open')) enter();
+        });
+        box.addEventListener('mouseleave', leave);
+        btn.addEventListener('focus', enter);
+        btn.addEventListener('blur', leave);
       });
     })();
     </script>
