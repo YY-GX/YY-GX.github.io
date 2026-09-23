@@ -471,20 +471,21 @@ div.home-container .home-profile img {
 
 @media screen and (min-width: 769px) {
   div.home-container {
-    /* The 50/50 split is unchanged: taking width from the photo makes it
-       shorter too, since its height follows its width, and the text still
-       overhangs. The extra width comes out of the gap instead, which widens
-       both columns. */
-    grid-template-columns: 1fr 1fr;
-    column-gap: 3vw;
+    /* The portrait column is pinned rather than a fraction. With 1fr 1fr every
+       change to the gap resized the portrait too, so widening the text either
+       shrank the portrait or crowded it. 30vw reproduces the width the 1fr 1fr
+       and 10vw pairing gave it, capped so it stops growing on wide screens,
+       and the text takes whatever is left. */
+    grid-template-columns: minmax(0, 1fr) min(30vw, 480px);
+    column-gap: 5vw;
     row-gap: 0;
   }
 }
 
 @media screen and (min-width: 992px) {
-  /* Was 10vw, which on a 1440 screen spent 144px on empty space between the
-     two columns and pushed the text into more lines than the photo is tall. */
-  div.home-container { column-gap: 3vw; }
+  /* Was 10vw, which on a 1440 screen spent 144px between the columns and
+     pushed the text into more lines than the portrait is tall. */
+  div.home-container { column-gap: 5vw; }
 }
 
 /* --- topic tags ---------------------------------------------------------- */

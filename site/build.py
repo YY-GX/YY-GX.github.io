@@ -92,7 +92,7 @@ RESEARCH_LEAD_HREF = "/about/#research-focus"
 
 # One line, at the bottom of the intro, well after the research.
 HOME_ASIDE = ("Off the clock I photograph birds, who pull off long-horizon "
-              "tasks with no training data at all :) the results are in "
+              "tasks with no training data at all :) The results are in "
               "[my flock](%s)." % FLOCK_URL)
 RESEARCH_PARTS = [
     ("skills", "learning skills and the way to chain them",
