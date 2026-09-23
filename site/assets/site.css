@@ -273,7 +273,7 @@ div.home-container .home-intro h1.title {
 }
 
 div.home-container .home-intro p {
-  padding: 0 0 0.9em;
+  padding: 0 0 0.75em;
   line-height: 1.6;
   max-width: 34em;
 }
@@ -311,13 +311,12 @@ div.home-container .home-intro .home-research { color: var(--ink-soft); }
 /* The lead phrase names the research area and goes to the Research Focus
    section. Weight and ink rather than a fourth colour: it has to read as the
    sentence's subject, above the three coloured strands, not beside them. */
+/* No weight or colour change: the underline already says it is a link, and the
+   three strands now differ from it by face rather than by colour. */
 div.home-container .home-intro .ra-lead {
   font-size: inherit;                /* Clarity sets an absolute size on a */
-  /* Clarity's body weight is 300, so 600 read as a headline dropped into a
-     sentence. One step to 400 plus the darker ink is enough to lift it above
-     the three strands without shouting. */
-  font-weight: 400;
-  color: var(--ink);
+  font-weight: inherit;
+  color: inherit;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
@@ -331,7 +330,16 @@ div.home-container .home-intro .ra-lead:focus-visible {
   text-decoration-color: currentColor;
 }
 
+/* Charter italic. The lead is bold sans and the strands were regular sans, so
+   the only difference between them was colour, which is not enough. A serif
+   italic reads as an enumeration set into the sentence and separates cleanly
+   from the lead without adding more weight. */
 div.home-container .home-intro .ra {
+  font-family: "Charter", Georgia, serif;
+  font-style: italic;
+  /* Charter's x-height is smaller than Poppins at the same size. */
+  font-size: 1.05em;
+  letter-spacing: 0.005em;
   text-decoration: none;
 }
 
@@ -398,7 +406,63 @@ div.home-container .home-intro .home-previously .sep {
   opacity: 0.55;
 }
 
-div.home-container .home-intro > div { padding-top: 0.6em; }
+/* The one personal line. It sat in the same grey at the same size as the
+   industry line above it and read as more of the same, so it gets a white card
+   on the tinted hero and a small mark of its own. */
+div.home-container .home-intro .home-aside {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+  margin-top: 1.25em;
+  padding: 0.8em 1.05em;
+  /* Glass, not paper. Solid white on the #e0e4e6 hero pulled the eye straight
+     to the hobby; half-opacity white lifts the card just enough to separate it
+     from the industry line without competing with the research above. */
+  /* The panel is a blurred pseudo-element rather than a bordered box, so its
+     edge dissolves into the hero instead of being drawn on it. */
+  position: relative;
+  z-index: 0;
+  background: none;
+  border: 0;
+  font-size: 0.82em;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+div.home-container .home-intro .home-aside::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  filter: blur(7px);
+  z-index: -1;
+}
+
+div.home-container .home-intro .home-aside i {
+  flex: 0 0 auto;
+  font-size: 0.95em;
+  color: var(--ra-hri);
+  transform: translateY(1px);
+}
+
+div.home-container .home-intro .home-aside a {
+  font-size: inherit;                /* Clarity sets an absolute size on a */
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent);
+  transition: text-decoration-color 0.18s var(--ease),
+              text-decoration-thickness 0.18s var(--ease);
+}
+div.home-container .home-intro .home-aside a:hover,
+div.home-container .home-intro .home-aside a:focus-visible {
+  text-decoration-thickness: 2px;
+  text-decoration-color: currentColor;
+}
+
+div.home-container .home-intro > div { padding-top: 0.45em; }
 
 div.home-container .home-profile img {
   width: 100%;
@@ -407,14 +471,20 @@ div.home-container .home-profile img {
 
 @media screen and (min-width: 769px) {
   div.home-container {
+    /* The 50/50 split is unchanged: taking width from the photo makes it
+       shorter too, since its height follows its width, and the text still
+       overhangs. The extra width comes out of the gap instead, which widens
+       both columns. */
     grid-template-columns: 1fr 1fr;
-    column-gap: 5vw;
+    column-gap: 3vw;
     row-gap: 0;
   }
 }
 
 @media screen and (min-width: 992px) {
-  div.home-container { column-gap: 10vw; }
+  /* Was 10vw, which on a 1440 screen spent 144px on empty space between the
+     two columns and pushed the text into more lines than the photo is tall. */
+  div.home-container { column-gap: 3vw; }
 }
 
 /* --- topic tags ---------------------------------------------------------- */

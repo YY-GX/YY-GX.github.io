@@ -72,7 +72,8 @@ NAME_ZH = "杨越"
 # a Chinese name is surname first, so the respelling then looks reversed.
 # Naming it as a pronunciation points it back at "Yue Yang" instead.
 NAME_PHONETIC = "yweh yahng"
-IDENTITY = "A CS PhD student at UNC Chapel Hill, with an M.S. in CS from Georgia Tech."
+IDENTITY = ("A Computer Science PhD student at UNC Chapel Hill, "
+            "with an M.S. in CS from Georgia Tech.")
 
 # The research sentence, split into its three strands so each can be coloured
 # and, once the publications page is grouped by topic, linked. To turn a strand
@@ -82,7 +83,17 @@ IDENTITY = "A CS PhD student at UNC Chapel Hill, with an M.S. in CS from Georgia
 # colon keep pointing at the publications filter.
 RESEARCH_LEAD_PRE = "I work on"
 RESEARCH_LEAD_KEY = "robot learning for reliable long-horizon manipulation"
+# Flock is a separate GitHub Pages project sitting on the same domain, so
+# the absolute URL works from the local server as well as from the live
+# site. It opens in its own tab: it is a different site.
+FLOCK_URL = "https://yy-gx.github.io/flock/"
+
 RESEARCH_LEAD_HREF = "/about/#research-focus"
+
+# One line, at the bottom of the intro, well after the research.
+HOME_ASIDE = ("Off the clock I photograph birds, who pull off long-horizon "
+              "tasks with no training data at all :) the results are in "
+              "[my flock](%s)." % FLOCK_URL)
 RESEARCH_PARTS = [
     ("skills", "learning skills and the way to chain them",
      "/publications/#skills"),
@@ -100,7 +111,7 @@ TOPICS = [("skills", "Skill learning &amp; chaining"),
           ("hri", "Human-robot interaction"),
           ("earlier", "Earlier work")]
 # Reverse chronological: Meta (Jun-Aug 2026) then MERL (Jan-Apr 2026).
-PREVIOUSLY = ["Meta Reality Labs Research",
+PREVIOUSLY = ["Meta Reality Labs Research (RLR)",
               "Mitsubishi Electric Research Laboratories (MERL)"]
 
 # Blog and Résumé are hidden for now. blog.html / post-*.html are still
@@ -109,7 +120,7 @@ PREVIOUSLY = ["Meta Reality Labs Research",
 # published and Google indexed; the .html scheme the first static build used
 # turned every one of them into a 404.
 NAV = [("Home", "/"), ("About", "/about/"),
-       ("Publications", "/publications/")]
+       ("Publications", "/publications/"), ("Flock", FLOCK_URL)]
 
 
 # --- content ---------------------------------------------------------------
@@ -306,13 +317,15 @@ def nav(current):
     def link(label, href):
         # kept out of the f-string: py3.9 rejects backslashes in f-string exprs
         cls = ' class="active"' if href == current else ''
-        return f'                        <a href="{href}"{cls}>{label}</a>\n'
+        # Flock is a separate site, so it opens in its own tab rather than
+        # taking the reader off this one with no way back.
+        return f'                        <a href="{href}"{cls}{ext(href)}>{label}</a>\n'
 
     links = "".join(link(label, href) for label, href in NAV)
     socials = "".join(
         f'                        <a href="{html.escape(url)}" class="{icon}"'
         f' aria-label="{title}"{ext(url)}></a>\n' for url, icon, title in SOCIAL)
-    mobile = "".join(f'                <a href="{href}">{label}</a>\n'
+    mobile = "".join(f'                <a href="{href}"{ext(href)}>{label}</a>\n'
                      for label, href in NAV)
     return f"""    <div class="nav-bar" id="nav-bar">
         <div class="container">
@@ -954,6 +967,11 @@ def build_home():
             '                    <a href="/about/" class="button icon">Read More '
             '<i class="fa-solid fa-arrow-right"></i></a>\n'
             '                </div>\n'
+            # Last, under Read More: everything above it, that button included,
+            # is the academic thread.
+            '                <p class="home-aside">'
+            '<i class="fa-solid fa-dove" aria-hidden="true"></i>'
+            f'<span>{md_inline(HOME_ASIDE)}</span></p>\n'
             '            </div>\n'
             '            <div class="home-profile">\n'
             '                <img src="images/avatar.jpg" alt="Portrait">\n'
