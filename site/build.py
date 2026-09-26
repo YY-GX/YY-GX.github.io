@@ -286,6 +286,15 @@ def author_line(authors, equal=()):
     return ", ".join(out)
 
 
+def is_under_review(v):
+    """Work not yet accepted anywhere. The target venue is deliberately not
+    named: if a paper is declined and resubmitted, the page would otherwise
+    advertise the venue that turned it down. The older "In submission to X"
+    form is still recognised so a stray entry never gets a year appended."""
+    v = (v or "").strip().lower()
+    return v.startswith("under review") or v.startswith("in submission")
+
+
 def venue_label(v, year):
     v = re.sub(r'arXiv preprint arXiv:([\d.]+)', r'arXiv:\1', v)
     if not v:
@@ -293,7 +302,7 @@ def venue_label(v, year):
     # A work still under review has no publication year, so never append one:
     # a conference carries its own edition ("ICRA 2027") and a journal has no
     # year at all until it appears.
-    if v.lower().startswith("in submission"):
+    if is_under_review(v):
         return html.escape(v)
     # Don't append the year when the venue string already carries one, or you
     # get "...presented at ICRA 2026, 2025". Strip arXiv identifiers before
@@ -651,7 +660,7 @@ def scholarly_ld(papers):
                                  "value": q["doi"]}
             art["sameAs"] = "https://doi.org/" + q["doi"]
         # Only claim a publication venue for work that actually appeared in one.
-        if q["venue"] and not q["venue"].lower().startswith("in submission"):
+        if q["venue"] and not is_under_review(q["venue"]):
             art["publication"] = q["venue"]
         else:
             art["creativeWorkStatus"] = "Under review"

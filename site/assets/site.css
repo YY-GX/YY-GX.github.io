@@ -1310,9 +1310,26 @@ body.home footer { margin-top: 0; border-top: 0; }
 
 @media screen and (max-width: 1000px) {
   .rf { grid-template-columns: 1fr; }
-  .rf > * { grid-row: auto; grid-column: auto; }
+  /* These have to name the same classes as the desktop placement rules above.
+     A `.rf > *` reset is specificity 0,1,0 and loses to `.rf > .data`, so the
+     cards stayed in columns 2 and 3, the grid grew implicit tracks, and the
+     figure ran off the side of the phone instead of stacking. */
+  .rf > .skills,
+  .rf > .data,
+  .rf > .hri,
+  .rf > .eval { grid-column: 1; }
+  .rf > .col-head,
+  .rf > .tick,
+  .rf > .rf-body,
+  .rf > .col-head.eval,
+  .rf > .tick.eval,
+  .rf > .rf-body.eval { grid-row: auto; }
   .rf > .col-head { margin-top: 2.4em; }
+  .rf > .col-head.eval { margin-top: 2.4em; }
   .rf > .col-head:first-child { margin-top: 0; }
+  /* The band is a column like the others once stacked, so it takes their
+     padding rather than the shallower full-width one. */
+  .rf .col-head.eval { padding: 1.1em 1.15em 2em; }
   .rf .rf-body.eval .sub .items { grid-template-columns: 1fr; }
   .rf .rf-body.eval .sub .items > li + li {
     border-left: 0;
