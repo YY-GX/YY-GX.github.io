@@ -490,6 +490,86 @@ div.home-container .home-profile img {
 
 /* --- topic tags ---------------------------------------------------------- */
 
+/* ---- Selected / All ---------------------------------------------------
+   A two-way segmented switch above the topic chips. It is a view, not a
+   filter, so it gets a different shape from the chips: one joined track with
+   a filled thumb, rather than separate outlined pills. */
+.view-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6em 1em;
+  margin-bottom: 1.1em;
+}
+
+.view-switch {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: var(--radius-full, 999px);
+  background: color-mix(in srgb, var(--ink) 7%, #fff);
+}
+
+.view-switch .view-opt {
+  margin: 0;
+  padding: 0.5em 1.1em;
+  font: 500 12.5px/1 "Poppins", sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-muted);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-full, 999px);
+  box-shadow: none;
+  cursor: pointer;
+  transition: color 0.18s var(--ease), background-color 0.18s var(--ease);
+}
+.view-switch .view-opt:hover { color: var(--ink); }
+.view-switch .view-opt.is-on {
+  color: var(--ink);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.view-note {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-muted);
+}
+.view-note[hidden] { display: none !important; }
+
+/* A topic with nothing in the current view stays clickable, since clicking it
+   offers the full list for that topic, but reads as quieter. */
+.tag-bar .tag-chip.is-empty:not(.is-on) { opacity: 0.5; }
+
+/* Under the list in Selected view, so nobody takes seven for everything. */
+.pub-more, .pub-empty {
+  margin: 2em 0 0;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+.pub-more[hidden], .pub-empty[hidden] { display: none !important; }
+
+.pub-more .view-jump,
+.pub-empty .view-jump {
+  margin: 0 0 0 0.35em;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  box-shadow: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent);
+}
+.pub-more .view-jump:hover,
+.pub-empty .view-jump:hover { text-decoration-color: currentColor; }
+
 .tag-bar {
   display: flex;
   flex-wrap: wrap;

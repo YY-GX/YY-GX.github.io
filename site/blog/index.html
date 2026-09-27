@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css?v=ae4ab4df">
+    <link rel="stylesheet" href="/assets/site.css?v=ecb8903b">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -108,19 +108,30 @@
         </figure>
     </div>
     <script>
-    // Topic filter. The URL hash selects a tag, so a research strand on the
-    // home page can link straight into a filtered view.
+    // Publications: a Selected/All view plus a topic filter. The topic stays in
+    // the hash, which the home page's research strands already link to; the
+    // view goes in ?view=all so a full-list link can be shared. Selected is the
+    // default and carries no parameter.
     (function () {
       var bar = document.querySelector('.tag-bar');
       if (!bar) return;
       var chips = [].slice.call(bar.querySelectorAll('.tag-chip'));
+      var opts = [].slice.call(document.querySelectorAll('.view-opt'));
       var rows = [].slice.call(document.querySelectorAll('.paper-row'));
       var years = [].slice.call(document.querySelectorAll('.pub-year'));
+      var note = document.querySelector('.view-note');
+      var empty = document.querySelector('.pub-empty');
+      var more = document.querySelector('.pub-more');
+      var state = {view: 'selected', topic: 'all'};
 
-      function apply(topic) {
+      function apply() {
+        var shown = 0;
         rows.forEach(function (r) {
           var t = (r.getAttribute('data-topics') || '').split(' ');
-          r.hidden = !(topic === 'all' || t.indexOf(topic) !== -1);
+          var ok = (state.view === 'all' || r.getAttribute('data-selected') === '1') &&
+                   (state.topic === 'all' || t.indexOf(state.topic) !== -1);
+          r.hidden = !ok;
+          if (ok) shown++;
         });
         // A year heading with nothing under it should go too.
         years.forEach(function (y) {
@@ -132,12 +143,26 @@
           y.hidden = !any;
         });
         chips.forEach(function (c) {
-          var on = c.getAttribute('data-topic') === topic;
+          var on = c.getAttribute('data-topic') === state.topic;
           c.classList.toggle('is-on', on);
           c.setAttribute('aria-pressed', on ? 'true' : 'false');
+          var n = c.getAttribute(state.view === 'all' ? 'data-n-all' : 'data-n-selected');
+          var badge = c.querySelector('.tag-n');
+          if (badge) badge.textContent = n;
+          c.classList.toggle('is-empty', n === '0');
         });
+        opts.forEach(function (o) {
+          var on = o.getAttribute('data-view') === state.view;
+          o.classList.toggle('is-on', on);
+          o.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        if (note) note.hidden = state.view !== 'selected';
+        if (empty) empty.hidden = shown !== 0;
+        if (more) more.hidden = state.view !== 'selected' || shown === 0;
         if (history.replaceState) {
-          history.replaceState(null, '', topic === 'all' ? location.pathname : '#' + topic);
+          history.replaceState(null, '', location.pathname +
+            (state.view === 'all' ? '?view=all' : '') +
+            (state.topic === 'all' ? '' : '#' + state.topic));
         }
       }
 
@@ -145,16 +170,33 @@
         c.addEventListener('click', function () {
           var t = c.getAttribute('data-topic');
           // Clicking the active tag clears it, so the filter is never a trap.
-          apply(c.classList.contains('is-on') && t !== 'all' ? 'all' : t);
+          state.topic = c.classList.contains('is-on') && t !== 'all' ? 'all' : t;
+          apply();
+        });
+      });
+      opts.forEach(function (o) {
+        o.addEventListener('click', function () {
+          state.view = o.getAttribute('data-view');
+          apply();
+        });
+      });
+      // "Show all" under the list, and the empty-topic prompt: widen the view,
+      // keep the topic.
+      document.querySelectorAll('.view-jump').forEach(function (b) {
+        b.addEventListener('click', function () {
+          state.view = 'all';
+          apply();
         });
       });
 
-      function fromHash() {
+      function fromUrl() {
         var h = (location.hash || '').replace('#', '');
-        apply(chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all');
+        state.topic = chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all';
+        state.view = new URLSearchParams(location.search).get('view') === 'all' ? 'all' : 'selected';
+        apply();
       }
-      window.addEventListener('hashchange', fromHash);
-      fromHash();
+      window.addEventListener('hashchange', fromUrl);
+      fromUrl();
     })();
 
     // Figure lightbox.

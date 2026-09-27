@@ -440,19 +440,30 @@ FOOT = """    <footer>
         </figure>
     </div>
     <script>
-    // Topic filter. The URL hash selects a tag, so a research strand on the
-    // home page can link straight into a filtered view.
+    // Publications: a Selected/All view plus a topic filter. The topic stays in
+    // the hash, which the home page's research strands already link to; the
+    // view goes in ?view=all so a full-list link can be shared. Selected is the
+    // default and carries no parameter.
     (function () {{
       var bar = document.querySelector('.tag-bar');
       if (!bar) return;
       var chips = [].slice.call(bar.querySelectorAll('.tag-chip'));
+      var opts = [].slice.call(document.querySelectorAll('.view-opt'));
       var rows = [].slice.call(document.querySelectorAll('.paper-row'));
       var years = [].slice.call(document.querySelectorAll('.pub-year'));
+      var note = document.querySelector('.view-note');
+      var empty = document.querySelector('.pub-empty');
+      var more = document.querySelector('.pub-more');
+      var state = {{view: 'selected', topic: 'all'}};
 
-      function apply(topic) {{
+      function apply() {{
+        var shown = 0;
         rows.forEach(function (r) {{
           var t = (r.getAttribute('data-topics') || '').split(' ');
-          r.hidden = !(topic === 'all' || t.indexOf(topic) !== -1);
+          var ok = (state.view === 'all' || r.getAttribute('data-selected') === '1') &&
+                   (state.topic === 'all' || t.indexOf(state.topic) !== -1);
+          r.hidden = !ok;
+          if (ok) shown++;
         }});
         // A year heading with nothing under it should go too.
         years.forEach(function (y) {{
@@ -464,12 +475,26 @@ FOOT = """    <footer>
           y.hidden = !any;
         }});
         chips.forEach(function (c) {{
-          var on = c.getAttribute('data-topic') === topic;
+          var on = c.getAttribute('data-topic') === state.topic;
           c.classList.toggle('is-on', on);
           c.setAttribute('aria-pressed', on ? 'true' : 'false');
+          var n = c.getAttribute(state.view === 'all' ? 'data-n-all' : 'data-n-selected');
+          var badge = c.querySelector('.tag-n');
+          if (badge) badge.textContent = n;
+          c.classList.toggle('is-empty', n === '0');
         }});
+        opts.forEach(function (o) {{
+          var on = o.getAttribute('data-view') === state.view;
+          o.classList.toggle('is-on', on);
+          o.setAttribute('aria-pressed', on ? 'true' : 'false');
+        }});
+        if (note) note.hidden = state.view !== 'selected';
+        if (empty) empty.hidden = shown !== 0;
+        if (more) more.hidden = state.view !== 'selected' || shown === 0;
         if (history.replaceState) {{
-          history.replaceState(null, '', topic === 'all' ? location.pathname : '#' + topic);
+          history.replaceState(null, '', location.pathname +
+            (state.view === 'all' ? '?view=all' : '') +
+            (state.topic === 'all' ? '' : '#' + state.topic));
         }}
       }}
 
@@ -477,16 +502,33 @@ FOOT = """    <footer>
         c.addEventListener('click', function () {{
           var t = c.getAttribute('data-topic');
           // Clicking the active tag clears it, so the filter is never a trap.
-          apply(c.classList.contains('is-on') && t !== 'all' ? 'all' : t);
+          state.topic = c.classList.contains('is-on') && t !== 'all' ? 'all' : t;
+          apply();
+        }});
+      }});
+      opts.forEach(function (o) {{
+        o.addEventListener('click', function () {{
+          state.view = o.getAttribute('data-view');
+          apply();
+        }});
+      }});
+      // "Show all" under the list, and the empty-topic prompt: widen the view,
+      // keep the topic.
+      document.querySelectorAll('.view-jump').forEach(function (b) {{
+        b.addEventListener('click', function () {{
+          state.view = 'all';
+          apply();
         }});
       }});
 
-      function fromHash() {{
+      function fromUrl() {{
         var h = (location.hash || '').replace('#', '');
-        apply(chips.some(function (c) {{ return c.getAttribute('data-topic') === h; }}) ? h : 'all');
+        state.topic = chips.some(function (c) {{ return c.getAttribute('data-topic') === h; }}) ? h : 'all';
+        state.view = new URLSearchParams(location.search).get('view') === 'all' ? 'all' : 'selected';
+        apply();
       }}
-      window.addEventListener('hashchange', fromHash);
-      fromHash();
+      window.addEventListener('hashchange', fromUrl);
+      fromUrl();
     }})();
 
     // Figure lightbox.
@@ -750,7 +792,8 @@ def paper_row(p):
     row = "\n                ".join(x for x in links if x)
 
     return (f'    <div class="paper-row{"" if p["preview"] else " no-thumb"}"'
-            f' data-topics="{" ".join(p["topics"])}">\n'
+            f' data-topics="{" ".join(p["topics"])}"'
+            f' data-selected="{1 if p["selected"] else 0}">\n'
             f'{thumb}'
             '        <div class="paper-info">\n'
             f'            <p class="paper-title">{html.escape(p["title"])}</p>\n'
@@ -1045,15 +1088,37 @@ def build_about(news):
 
 
 def build_publications(papers):
-    chips = ('            <button class="tag-chip is-on" data-topic="all"'
-             ' aria-pressed="true">All</button>\n')
+    """Two views of one list. Selected (the default) is the first-author and
+    co-first-author full papers, flagged in the bib; All is everything. The
+    topic chips filter within whichever view is on. Every paper stays in the
+    markup either way, so crawlers and the structured data see all of them."""
+    n_sel = sum(1 for p in papers if p["selected"])
+
+    def chip(key, label, on=False):
+        pool = papers if key == "all" else [p for p in papers if key in p["topics"]]
+        sel = sum(1 for p in pool if p["selected"])
+        return (f'            <button class="tag-chip{"" if key == "all" else " tag-" + key}'
+                f'{" is-on" if on else ""}" data-topic="{key}"'
+                f' data-n-selected="{sel}" data-n-all="{len(pool)}"'
+                f' aria-pressed="{"true" if on else "false"}">{label}'
+                f' <span class="tag-n">{sel}</span></button>\n')
+
+    # "All topics", not "All": the view switch above already has an "All".
+    chips = chip("all", "All topics", on=True)
     for key, label in TOPICS:
-        n = sum(1 for p in papers if key in p["topics"])
-        chips += (f'            <button class="tag-chip tag-{key}" data-topic="{key}"'
-                  f' aria-pressed="false">{label} <span class="tag-n">{n}</span></button>\n')
+        chips += chip(key, label)
 
     body = ('    <div class="container">\n'
             '        <div class="page-head"><h1>Publications</h1></div>\n'
+            '        <div class="view-bar">\n'
+            '            <div class="view-switch" role="group" aria-label="Which papers">\n'
+            '                <button class="view-opt is-on" data-view="selected"'
+            ' aria-pressed="true">Selected</button>\n'
+            '                <button class="view-opt" data-view="all"'
+            ' aria-pressed="false">All</button>\n'
+            '            </div>\n'
+            '            <p class="view-note">First-author and co-first-author papers.</p>\n'
+            '        </div>\n'
             '        <div class="tag-bar" role="group" aria-label="Filter by topic">\n'
             f'{chips}'
             '        </div>\n')
@@ -1061,7 +1126,11 @@ def build_publications(papers):
         body += f'        <div class="pub-year" data-year="{year}">{year}</div>\n'
         for p in [q for q in papers if q["year"] == year]:
             body += paper_row(p)
-    body += '    </div>\n'
+    body += ('        <p class="pub-empty" hidden>No selected papers in this topic.'
+             ' <button class="view-jump">Show all papers in this topic</button></p>\n'
+             f'        <p class="pub-more">Showing {n_sel} selected papers.'
+             f' <button class="view-jump">Show all {len(papers)}</button></p>\n'
+             '    </div>\n')
     return page(
         f"Publications | {NAME}",
         "Peer-reviewed papers and preprints on long-horizon robot manipulation, "
