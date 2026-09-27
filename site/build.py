@@ -782,8 +782,9 @@ def paper_row(p):
              btn(p["code"], "Code", "fa-brands fa-github"),
              # a dataset-release repo is labelled honestly rather than as "Code"
              btn(p["dataset"], "Dataset", "fa-solid fa-database")]
-    equal_note = ('<span class="equal-note">* equal contribution</span>'
-                  if p["equal"] else "")
+    # Said once above the list now; repeating it made every starred author
+    # line wrap an extra time on a phone.
+    equal_note = ""
     cite_id = "cite-" + p["key"]
     if p["bibtex"]:
         links.append(f'<button class="button icon cite-toggle" aria-expanded="false"'
@@ -1117,7 +1118,10 @@ def build_publications(papers):
             '                <button class="view-opt" data-view="all"'
             ' aria-pressed="false">All</button>\n'
             '            </div>\n'
-            '            <p class="view-note">First-author and co-first-author papers.</p>\n'
+            # One line of metadata beside the switch, rather than a legend on a
+            # row of its own: the view's criterion, then what the star means.
+            '            <p class="view-meta"><span class="view-note">First-author</span>'
+            '<span class="pub-legend">* Equal contribution</span></p>\n'
             '        </div>\n'
             '        <div class="tag-bar" role="group" aria-label="Filter by topic">\n'
             f'{chips}'

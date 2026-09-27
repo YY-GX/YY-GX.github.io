@@ -537,6 +537,40 @@ div.home-container .home-profile img {
 }
 .view-note[hidden] { display: none !important; }
 
+/* The criterion and the star legend on one line beside the switch. The dot
+   between them appears only while both are showing. */
+.view-meta {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-muted);
+}
+.view-meta .view-note:not([hidden]) + .pub-legend::before {
+  content: "\00b7";
+  margin: 0 0.55em;
+  opacity: 0.7;
+}
+
+/* The first year sits right under the controls, so it needs less lead-in
+   than the gap between two years. */
+.tag-bar + .pub-year { padding-top: 1.9em; }
+
+@media screen and (max-width: 768px) {
+  /* Tighter chips on a phone: five topic pills took five rows before the
+     first paper. At this size they pack into three. */
+  .tag-bar { gap: 0.35em; }
+  .tag-bar .tag-chip,
+  .tag-bar .tag-chip:hover,
+  .tag-bar .tag-chip:focus {
+    /* Sentence case on a phone. Clarity uppercases every button, which with
+       letter-spacing made "SKILL LEARNING & CHAINING" alone nearly a full row. */
+    font-size: 12px;
+    padding: 0.55em 0.8em;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .view-bar { margin-bottom: 0.9em; }
+}
+
 /* A topic with nothing in the current view stays clickable, since clicking it
    offers the full list for that topic, but reads as quieter. */
 .tag-bar .tag-chip.is-empty:not(.is-on) { opacity: 0.5; }
@@ -835,14 +869,6 @@ div.home-container .home-profile img {
 
 /* Equal-contribution footnote: sits at the end of the author line but must
    read as an annotation, not as another author. */
-.paper-row .paper-info .equal-note {
-  display: inline-block;
-  margin-left: 0.6em;
-  font-size: 11.5px;
-  font-style: italic;
-  color: var(--ink-muted);
-  white-space: nowrap;
-}
 
 .paper-row .paper-info .paper-venue {
   font-size: 14px;
