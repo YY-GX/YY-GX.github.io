@@ -238,7 +238,24 @@ def bibtex_string(kind, key, e):
     return "\n".join(lines)
 
 
+def arxiv_bibtex():
+    """arXiv's own BibTeX for papers under review, keyed by arXiv id. Kept
+    verbatim in a separate file so a citation copied from the site matches what
+    arXiv gives, rather than a generated one reading journal = {Under review}."""
+    raw = read("src/content/publications/arxiv.bib")
+    out = {}
+    for block in re.findall(r'(@\w+\{.*?\n\})', raw, re.S):
+        m = re.search(r'eprint\s*=\s*\{([^}]+)\}', block)
+        if m:
+            out[m.group(1).strip()] = block.strip()
+    return out
+
+
+ARXIV_ID = re.compile(r'arxiv\.org/(?:pdf|abs)/(\d{4}\.\d{4,5})')
+
+
 def bib_entries():
+    arxiv = arxiv_bibtex()
     raw = read("src/content/publications/papers.bib")
     entries = []
     for kind, key, block in re.findall(r'@(\w+)\{([^,]+),(.*?)\n\}', raw, re.S):
@@ -269,7 +286,13 @@ def bib_entries():
              "doi": fields.get("doi", ""), "date": fields.get("date", ""),
              "preview": preview,
              "selected": fields.get("selected", "").lower() == "true"}
-        e["bibtex"] = bibtex_string(kind, key.strip(), e)
+        m = ARXIV_ID.search(e["pdf"])
+        if is_under_review(e["venue"]):
+            # Under review: cite arXiv's record, or offer nothing if there is no
+            # public version yet (a submission still in anonymous review).
+            e["bibtex"] = arxiv.get(m.group(1)) if m else None
+        else:
+            e["bibtex"] = bibtex_string(kind, key.strip(), e)
         entries.append(e)
     return entries
 
@@ -720,9 +743,10 @@ def paper_row(p):
     equal_note = ('<span class="equal-note">* equal contribution</span>'
                   if p["equal"] else "")
     cite_id = "cite-" + p["key"]
-    links.append(f'<button class="button icon cite-toggle" aria-expanded="false"'
-                 f' aria-controls="{cite_id}">BibTeX '
-                 f'<i class="fa-regular fa-copy"></i></button>')
+    if p["bibtex"]:
+        links.append(f'<button class="button icon cite-toggle" aria-expanded="false"'
+                     f' aria-controls="{cite_id}">BibTeX '
+                     f'<i class="fa-regular fa-copy"></i></button>')
     row = "\n                ".join(x for x in links if x)
 
     return (f'    <div class="paper-row{"" if p["preview"] else " no-thumb"}"'
@@ -733,8 +757,9 @@ def paper_row(p):
             f'            <p class="paper-authors">{author_line(p["authors"], p["equal"])}{equal_note}</p>\n'
             f'            <p class="paper-venue">{venue_label(p["venue"], p["year"])}</p>\n'
             f'            <div class="paper-links">\n                {row}\n            </div>\n'
-            f'            <pre class="paper-cite" id="{cite_id}" hidden>'
-            f'<code>{html.escape(p["bibtex"])}</code></pre>\n'
+            + (f'            <pre class="paper-cite" id="{cite_id}" hidden>'
+               f'<code>{html.escape(p["bibtex"])}</code></pre>\n'
+               if p["bibtex"] else '') +
             '        </div>\n    </div>\n')
 
 
