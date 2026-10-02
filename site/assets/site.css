@@ -664,6 +664,13 @@ div.home-container .home-profile img {
 }
 .pubs[data-view="all"] .sel-swatch { display: inline-block; }
 
+/* The key says "Selected", the same word as the switch, because the tinted
+   rows are exactly that set. "First-author" over-promised: first-author
+   workshop papers and earlier work are not in it. In the Selected view the
+   key would only repeat the active switch, so it and its separator go. */
+.pubs[data-view="selected"] .view-note,
+.pubs[data-view="selected"] .pub-legend::before { display: none; }
+
 @media screen and (max-width: 768px) {
   .pubs[data-view="all"] .paper-row[data-selected="1"] {
     margin-left: -0.8em;

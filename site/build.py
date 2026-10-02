@@ -1146,7 +1146,7 @@ def build_publications(papers):
             # One line of metadata beside the switch, rather than a legend on a
             # row of its own: the view's criterion, then what the star means.
             '            <p class="view-meta"><span class="view-note">'
-            '<span class="sel-swatch" aria-hidden="true"></span>First-author</span>'
+            '<span class="sel-swatch" aria-hidden="true"></span>Selected</span>'
             '<span class="pub-legend">* Equal contribution</span></p>\n'
             '        </div>\n'
             '        <div class="tag-bar" role="group" aria-label="Filter by topic">\n'
