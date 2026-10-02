@@ -425,7 +425,41 @@ div.home-container .home-intro .name-alt {
    because the desktop home is one locked screen and the text has to end above
    the portrait's bottom edge even on a short laptop display. */
 div.home-container .home-intro { --home-gap: clamp(16px, calc(9vh - 56px), 40px); }
-div.home-container .home-intro .home-block + .home-block { margin-top: var(--home-gap); }
+div.home-container .home-intro .home-block + .home-block { margin-top: 0; }
+
+/* On desktop the text column takes the portrait's height: "Hello" lines up with
+   the photo's top edge, Read More with its bottom edge, and the spare height
+   goes into the gaps between clusters. Spacing alone could not do this: on wide
+   screens the text wraps into fewer lines, so it ran 70 to 90% of the photo's
+   height however the gap was tuned, and a bigger gap pushed short screens past
+   the photo. The --home-gap above stays as the minimum. The photo itself is
+   not resized; it only stays centred if the text is ever the taller one. */
+/* The gaps are spacer elements rather than margins because a margin cannot
+   take a maximum. Each gap grows first (flex-grow 1000) up to 88px; anything
+   left after that goes evenly above and below the whole column (the ::before
+   and ::after spacers, flex-grow 1), so on a tall wide screen the text centres
+   on the photo instead of being pulled into islands. */
+div.home-container .home-intro .home-gap { height: var(--home-gap); flex: none; }
+
+@media screen and (min-width: 769px) {
+  div.home-container .home-intro { align-self: stretch; justify-content: flex-start; }
+  div.home-container .home-profile { align-self: center; }
+  div.home-container .home-intro .home-block + .home-block { margin-top: 0; }
+  div.home-container .home-intro .home-gap {
+    height: auto;
+    flex: 1000 1 0;
+    min-height: var(--home-gap);
+    max-height: 88px;
+  }
+  div.home-container .home-intro::before,
+  div.home-container .home-intro::after {
+    content: "";
+    flex: 1 1 0;
+  }
+  /* Clarity's 10px under every button would leave Read More short of the
+     photo's bottom edge. */
+  div.home-container .home-intro .home-cta .button { margin-bottom: 0; }
+}
 div.home-container .home-intro .home-block p { padding-bottom: 0.3em; }
 /* Only text closes a cluster flush; the button keeps its own padding. */
 div.home-container .home-intro .home-block > p:last-child,
