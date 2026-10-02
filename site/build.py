@@ -857,11 +857,9 @@ def research_html():
             f'                <ul class="home-list">{items}</ul>\n')
 
 
-def industry_html():
-    """Same list layout as the research strands, with a plain dot marker."""
-    items = "".join(f'<li>{html.escape(x)}</li>' for x in PREVIOUSLY)
-    return ('<p class="home-research">I\'ve also done research in industry at:</p>\n'
-            f'                <ul class="home-list home-list-plain">{items}</ul>\n')
+def industry_sentence():
+    """Industry research as one sentence in the identity paragraph."""
+    return ("I have also done research at " + " and ".join(html.escape(x) for x in PREVIOUSLY) + ".")
 
 
 # ---------------------------------------------------------------------------
@@ -1062,17 +1060,16 @@ def build_home():
             # them inside one bracket invited the reader to match them element
             # by element, and a Chinese name is surname first, so the order
             # looked wrong.
-            # Three clusters, who, what and where, then the button: tight inside
-            # a cluster, a clear gap between them.
+            # Two clusters, then the button. The first says who, in order:
+            # name, degrees, then industry research, which reads as part of the
+            # background rather than as a section of its own. The second is the
+            # research.
             '                <div class="home-block">\n'
             f'                <p>I am {html.escape(NAME)} {name_mark()},<br>\n'
-            f'                   {html.escape(IDENTITY)}</p>\n'
+            f'                   {html.escape(IDENTITY)} {industry_sentence()}</p>\n'
             '                </div>\n'
             '                <div class="home-block">\n'
             f'                {research_html()}'
-            '                </div>\n'
-            '                <div class="home-block">\n'
-            f'                {industry_html()}'
             '                </div>\n'
             '                <div class="home-block home-cta">\n'
             '                    <a href="/about/" class="button icon">Read More '
