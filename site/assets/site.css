@@ -651,6 +651,61 @@ div.home-container .home-profile img {
 
 .paper-row[hidden], .pub-year[hidden] { display: none !important; }
 
+/* First-author papers in the All view. A pale blue card, close in hue to the
+   hero's cool grey so it belongs to the page, and pale enough that the rest of
+   the list still reads as one list. The card bleeds a little past the column
+   so its text stays aligned with the untinted rows. Selected view shows only
+   these papers, so there the tint would say nothing and is left off. */
+:root { --sel-tint: rgba(222, 229, 237, 0.5); }
+
+/* The blurred panels' soft edge paints a few pixels past a phone's screen and
+   would otherwise make the page scroll sideways. clip trims it without making
+   the container a scroll box; hidden is the fallback for older browsers. */
+.pubs { overflow-x: hidden; overflow-x: clip; }
+
+/* Same treatment as the bird card on the home page: the panel is a blurred
+   pseudo-element, so its edge dissolves into the page instead of being drawn.
+   A solid card read as heavier than it needed to. */
+.pubs[data-view="all"] .paper-row[data-selected="1"] {
+  position: relative;
+  z-index: 0;
+  border-bottom-color: transparent;
+  margin: 6px -1.1em;
+  padding-left: 1.1em;
+  padding-right: 1.1em;
+}
+.pubs[data-view="all"] .paper-row[data-selected="1"]::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  z-index: -1;
+  background: var(--sel-tint);
+  border-radius: 14px;
+  filter: blur(6px);
+}
+
+/* The key for the tint, shown beside "First-author" only while it applies. */
+.sel-swatch {
+  display: none;
+  width: 0.8em;
+  height: 0.8em;
+  margin-right: 0.45em;
+  vertical-align: -0.08em;
+  border-radius: 3px;
+  background: var(--sel-tint);
+  border: 1px solid #d3dbe5;
+}
+.pubs[data-view="all"] .sel-swatch { display: inline-block; }
+
+@media screen and (max-width: 768px) {
+  .pubs[data-view="all"] .paper-row[data-selected="1"] {
+    margin-left: -0.8em;
+    margin-right: -0.8em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+  }
+}
+
 /* --- 3. publication rows ------------------------------------------------- */
 
 .pub-year {
@@ -876,6 +931,21 @@ div.home-container .home-profile img {
   margin: 0;
   color: var(--ink-muted);
   font-style: italic;
+}
+
+/* An award or spotlight, under the venue. Upright and a shade darker than the
+   italic grey venue so it is noticed, but the same size and no fill: a small
+   warm-toned mark rather than a badge. */
+.paper-row .paper-info .paper-award {
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin: 0.15em 0 0;
+  color: var(--ink-soft);
+}
+.paper-row .paper-info .paper-award i {
+  font-size: 0.85em;
+  margin-right: 0.45em;
+  color: color-mix(in srgb, var(--ra-skills) 70%, #fff);
 }
 
 .paper-row .paper-info .paper-links { padding-top: 0.8em; }

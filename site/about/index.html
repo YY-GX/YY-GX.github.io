@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css?v=8b4c801d">
+    <link rel="stylesheet" href="/assets/site.css?v=108bfef5">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -284,7 +284,7 @@
     <script>
     // Publications: a Selected/All view plus a topic filter. The topic stays in
     // the hash, which the home page's research strands already link to; the
-    // view goes in ?view=all so a full-list link can be shared. Selected is the
+    // view goes in ?view=selected so the short list can be shared. All is the
     // default and carries no parameter.
     (function () {
       var bar = document.querySelector('.tag-bar');
@@ -293,10 +293,9 @@
       var opts = [].slice.call(document.querySelectorAll('.view-opt'));
       var rows = [].slice.call(document.querySelectorAll('.paper-row'));
       var years = [].slice.call(document.querySelectorAll('.pub-year'));
-      var note = document.querySelector('.view-note');
       var empty = document.querySelector('.pub-empty');
       var more = document.querySelector('.pub-more');
-      var state = {view: 'selected', topic: 'all'};
+      var state = {view: 'all', topic: 'all'};
 
       function apply() {
         var shown = 0;
@@ -330,12 +329,15 @@
           o.classList.toggle('is-on', on);
           o.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
-        if (note) note.hidden = state.view !== 'selected';
+        // The view rides on the container: in All, first-author rows are tinted
+        // and the swatch beside "First-author" explains the tint.
+        var pubs = document.querySelector('.pubs');
+        if (pubs) pubs.setAttribute('data-view', state.view);
         if (empty) empty.hidden = shown !== 0;
         if (more) more.hidden = state.view !== 'selected' || shown === 0;
         if (history.replaceState) {
           history.replaceState(null, '', location.pathname +
-            (state.view === 'all' ? '?view=all' : '') +
+            (state.view === 'selected' ? '?view=selected' : '') +
             (state.topic === 'all' ? '' : '#' + state.topic));
         }
       }
@@ -366,7 +368,9 @@
       function fromUrl() {
         var h = (location.hash || '').replace('#', '');
         state.topic = chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all';
-        state.view = new URLSearchParams(location.search).get('view') === 'all' ? 'all' : 'selected';
+        // All is the default and carries no parameter; an old ?view=all link
+        // still lands on All.
+        state.view = new URLSearchParams(location.search).get('view') === 'selected' ? 'selected' : 'all';
         apply();
       }
       window.addEventListener('hashchange', fromUrl);

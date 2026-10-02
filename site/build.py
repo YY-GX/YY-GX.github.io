@@ -285,7 +285,9 @@ def bib_entries():
              "topics": [t.strip() for t in fields.get("topics", "").split(",") if t.strip()],
              "doi": fields.get("doi", ""), "date": fields.get("date", ""),
              "preview": preview,
-             "selected": fields.get("selected", "").lower() == "true"}
+             "selected": fields.get("selected", "").lower() == "true",
+             # Recognition beyond acceptance; several are separated by ";".
+             "awards": [a.strip() for a in fields.get("award", "").split(";") if a.strip()]}
         m = ARXIV_ID.search(e["pdf"])
         if is_under_review(e["venue"]):
             # Under review: cite arXiv's record, or offer nothing if there is no
@@ -442,7 +444,7 @@ FOOT = """    <footer>
     <script>
     // Publications: a Selected/All view plus a topic filter. The topic stays in
     // the hash, which the home page's research strands already link to; the
-    // view goes in ?view=all so a full-list link can be shared. Selected is the
+    // view goes in ?view=selected so the short list can be shared. All is the
     // default and carries no parameter.
     (function () {{
       var bar = document.querySelector('.tag-bar');
@@ -451,10 +453,9 @@ FOOT = """    <footer>
       var opts = [].slice.call(document.querySelectorAll('.view-opt'));
       var rows = [].slice.call(document.querySelectorAll('.paper-row'));
       var years = [].slice.call(document.querySelectorAll('.pub-year'));
-      var note = document.querySelector('.view-note');
       var empty = document.querySelector('.pub-empty');
       var more = document.querySelector('.pub-more');
-      var state = {{view: 'selected', topic: 'all'}};
+      var state = {{view: 'all', topic: 'all'}};
 
       function apply() {{
         var shown = 0;
@@ -488,12 +489,15 @@ FOOT = """    <footer>
           o.classList.toggle('is-on', on);
           o.setAttribute('aria-pressed', on ? 'true' : 'false');
         }});
-        if (note) note.hidden = state.view !== 'selected';
+        // The view rides on the container: in All, first-author rows are tinted
+        // and the swatch beside "First-author" explains the tint.
+        var pubs = document.querySelector('.pubs');
+        if (pubs) pubs.setAttribute('data-view', state.view);
         if (empty) empty.hidden = shown !== 0;
         if (more) more.hidden = state.view !== 'selected' || shown === 0;
         if (history.replaceState) {{
           history.replaceState(null, '', location.pathname +
-            (state.view === 'all' ? '?view=all' : '') +
+            (state.view === 'selected' ? '?view=selected' : '') +
             (state.topic === 'all' ? '' : '#' + state.topic));
         }}
       }}
@@ -524,7 +528,9 @@ FOOT = """    <footer>
       function fromUrl() {{
         var h = (location.hash || '').replace('#', '');
         state.topic = chips.some(function (c) {{ return c.getAttribute('data-topic') === h; }}) ? h : 'all';
-        state.view = new URLSearchParams(location.search).get('view') === 'all' ? 'all' : 'selected';
+        // All is the default and carries no parameter; an old ?view=all link
+        // still lands on All.
+        state.view = new URLSearchParams(location.search).get('view') === 'selected' ? 'selected' : 'all';
         apply();
       }}
       window.addEventListener('hashchange', fromUrl);
@@ -729,6 +735,8 @@ def scholarly_ld(papers):
             art["publication"] = q["venue"]
         else:
             art["creativeWorkStatus"] = "Under review"
+        if q["awards"]:
+            art["award"] = q["awards"] if len(q["awards"]) > 1 else q["awards"][0]
         url = q["website"] or q["pdf"]
         if url:
             art["url"] = url
@@ -754,6 +762,18 @@ def page(title, desc, current, body, hero=False, body_class="", slug="", extra_l
                         jsonld=(json_ld() if slug == "" else "") + extra_ld)
             + f'    <div{cls}>\n' + nav(current) + body + '    </div>\n'
             + FOOT.format(name=html.escape(NAME), tagline=tag_html))
+
+
+def award_lines(awards):
+    """One quiet line per award under the venue. A presentation honour such as a
+    spotlight or oral gets a star; a prize gets a trophy."""
+    out = ""
+    for a in awards:
+        icon = ("fa-regular fa-star" if re.match(r"(spotlight|oral)\b", a, re.I)
+                else "fa-solid fa-trophy")
+        out += (f'            <p class="paper-award"><i class="{icon}"'
+                f' aria-hidden="true"></i>{html.escape(a)}</p>\n')
+    return out
 
 
 def paper_row(p):
@@ -800,6 +820,7 @@ def paper_row(p):
             f'            <p class="paper-title">{html.escape(p["title"])}</p>\n'
             f'            <p class="paper-authors">{author_line(p["authors"], p["equal"])}{equal_note}</p>\n'
             f'            <p class="paper-venue">{venue_label(p["venue"], p["year"])}</p>\n'
+            f'{award_lines(p["awards"])}'
             f'            <div class="paper-links">\n                {row}\n            </div>\n'
             + (f'            <pre class="paper-cite" id="{cite_id}" hidden>'
                f'<code>{html.escape(p["bibtex"])}</code></pre>\n'
@@ -1089,8 +1110,8 @@ def build_about(news):
 
 
 def build_publications(papers):
-    """Two views of one list. Selected (the default) is the first-author and
-    co-first-author full papers, flagged in the bib; All is everything. The
+    """Two views of one list. All (the default) is everything; Selected is the
+    first-author and co-first-author full papers, flagged in the bib. The
     topic chips filter within whichever view is on. Every paper stays in the
     markup either way, so crawlers and the structured data see all of them."""
     n_sel = sum(1 for p in papers if p["selected"])
@@ -1102,25 +1123,26 @@ def build_publications(papers):
                 f'{" is-on" if on else ""}" data-topic="{key}"'
                 f' data-n-selected="{sel}" data-n-all="{len(pool)}"'
                 f' aria-pressed="{"true" if on else "false"}">{label}'
-                f' <span class="tag-n">{sel}</span></button>\n')
+                f' <span class="tag-n">{len(pool)}</span></button>\n')
 
     # "All topics", not "All": the view switch above already has an "All".
     chips = chip("all", "All topics", on=True)
     for key, label in TOPICS:
         chips += chip(key, label)
 
-    body = ('    <div class="container">\n'
+    body = ('    <div class="container pubs" data-view="all">\n'
             '        <div class="page-head"><h1>Publications</h1></div>\n'
             '        <div class="view-bar">\n'
             '            <div class="view-switch" role="group" aria-label="Which papers">\n'
-            '                <button class="view-opt is-on" data-view="selected"'
-            ' aria-pressed="true">Selected</button>\n'
-            '                <button class="view-opt" data-view="all"'
-            ' aria-pressed="false">All</button>\n'
+            '                <button class="view-opt" data-view="selected"'
+            ' aria-pressed="false">Selected</button>\n'
+            '                <button class="view-opt is-on" data-view="all"'
+            ' aria-pressed="true">All</button>\n'
             '            </div>\n'
             # One line of metadata beside the switch, rather than a legend on a
             # row of its own: the view's criterion, then what the star means.
-            '            <p class="view-meta"><span class="view-note">First-author</span>'
+            '            <p class="view-meta"><span class="view-note">'
+            '<span class="sel-swatch" aria-hidden="true"></span>First-author</span>'
             '<span class="pub-legend">* Equal contribution</span></p>\n'
             '        </div>\n'
             '        <div class="tag-bar" role="group" aria-label="Filter by topic">\n'
@@ -1132,7 +1154,7 @@ def build_publications(papers):
             body += paper_row(p)
     body += ('        <p class="pub-empty" hidden>No selected papers in this topic.'
              ' <button class="view-jump">Show all papers in this topic</button></p>\n'
-             f'        <p class="pub-more">Showing {n_sel} selected papers.'
+             f'        <p class="pub-more" hidden>Showing {n_sel} selected papers.'
              f' <button class="view-jump">Show all {len(papers)}</button></p>\n'
              '    </div>\n')
     return page(
