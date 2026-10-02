@@ -319,13 +319,14 @@ div.home-container .home-intro .ra-lead {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  text-decoration-color: color-mix(in srgb, var(--ink) 28%, transparent);
-  transition: text-decoration-color 0.18s var(--ease),
-              text-decoration-thickness 0.18s var(--ease);
+  /* No underline at rest: it read as decoration in the middle of the
+     sentence. It is still a link, and the underline appears on hover and on
+     keyboard focus, so it can be found without announcing itself. */
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.18s var(--ease);
 }
 div.home-container .home-intro .ra-lead:hover,
 div.home-container .home-intro .ra-lead:focus-visible {
-  text-decoration-thickness: 2px;
   text-decoration-color: currentColor;
 }
 
