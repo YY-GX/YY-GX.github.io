@@ -67,11 +67,6 @@ SOCIAL = [s for s in SOCIAL if s[0]]
 # layout, and the live Astro site would only carry them as dead config keys.
 # ---------------------------------------------------------------------------
 NAME_ZH = "杨越"
-# The word "pronounced" is what does the work here. Setting a respelling beside
-# the Chinese name invites the reader to pair them character by character, and
-# a Chinese name is surname first, so the respelling then looks reversed.
-# Naming it as a pronunciation points it back at "Yue Yang" instead.
-NAME_PHONETIC = "yweh yahng"
 IDENTITY = ("A Computer Science PhD student at UNC Chapel Hill, "
             "with an M.S. in CS from Georgia Tech.")
 
@@ -99,11 +94,11 @@ BIRD_LINE = ("Off the clock I photograph birds, who pull off long-horizon "
 # page; the coloured icon is the marker.
 RESEARCH_PARTS = [
     ("skills", "Learning skills and the way to chain them",
-     "/publications/#skills", "fa-link"),
+     "/publications/#skills", "fa-arrow-right"),
     ("data", "Generating the data to train them",
-     "/publications/#data", "fa-database"),
+     "/publications/#data", "fa-arrow-right"),
     ("hri", "What people and robots need to tell each other to work together",
-     "/publications/#hri", "fa-comments"),
+     "/publications/#hri", "fa-arrow-right"),
 ]
 
 # Publication topics. The first three share their keys, labels and colours with
@@ -417,7 +412,7 @@ HEAD = """<!DOCTYPE html>
     <link rel="canonical" href="{canonical}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/site.css?v={cssv}">
 {analytics}{jsonld}</head>
 <body{body_class}>
@@ -838,22 +833,22 @@ def paper_row(p):
 # --- pages -----------------------------------------------------------------
 
 def name_mark():
-    """Chinese name plus the pronunciation of the romanised name."""
-    return (f'<span class="name-alt">({html.escape(NAME_ZH)}'
-            f'<span class="name-phon">, pronounced &ldquo;{html.escape(NAME_PHONETIC)}&rdquo;</span>'
-            f')</span>')
+    """The Chinese name in brackets, and nothing else."""
+    return f'<span class="name-alt">({html.escape(NAME_ZH)})</span>'
 
 
 def research_html():
     """The lead sentence, then one bullet per strand. Each bullet is a whole-line
-    link to its publications filter, with a coloured icon as the marker."""
+    link to its publications filter, ending in an arrow in the strand's colour."""
     lead = (f'{html.escape(RESEARCH_LEAD_PRE)} '
             f'<a class="ra-lead" href="{RESEARCH_LEAD_HREF}">'
             f'{html.escape(RESEARCH_LEAD_KEY)}</a>:')
+    # Plain dots as markers; the coloured arrow after each line is what says
+    # "this goes somewhere", one arrow shape for all three.
     items = "".join(
         f'<li><a class="strand strand-{key}" href="{html.escape(href)}">'
-        f'<i class="fa-solid {icon}" aria-hidden="true"></i>'
-        f'<span>{html.escape(text)}</span></a></li>'
+        f'<span>{html.escape(text)}</span>&nbsp;'
+        f'<i class="fa-solid {icon}" aria-hidden="true"></i></a></li>'
         for key, text, href, icon in RESEARCH_PARTS)
     return (f'<p class="home-research">{lead}</p>\n'
             f'                <ul class="home-list">{items}</ul>\n')

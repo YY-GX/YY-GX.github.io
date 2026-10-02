@@ -351,9 +351,8 @@ div.home-container .home-intro .home-list li {
   color: inherit;                    /* Clarity colours li directly */
 }
 
-/* The whole line is the link. The icon is lifted out of the flow into the
-   marker column; its line box is set to the text's line height so the glyph
-   centres on the first line. */
+/* The whole line is the link. A plain dot is the marker, and a small arrow in
+   the strand's colour closes the line, the same shape for all three. */
 div.home-container .home-intro a.strand {
   display: block;
   font-size: inherit;                /* Clarity sets an absolute size on a */
@@ -362,15 +361,13 @@ div.home-container .home-intro a.strand {
   text-decoration: none;
 }
 div.home-container .home-intro a.strand i {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 1.15em;
-  text-align: center;
-  font-size: 0.85em;
-  line-height: 1.882;                /* 1.6 / 0.85: one text line tall */
-  transition: color 0.18s var(--ease);
+  font-size: 0.72em;
+  margin-left: 0.1em;
+  vertical-align: 0.06em;
+  transition: color 0.18s var(--ease), transform 0.18s var(--ease);
 }
+div.home-container .home-intro a.strand:hover i,
+div.home-container .home-intro a.strand:focus-visible i { transform: translateX(2px); }
 div.home-container .home-intro a.strand span {
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -393,8 +390,8 @@ div.home-container .home-intro .strand-data:focus-visible i   { color: var(--ra-
 div.home-container .home-intro .strand-hri:hover i,
 div.home-container .home-intro .strand-hri:focus-visible i    { color: var(--ra-hri-on); }
 
-/* Industry roles: same column, a small neutral dot centred in it. */
-div.home-container .home-intro .home-list-plain li::before {
+/* Every item in both lists: a small neutral dot in the marker column. */
+div.home-container .home-intro .home-list li::before {
   content: "";
   position: absolute;
   left: calc((1.15em * 0.85 - 5px) / 2);
@@ -418,12 +415,6 @@ div.home-container .home-intro .name-alt {
 
 /* Strictly /.../ marks phonemic IPA and this is a respelling, but the slashes
    read as "pronunciation" to everyone, which is the point. */
-div.home-container .home-intro .name-phon {
-  font-family: "Charter", Georgia, serif;
-  font-style: italic;
-  letter-spacing: 0.01em;
-  color: inherit;
-}
 
 div.home-container .home-intro > div { padding-top: 0.45em; }
 
@@ -1519,3 +1510,47 @@ body.home footer { margin-top: 0; border-top: 0; }
     border-top: 1px solid color-mix(in srgb, var(--c) 12%, #fff);
   }
 }
+
+/* =====================================================================
+   Body serif
+   Headings, nav, buttons and labels stay in Poppins; running text is set in
+   Source Serif 4, the same sans-for-structure, serif-for-reading pairing as
+   the Clarity author's own site. Kept in one block, last, so swapping the
+   face is a one-line change to --font-serif.
+   ===================================================================== */
+:root { --font-serif: "Source Serif 4", "Charter", Georgia, serif; }
+
+div.home-container .home-intro > p,
+div.home-container .home-intro .home-list,
+div.home-container .home-intro .home-list li,
+.container p.text,
+.rf-statement p,
+.news-row .news-body,
+.paper-row .paper-info .paper-authors,
+.paper-row .paper-info .paper-venue,
+.paper-row .paper-info .paper-award,
+footer .footer-main,
+footer .footer-motto,
+footer .footer-bird {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+/* Clarity names Poppins on a and li directly, so links and bold runs inside
+   serif text would otherwise switch face mid-sentence. */
+div.home-container .home-intro > p a,
+div.home-container .home-intro .home-list a,
+.container p.text a,
+.rf-statement p a,
+.news-row .news-body a,
+.paper-row .paper-info .paper-authors a,
+footer .footer-main a,
+footer .footer-motto a,
+footer .footer-bird a {
+  font-family: inherit;
+  font-weight: inherit;
+}
+div.home-container .home-intro > p b,
+.container p.text b,
+.news-row .news-body b,
+.paper-row .paper-info .paper-authors b { font-weight: 600; }
