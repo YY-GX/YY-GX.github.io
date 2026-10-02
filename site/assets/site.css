@@ -656,7 +656,7 @@ div.home-container .home-profile img {
    the list still reads as one list. The card bleeds a little past the column
    so its text stays aligned with the untinted rows. Selected view shows only
    these papers, so there the tint would say nothing and is left off. */
-:root { --sel-tint: rgba(222, 229, 237, 0.5); }
+:root { --sel-tint: rgba(222, 229, 237, 0.35); }
 
 /* The blurred panels' soft edge paints a few pixels past a phone's screen and
    would otherwise make the page scroll sideways. clip trims it without making
@@ -693,7 +693,7 @@ div.home-container .home-profile img {
   vertical-align: -0.08em;
   border-radius: 3px;
   background: var(--sel-tint);
-  border: 1px solid #d3dbe5;
+  border: 1px solid #bcc6d3;   /* darker than the fill, so the pale key still reads */
 }
 .pubs[data-view="all"] .sel-swatch { display: inline-block; }
 
@@ -976,7 +976,7 @@ div.home-container .home-profile img {
 /* The type mark. One muted colour for all of them - the icon carries the
    distinction, and the figure above already spends the page's colour. */
 .news-row .news-mark {
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1;
   color: var(--ink-muted);
   padding-top: 0.42em;
@@ -1001,7 +1001,11 @@ div.home-container .home-profile img {
 }
 
 .news-row .news-body {
+  /* Nothing up the tree sets a family here, so without this News fell back to
+     the browser default serif (Times). Same face and weight as the prose. */
+  font-family: "Poppins", sans-serif;
   font-size: 15px;
+  font-weight: 300;
   line-height: 1.6;
   color: var(--ink-soft);
 }
@@ -1232,7 +1236,7 @@ body.home footer { margin-top: 0; border-top: 0; }
 
 .rf-keys-label {
   display: block;
-  font: 600 10px "Poppins", sans-serif;
+  font: 600 11px "Poppins", sans-serif;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-muted);
@@ -1250,7 +1254,7 @@ body.home footer { margin-top: 0; border-top: 0; }
 
 .rf-keys li {
   font-family: "Poppins", sans-serif;
-  font-size: 11.5px;
+  font-size: 13px;
   line-height: 1.2;
   font-weight: 500;
   color: var(--ink-soft);
@@ -1320,14 +1324,14 @@ body.home footer { margin-top: 0; border-top: 0; }
 
 .rf .col-head .idx {
   display: block;
-  font: 600 10px "Poppins", sans-serif;
+  font: 600 11px "Poppins", sans-serif;
   letter-spacing: 0.16em;
   color: color-mix(in srgb, var(--c) 55%, #fff);
   margin-bottom: 0.5em;
 }
 
 .rf .col-head h3 {
-  font: 700 14.5px/1.35 "Poppins", sans-serif;
+  font: 700 15px/1.35 "Poppins", sans-serif;
   color: var(--c);
   margin: 0 0 0.5em;
   /* Clarity puts padding: 1.5vh 0 on every h3, which on a tall window opened a
@@ -1346,7 +1350,7 @@ body.home footer { margin-top: 0; border-top: 0; }
 .rf .col-head h3 a:hover { border-bottom-color: currentColor; }
 
 .rf .col-head .q {
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.55;
   color: var(--ink-soft);
   margin: 0;
@@ -1365,7 +1369,7 @@ body.home footer { margin-top: 0; border-top: 0; }
      this off the border it is supposed to straddle. */
   margin: 0;
   padding: 0.5em 0.85em;
-  font: 600 10.5px/1 "Poppins", sans-serif;
+  font: 600 11px/1 "Poppins", sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.09em;
   color: var(--c);
@@ -1423,7 +1427,7 @@ body.home footer { margin-top: 0; border-top: 0; }
 .rf .sub:last-child { margin-bottom: 0; }
 
 .rf .sub > h4 {
-  font: 700 12.5px/1.35 "Poppins", sans-serif;
+  font: 600 13px/1.35 "Poppins", sans-serif;
   color: var(--ink);
   margin: 0;
   padding: 0.7em 0.85em;
@@ -1446,7 +1450,7 @@ body.home footer { margin-top: 0; border-top: 0; }
 }
 .rf .sub .items > li {
   padding: 0.55em 0.85em;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.5;
   border-bottom: 1px solid color-mix(in srgb, var(--c) 12%, #fff);
   opacity: 0;
@@ -1470,7 +1474,7 @@ body.home footer { margin-top: 0; border-top: 0; }
 .rf .sub .items .what {
   display: block;
   color: var(--ink-soft);
-  font-size: 11.5px;
+  font-size: 13px;
   line-height: 1.45;
 }
 
