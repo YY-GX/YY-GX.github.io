@@ -274,7 +274,7 @@ div.home-container .home-intro h1.title {
 
 div.home-container .home-intro p {
   padding: 0 0 0.75em;
-  line-height: 1.6;
+  line-height: 1.45;
   max-width: 34em;
 }
 
@@ -346,8 +346,8 @@ div.home-container .home-intro .home-list {
 
 div.home-container .home-intro .home-list li {
   position: relative;
-  padding: 0 0 0.05em 1.5em;
-  line-height: 1.6;
+  padding: 0 0 0.1em 1.5em;
+  line-height: 1.45;
   font-size: inherit;
   color: inherit;                    /* Clarity colours li directly */
 }
@@ -396,7 +396,7 @@ div.home-container .home-intro .home-list li::before {
   content: "";
   position: absolute;
   left: calc((1.15em * 0.85 - 5px) / 2);
-  top: calc(0.8em - 2.5px);
+  top: calc(0.725em - 2.5px);   /* centre of a 1.45 first line */
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -421,7 +421,7 @@ div.home-container .home-intro .name-alt {
    gap between clusters, as on shikun.io. The gap follows the window height,
    because the desktop home is one locked screen and the text has to end above
    the portrait's bottom edge even on a short laptop display. */
-div.home-container .home-intro { --home-gap: clamp(14px, calc(9vh - 64px), 34px); }
+div.home-container .home-intro { --home-gap: clamp(16px, calc(9vh - 56px), 40px); }
 div.home-container .home-intro .home-block + .home-block { margin-top: var(--home-gap); }
 div.home-container .home-intro .home-block p { padding-bottom: 0.3em; }
 /* Only text closes a cluster flush; the button keeps its own padding. */
@@ -1015,45 +1015,46 @@ footer .footer-row {
   gap: 0.6em 2em;
 }
 
-footer .footer-main {
-  font-size: 13px;
-  color: var(--ink-muted);
-  margin: 0;
-}
-
-/* The personal line, under the name: same quiet Charter italic as the motto,
-   a size down from the name, with a faint dove as its mark. */
-/* Takes the spare width and wraps inside it, so the long line never pushes the
-   fine print onto a row of its own on desktop. */
-footer .footer-left { flex: 1 1 0; min-width: 0; }
+/* Two groups, each in one voice. Left: what Yue Yang says, the Slow Science
+   motto and the bird line, in serif italic. Right: facts about the site, name
+   and place and the Clarity credit, in small sans. Before, each side mixed the
+   two, so neither side read as a unit. */
+footer .footer-voice { flex: 1 1 0; min-width: 0; }
 footer .footer-fine { flex: 0 0 auto; }
 
+footer .footer-motto,
 footer .footer-bird {
-  margin: 0.35em 0 0;
+  margin: 0;
   padding: 0;
-  font-family: "Charter", Georgia, "Times New Roman", serif;
   font-style: italic;
   font-size: 12.5px;
   line-height: 1.6;
   letter-spacing: 0.005em;
   color: #9b9b9b;
 }
+footer .footer-bird { margin-top: 0.25em; }
 
+/* Inline, not hung in the margin: on a phone the container's margin is too
+   thin for it and it sat past the text's left edge. */
 footer .footer-bird i {
   font-size: 0.85em;
-  margin-right: 0.5em;
+  margin-right: 0.45em;
   opacity: 0.75;
 }
 
+footer .footer-motto a,
 footer .footer-bird a {
   color: inherit;
   text-decoration: underline;
   text-decoration-thickness: 0.5px;
   text-underline-offset: 0.22em;
   text-decoration-color: rgba(120, 120, 120, 0.45);
+  border-bottom: 0;
   transition: color 0.2s var(--ease), text-decoration-color 0.2s var(--ease);
 }
 
+footer .footer-motto a:hover,
+footer .footer-motto a:focus-visible,
 footer .footer-bird a:hover,
 footer .footer-bird a:focus-visible {
   color: var(--ink-soft);
@@ -1083,38 +1084,14 @@ footer .footer-fine span {
   padding: 0;
 }
 
-/* The personal line gets Charter italic: Clarity ships the face, and a serif
-   italic reads as a motto rather than as chrome. Nudged up a little because a
-   serif at 10.5px is harder to read than a sans at the same size. */
-footer .footer-fine .footer-motto {
-  font-family: "Charter", Georgia, "Times New Roman", serif;
-  font-style: italic;
-  font-size: 12.5px;
-  letter-spacing: 0.005em;
-  color: #9b9b9b;
-}
-
-/* Visible as a link at rest, but only just: a hairline underline at roughly a
-   third of the text's weight, set well clear of the descenders. */
-footer .footer-fine .footer-motto a {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-thickness: 0.5px;
-  text-underline-offset: 0.22em;
-  text-decoration-color: rgba(120, 120, 120, 0.45);
-  border-bottom: 0;
-  transition: color 0.2s var(--ease), text-decoration-color 0.2s var(--ease);
-}
-
-footer .footer-fine .footer-motto a:hover {
-  color: var(--ink-soft);
-  text-decoration-color: var(--ink-soft);
-}
-
-/* The credit stays plainer and quieter than the motto. */
+footer .footer-fine .footer-main,
 footer .footer-fine .footer-credit {
   font-family: "Poppins", sans-serif;
   font-style: normal;
+}
+footer .footer-fine .footer-main {
+  font-size: 11.5px;
+  color: #8f8f8f;
 }
 
 footer .footer-fine a {
@@ -1137,7 +1114,7 @@ footer .footer-fine a:hover {
 @media screen and (max-width: 768px) {
   footer .footer-row { flex-direction: column; align-items: flex-start; gap: 1em; }
   footer .footer-fine { align-items: flex-start; text-align: left; }
-  footer .footer-left { flex: none; }
+  footer .footer-voice { flex: none; }
 }
 
 /* Same trap as the footer: any container we size down needs its links to
@@ -1539,7 +1516,6 @@ div.home-container .home-intro .home-list li,
 .paper-row .paper-info .paper-authors,
 .paper-row .paper-info .paper-venue,
 .paper-row .paper-info .paper-award,
-footer .footer-main,
 footer .footer-motto,
 footer .footer-bird {
   font-family: var(--font-serif);
@@ -1554,7 +1530,6 @@ div.home-container .home-intro .home-list a,
 .rf-statement p a,
 .news-row .news-body a,
 .paper-row .paper-info .paper-authors a,
-footer .footer-main a,
 footer .footer-motto a,
 footer .footer-bird a {
   font-family: inherit;

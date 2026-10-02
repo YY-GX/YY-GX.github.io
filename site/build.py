@@ -421,12 +421,12 @@ HEAD = """<!DOCTYPE html>
 FOOT = """    <footer>
         <div class="container">
             <div class="footer-row">
-                <div class="footer-left">
-                    <p class="footer-main">{name} &middot; Chapel Hill, NC</p>
+                <div class="footer-voice">
+                    <p class="footer-motto">{tagline}.</p>
                     <p class="footer-bird"><i class="fa-solid fa-dove" aria-hidden="true"></i>{bird}</p>
                 </div>
                 <div class="footer-fine">
-                    <span class="footer-motto">{tagline}</span>
+                    <span class="footer-main">{name} &middot; Chapel Hill, NC</span>
                     <span class="footer-credit">Layout adapted from <a href="https://shikun.io/projects/clarity" target="_blank" rel="noopener noreferrer">Clarity</a> by <a href="https://shikun.io/" target="_blank" rel="noopener noreferrer">Shikun Liu</a></span>
                 </div>
             </div>
