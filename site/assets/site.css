@@ -311,8 +311,7 @@ div.home-container .home-intro .home-research { color: var(--ink-soft); }
 /* The lead phrase names the research area and goes to the Research Focus
    section. Weight and ink rather than a fourth colour: it has to read as the
    sentence's subject, above the three coloured strands, not beside them. */
-/* No weight or colour change: the underline already says it is a link, and the
-   three strands now differ from it by face rather than by colour. */
+/* No weight or colour change: the underline already says it is a link. */
 div.home-container .home-intro .ra-lead {
   font-size: inherit;                /* Clarity sets an absolute size on a */
   font-weight: inherit;
@@ -330,49 +329,82 @@ div.home-container .home-intro .ra-lead:focus-visible {
   text-decoration-color: currentColor;
 }
 
-/* Charter italic. The lead is bold sans and the strands were regular sans, so
-   the only difference between them was colour, which is not enough. A serif
-   italic reads as an enumeration set into the sentence and separates cleanly
-   from the lead without adding more weight. */
-div.home-container .home-intro .ra {
-  font-family: "Charter", Georgia, serif;
-  font-style: italic;
-  /* Charter's x-height is smaller than Poppins at the same size. */
-  font-size: 1.05em;
-  letter-spacing: 0.005em;
-  text-decoration: none;
+/* Research strands and industry roles: a bullet list under a lead sentence.
+   The marker sits in a fixed 1.5em column at the start of each line, so all
+   icons line up, and the text hangs from the column's right edge, so wrapped
+   lines align under the text rather than under the icon. */
+div.home-container .home-intro p.home-research { padding-bottom: 0.3em; }
+
+div.home-container .home-intro .home-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0.65em;
+  max-width: 34em;
+  color: var(--ink-soft);
 }
 
-div.home-container .home-intro .ra-skills { color: var(--ra-skills); }
-div.home-container .home-intro .ra-data   { color: var(--ra-data); }
-div.home-container .home-intro .ra-hri    { color: var(--ra-hri); }
+div.home-container .home-intro .home-list li {
+  position: relative;
+  padding: 0 0 0.05em 1.5em;
+  line-height: 1.6;
+  font-size: inherit;
+  color: inherit;                    /* Clarity colours li directly */
+}
 
-/* Only anchors get an affordance; plain spans stay inert. */
-div.home-container .home-intro a.ra {
+/* The whole line is the link. The icon is lifted out of the flow into the
+   marker column; its line box is set to the text's line height so the glyph
+   centres on the first line. */
+div.home-container .home-intro a.strand {
+  display: block;
+  font-size: inherit;                /* Clarity sets an absolute size on a */
+  line-height: inherit;              /* and a 1.5 line height */
+  color: inherit;
+  text-decoration: none;
+}
+div.home-container .home-intro a.strand i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.15em;
+  text-align: center;
+  font-size: 0.85em;
+  line-height: 1.882;                /* 1.6 / 0.85: one text line tall */
+  transition: color 0.18s var(--ease);
+}
+div.home-container .home-intro a.strand span {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
-  transition: color 0.18s var(--ease),
-              text-decoration-color 0.18s var(--ease),
-              text-decoration-thickness 0.18s var(--ease);
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.18s var(--ease);
 }
-
-/* Darken and firm up the underline on hover. Opacity alone, which is what this
-   used to do, moved 0.95 to 1 and was invisible. */
-div.home-container .home-intro a.ra:hover,
-div.home-container .home-intro a.ra:focus-visible {
-  text-decoration-thickness: 2px;
+div.home-container .home-intro a.strand:hover span,
+div.home-container .home-intro a.strand:focus-visible span {
   text-decoration-color: currentColor;
 }
 
-div.home-container .home-intro a.ra-skills:hover,
-div.home-container .home-intro a.ra-skills:focus-visible { color: var(--ra-skills-on); }
-div.home-container .home-intro a.ra-data:hover,
-div.home-container .home-intro a.ra-data:focus-visible   { color: var(--ra-data-on); }
-div.home-container .home-intro a.ra-hri:hover,
-div.home-container .home-intro a.ra-hri:focus-visible    { color: var(--ra-hri-on); }
+div.home-container .home-intro .strand-skills i { color: var(--ra-skills); }
+div.home-container .home-intro .strand-data i   { color: var(--ra-data); }
+div.home-container .home-intro .strand-hri i    { color: var(--ra-hri); }
+div.home-container .home-intro .strand-skills:hover i,
+div.home-container .home-intro .strand-skills:focus-visible i { color: var(--ra-skills-on); }
+div.home-container .home-intro .strand-data:hover i,
+div.home-container .home-intro .strand-data:focus-visible i   { color: var(--ra-data-on); }
+div.home-container .home-intro .strand-hri:hover i,
+div.home-container .home-intro .strand-hri:focus-visible i    { color: var(--ra-hri-on); }
 
+/* Industry roles: same column, a small neutral dot centred in it. */
+div.home-container .home-intro .home-list-plain li::before {
+  content: "";
+  position: absolute;
+  left: calc((1.15em * 0.85 - 5px) / 2);
+  top: calc(0.8em - 2.5px);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ink-muted);
+  opacity: 0.7;
+}
 /* Chinese name + pronunciation: present but clearly secondary to the
    romanised name. CJK stack first, since neither Poppins nor Charter carries
    Han glyphs and the default fallback can be ugly. */
@@ -391,75 +423,6 @@ div.home-container .home-intro .name-phon {
   font-style: italic;
   letter-spacing: 0.01em;
   color: inherit;
-}
-
-/* Industry signal, one line, quieter than the research sentence. */
-div.home-container .home-intro .home-previously {
-  font-size: 0.82em;
-  line-height: 1.55;
-  color: var(--ink-muted);
-  padding-top: 0.3em;
-}
-
-div.home-container .home-intro .home-previously .sep {
-  padding-left: 0.4em;
-  opacity: 0.55;
-}
-
-/* The one personal line. It sat in the same grey at the same size as the
-   industry line above it and read as more of the same, so it gets a white card
-   on the tinted hero and a small mark of its own. */
-div.home-container .home-intro .home-aside {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6em;
-  margin-top: 1.25em;
-  padding: 0.8em 1.05em;
-  /* Glass, not paper. Solid white on the #e0e4e6 hero pulled the eye straight
-     to the hobby; half-opacity white lifts the card just enough to separate it
-     from the industry line without competing with the research above. */
-  /* The panel is a blurred pseudo-element rather than a bordered box, so its
-     edge dissolves into the hero instead of being drawn on it. */
-  position: relative;
-  z-index: 0;
-  background: none;
-  border: 0;
-  font-size: 0.82em;
-  line-height: 1.6;
-  color: var(--ink-soft);
-}
-
-div.home-container .home-intro .home-aside::before {
-  content: "";
-  position: absolute;
-  inset: 3px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 12px;
-  filter: blur(7px);
-  z-index: -1;
-}
-
-div.home-container .home-intro .home-aside i {
-  flex: 0 0 auto;
-  font-size: 0.95em;
-  color: var(--ra-hri);
-  transform: translateY(1px);
-}
-
-div.home-container .home-intro .home-aside a {
-  font-size: inherit;                /* Clarity sets an absolute size on a */
-  color: var(--ink);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-  text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent);
-  transition: text-decoration-color 0.18s var(--ease),
-              text-decoration-thickness 0.18s var(--ease);
-}
-div.home-container .home-intro .home-aside a:hover,
-div.home-container .home-intro .home-aside a:focus-visible {
-  text-decoration-thickness: 2px;
-  text-decoration-color: currentColor;
 }
 
 div.home-container .home-intro > div { padding-top: 0.45em; }
@@ -1057,6 +1020,45 @@ footer .footer-main {
   margin: 0;
 }
 
+/* The personal line, under the name: same quiet Charter italic as the motto,
+   a size down from the name, with a faint dove as its mark. */
+/* Takes the spare width and wraps inside it, so the long line never pushes the
+   fine print onto a row of its own on desktop. */
+footer .footer-left { flex: 1 1 0; min-width: 0; }
+footer .footer-fine { flex: 0 0 auto; }
+
+footer .footer-bird {
+  margin: 0.35em 0 0;
+  padding: 0;
+  font-family: "Charter", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.6;
+  letter-spacing: 0.005em;
+  color: #9b9b9b;
+}
+
+footer .footer-bird i {
+  font-size: 0.85em;
+  margin-right: 0.5em;
+  opacity: 0.75;
+}
+
+footer .footer-bird a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: rgba(120, 120, 120, 0.45);
+  transition: color 0.2s var(--ease), text-decoration-color 0.2s var(--ease);
+}
+
+footer .footer-bird a:hover,
+footer .footer-bird a:focus-visible {
+  color: var(--ink-soft);
+  text-decoration-color: var(--ink-soft);
+}
+
 /* Fine print, deliberately quiet in the corner: the Slow Science line and the
    Clarity credit. Clarity is CC0 and needs no attribution, so this is courtesy
    and must not compete with anything.
@@ -1134,6 +1136,7 @@ footer .footer-fine a:hover {
 @media screen and (max-width: 768px) {
   footer .footer-row { flex-direction: column; align-items: flex-start; gap: 1em; }
   footer .footer-fine { align-items: flex-start; text-align: left; }
+  footer .footer-left { flex: none; }
 }
 
 /* Same trap as the footer: any container we size down needs its links to
