@@ -90,17 +90,20 @@ FLOCK_URL = "https://yy-gx.github.io/flock/"
 
 RESEARCH_LEAD_HREF = "/about/#research-focus"
 
-# One line, at the bottom of the intro, well after the research.
-HOME_ASIDE = ("Off the clock I photograph birds, who pull off long-horizon "
-              "tasks with no training data at all :) The results are in "
-              "[my flock](%s)." % FLOCK_URL)
+# The personal line. It sits in the footer on every page, under the name, well
+# away from the research.
+BIRD_LINE = ("Off the clock I photograph birds, who pull off long-horizon "
+             "tasks with no training data at all :) The results are in "
+             "[my flock](%s)." % FLOCK_URL)
+# (key, text, link, Font Awesome icon). Each strand is one bullet on the home
+# page; the coloured icon is the marker.
 RESEARCH_PARTS = [
-    ("skills", "learning skills and the way to chain them",
-     "/publications/#skills"),
-    ("data", "generating the data to train them",
-     "/publications/#data"),
-    ("hri", "what people and robots need to tell each other to work together",
-     "/publications/#hri"),
+    ("skills", "Learning skills and the way to chain them",
+     "/publications/#skills", "fa-link"),
+    ("data", "Generating the data to train them",
+     "/publications/#data", "fa-database"),
+    ("hri", "What people and robots need to tell each other to work together",
+     "/publications/#hri", "fa-comments"),
 ]
 
 # Publication topics. The first three share their keys, labels and colours with
@@ -421,7 +424,10 @@ HEAD = """<!DOCTYPE html>
 FOOT = """    <footer>
         <div class="container">
             <div class="footer-row">
-                <p class="footer-main">{name} &middot; Chapel Hill, NC</p>
+                <div class="footer-left">
+                    <p class="footer-main">{name} &middot; Chapel Hill, NC</p>
+                    <p class="footer-bird"><i class="fa-solid fa-dove" aria-hidden="true"></i>{bird}</p>
+                </div>
                 <div class="footer-fine">
                     <span class="footer-motto">{tagline}</span>
                     <span class="footer-credit">Layout adapted from <a href="https://shikun.io/projects/clarity" target="_blank" rel="noopener noreferrer">Clarity</a> by <a href="https://shikun.io/" target="_blank" rel="noopener noreferrer">Shikun Liu</a></span>
@@ -753,7 +759,8 @@ def page(title, desc, current, body, hero=False, body_class="", slug="", extra_l
                         analytics=ANALYTICS_TPL.format(gid=GA_ID) if GA_ID else "",
                         jsonld=(json_ld() if slug == "" else "") + extra_ld)
             + f'    <div{cls}>\n' + nav(current) + body + '    </div>\n'
-            + FOOT.format(name=html.escape(NAME), tagline=tag_html))
+            + FOOT.format(name=html.escape(NAME), tagline=tag_html,
+                          bird=md_inline(BIRD_LINE)))
 
 
 def paper_row(p):
@@ -817,22 +824,25 @@ def name_mark():
 
 
 def research_html():
-    """The research sentence with each strand wrapped in its own colour class,
-    and optionally linked once `href` is set in RESEARCH_PARTS."""
-    out = []
-    for i, (key, text, href) in enumerate(RESEARCH_PARTS):
-        if i == len(RESEARCH_PARTS) - 1:
-            out.append("and ")
-        inner = html.escape(text)
-        tag = (f'<a class="ra ra-{key}" href="{html.escape(href)}">{inner}</a>'
-               if href else f'<span class="ra ra-{key}">{inner}</span>')
-        out.append(tag)
-        if i < len(RESEARCH_PARTS) - 1:
-            out.append(", ")
+    """The lead sentence, then one bullet per strand. Each bullet is a whole-line
+    link to its publications filter, with a coloured icon as the marker."""
     lead = (f'{html.escape(RESEARCH_LEAD_PRE)} '
             f'<a class="ra-lead" href="{RESEARCH_LEAD_HREF}">'
             f'{html.escape(RESEARCH_LEAD_KEY)}</a>:')
-    return lead + " " + "".join(out) + "."
+    items = "".join(
+        f'<li><a class="strand strand-{key}" href="{html.escape(href)}">'
+        f'<i class="fa-solid {icon}" aria-hidden="true"></i>'
+        f'<span>{html.escape(text)}</span></a></li>'
+        for key, text, href, icon in RESEARCH_PARTS)
+    return (f'<p class="home-research">{lead}</p>\n'
+            f'                <ul class="home-list">{items}</ul>\n')
+
+
+def industry_html():
+    """Same list layout as the research strands, with a plain dot marker."""
+    items = "".join(f'<li>{html.escape(x)}</li>' for x in PREVIOUSLY)
+    return ('<p class="home-research">I\'ve also done research in industry at:</p>\n'
+            f'                <ul class="home-list home-list-plain">{items}</ul>\n')
 
 
 # ---------------------------------------------------------------------------
@@ -1024,10 +1034,6 @@ def redirect_stub(target):
 
 
 def build_home():
-    # &nbsp; before the separator so it can never start a wrapped line, and a
-    # normal space after it so the break happens between the two entries.
-    prev = "&nbsp;<span class=\"sep\">&middot;</span> ".join(
-        html.escape(x) for x in PREVIOUSLY)
     body = ('    <div class="container">\n'
             '        <div class="home-container">\n'
             '            <div class="home-intro">\n'
@@ -1039,17 +1045,12 @@ def build_home():
             # looked wrong.
             f'                <p>I am {html.escape(NAME)} {name_mark()},<br>\n'
             f'                   {html.escape(IDENTITY)}</p>\n'
-            f'                <p class="home-research">{research_html()}</p>\n'
-            f'                <p class="home-previously">Previously: {prev}</p>\n'
+            f'                {research_html()}'
+            f'                {industry_html()}'
             '                <div>\n'
             '                    <a href="/about/" class="button icon">Read More '
             '<i class="fa-solid fa-arrow-right"></i></a>\n'
             '                </div>\n'
-            # Last, under Read More: everything above it, that button included,
-            # is the academic thread.
-            '                <p class="home-aside">'
-            '<i class="fa-solid fa-dove" aria-hidden="true"></i>'
-            f'<span>{md_inline(HOME_ASIDE)}</span></p>\n'
             '            </div>\n'
             '            <div class="home-profile">\n'
             '                <img src="images/avatar.jpg" alt="Portrait">\n'
