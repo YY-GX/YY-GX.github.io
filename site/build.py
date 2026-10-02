@@ -183,7 +183,8 @@ NEWS_ICONS = {"paper": "fa-solid fa-file-lines",
               "talk": "fa-solid fa-microphone-lines",
               "position": "fa-solid fa-briefcase",
               "milestone": "fa-solid fa-graduation-cap",
-              "event": "fa-regular fa-calendar-check"}
+              "event": "fa-regular fa-calendar-check",
+              "award": "fa-solid fa-trophy"}
 
 
 def news_items():
