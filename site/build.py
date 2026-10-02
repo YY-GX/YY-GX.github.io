@@ -737,7 +737,9 @@ def scholarly_ld(papers):
         else:
             art["creativeWorkStatus"] = "Under review"
         if q["awards"]:
-            art["award"] = q["awards"] if len(q["awards"]) > 1 else q["awards"][0]
+            # Structured data wants the plain text, not the link markup.
+            plain = [re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', a) for a in q["awards"]]
+            art["award"] = plain if len(plain) > 1 else plain[0]
         url = q["website"] or q["pdf"]
         if url:
             art["url"] = url
@@ -773,8 +775,9 @@ def award_lines(awards):
     for a in awards:
         icon = ("fa-regular fa-star" if re.match(r"(spotlight|oral)\b", a, re.I)
                 else "fa-solid fa-trophy")
+        # Markdown links are allowed, so a workshop can point at its own page.
         out += (f'            <p class="paper-award"><i class="{icon}"'
-                f' aria-hidden="true"></i>{html.escape(a)}</p>\n')
+                f' aria-hidden="true"></i>{md_inline(a)}</p>\n')
     return out
 
 

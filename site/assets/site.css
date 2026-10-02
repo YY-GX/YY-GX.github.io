@@ -916,6 +916,17 @@ div.home-container .home-profile img {
   margin: 0.15em 0 0;
   color: var(--ink-soft);
 }
+.paper-row .paper-info .paper-award a {
+  font-size: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, var(--ink) 30%, transparent);
+  transition: text-decoration-color 0.2s var(--ease);
+}
+.paper-row .paper-info .paper-award a:hover { text-decoration-color: currentColor; }
+
 .paper-row .paper-info .paper-award i {
   font-size: 0.85em;
   margin-right: 0.45em;
