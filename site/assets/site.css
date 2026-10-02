@@ -43,7 +43,10 @@ html { scroll-behavior: smooth; }
   text-decoration: underline;
   text-underline-offset: 0.18em;
   text-decoration-thickness: 1px;
-  text-decoration-color: var(--ink-muted);
+  /* Light enough that a paragraph with six names in it does not read as a
+     row of rules; full ink on hover. */
+  text-decoration-color: color-mix(in srgb, var(--ink) 32%, transparent);
+  line-height: inherit;              /* Clarity gives every a line-height 1.5 */
   transition: text-decoration-color 0.2s var(--ease);
 }
 .container p a:hover { text-decoration-color: var(--ink); }
@@ -925,7 +928,7 @@ div.home-container .home-profile img {
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 0.25em;
-  padding: 1.25em 0;
+  padding: 1.1em 0;
   border-bottom: 1px solid var(--rule-soft);
 }
 
@@ -961,7 +964,7 @@ div.home-container .home-profile img {
   letter-spacing: 0.04em;
   color: var(--ink-muted);
   white-space: nowrap;
-  padding-top: 0.15em;
+  padding-top: 0.2em;
 }
 
 .news-row .news-body {
@@ -970,8 +973,8 @@ div.home-container .home-profile img {
   font-family: "Poppins", sans-serif;
   font-size: 15px;
   font-weight: 300;
-  line-height: 1.6;
-  color: var(--ink-soft);
+  line-height: 1.55;
+  color: var(--ink);
 }
 
 .news-row .news-body b { color: var(--ink); font-weight: 600; }
@@ -993,13 +996,24 @@ div.home-container .home-profile img {
 
 .page-head p.text { color: var(--ink-muted); margin: 0; }
 
-/* Clarity's p.text carries no margin, so consecutive paragraphs ran together. */
+/* Same face, size and ink as the home intro. The line height is a step more
+   open than home's 1.45, which is set for two- and three-line clusters; these
+   run five lines, where 1.45 gets dense. The measure comes in from 46em, about
+   95 characters a line, to about 80. */
 .container p.text {
-  line-height: 1.7;
-  margin: 0 0 1.15em;
-  max-width: 46em;
+  line-height: 1.55;
+  margin: 0 0 1em;
+  max-width: 40em;
+  color: var(--ink);
 }
 .container p.text:last-child { margin-bottom: 0; }
+
+/* One rhythm for every section on the page: about 30px from a heading to its
+   first line, about 100px from the end of a section to the next heading. The
+   first News row carried its own top padding and the framework ended flush, so
+   News sat 48px under its heading and 81px under the figure. */
+.page-head + .news-row { padding-top: 0.35em; }
+.rf { margin-bottom: 1em; }
 
 footer {
   border-top: 1px solid var(--rule-soft);
@@ -1181,13 +1195,15 @@ body.home footer { margin-top: 0; border-top: 0; }
 
 /* No cap: the prose fills its track so the block's outer edges match the
    figure below. The container bounds it at ~800px on the widest windows. */
-.rf-statement { font-size: 15px; }
+.rf-statement { font-size: 18px; }
 
+/* Was 15px grey at 1.75, which beside the 18px bio read as a second, lesser
+   kind of text. It is the core statement, so it takes the bio's voice. */
 .rf-statement p {
-  font-size: 15px;
-  line-height: 1.75;
-  color: var(--ink-soft);
-  margin: 0 0 1.05em;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0 0 1em;
 }
 
 .rf-statement p:last-of-type { margin-bottom: 0; }
@@ -1312,9 +1328,9 @@ body.home footer { margin-top: 0; border-top: 0; }
 }
 
 .rf .col-head h3 {
-  font: 700 15px/1.35 "Poppins", sans-serif;
+  font: 600 15px/1.35 "Poppins", sans-serif;
   color: var(--c);
-  margin: 0 0 0.5em;
+  margin: 0 0 0.45em;
   /* Clarity puts padding: 1.5vh 0 on every h3, which on a tall window opened a
      50px gap inside the box and moved with the viewport height. */
   padding: 0;
@@ -1331,8 +1347,8 @@ body.home footer { margin-top: 0; border-top: 0; }
 .rf .col-head h3 a:hover { border-bottom-color: currentColor; }
 
 .rf .col-head .q {
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.45;
   color: var(--ink-soft);
   margin: 0;
 }
@@ -1426,7 +1442,7 @@ body.home footer { margin-top: 0; border-top: 0; }
   transition: max-height 0.34s ease;
 }
 .rf .rf-body.is-open .sub .items {
-  max-height: 340px;
+  max-height: 560px;
   border-top: 1px solid color-mix(in srgb, var(--c) 22%, #fff);
 }
 .rf .sub .items > li {
@@ -1454,9 +1470,10 @@ body.home footer { margin-top: 0; border-top: 0; }
 .rf .sub .items a:hover { text-decoration: underline; }
 .rf .sub .items .what {
   display: block;
+  margin-top: 0.1em;
   color: var(--ink-soft);
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 15px;
+  line-height: 1.4;
 }
 
 /* The band is full width, so its three systems sit side by side. */
@@ -1513,6 +1530,8 @@ div.home-container .home-intro .home-list li,
 .container p.text,
 .rf-statement p,
 .news-row .news-body,
+.rf .col-head .q,
+.rf .sub .items .what,
 .paper-row .paper-info .paper-authors,
 .paper-row .paper-info .paper-venue,
 .paper-row .paper-info .paper-award,
