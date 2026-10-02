@@ -285,7 +285,7 @@ div.home-container .home-intro p em { color: var(--ink-soft); }
    was a second emphasis doing the same job, and italic hurts readability at
    this length. The secondary grey stays, so the hierarchy under the identity
    line survives without it. */
-div.home-container .home-intro .home-research { color: var(--ink-soft); }
+div.home-container .home-intro .home-research { color: var(--ink); }
 
 /* The three research strands. Muted cool tones: they must read as one
    sentence first and as three categories second, so saturation is kept low
@@ -339,9 +339,9 @@ div.home-container .home-intro p.home-research { padding-bottom: 0.3em; }
 div.home-container .home-intro .home-list {
   list-style: none;
   margin: 0;
-  padding: 0 0 0.65em;
+  padding: 0;
   max-width: 34em;
-  color: var(--ink-soft);
+  color: var(--ink);
 }
 
 div.home-container .home-intro .home-list li {
@@ -410,14 +410,23 @@ div.home-container .home-intro .name-alt {
   font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC",
                "Microsoft YaHei", "Poppins", sans-serif;
   font-size: 0.86em;
-  color: var(--ink-muted);
+  color: var(--ink);
   white-space: nowrap;
 }
 
 /* Strictly /.../ marks phonemic IPA and this is a respelling, but the slashes
    read as "pronunciation" to everyone, which is the point. */
 
-div.home-container .home-intro > div { padding-top: 0.45em; }
+/* Clusters: who, what, where, then the button. Tight inside a cluster, a clear
+   gap between clusters, as on shikun.io. The gap follows the window height,
+   because the desktop home is one locked screen and the text has to end above
+   the portrait's bottom edge even on a short laptop display. */
+div.home-container .home-intro { --home-gap: clamp(14px, calc(9vh - 64px), 34px); }
+div.home-container .home-intro .home-block + .home-block { margin-top: var(--home-gap); }
+div.home-container .home-intro .home-block p { padding-bottom: 0.3em; }
+/* Only text closes a cluster flush; the button keeps its own padding. */
+div.home-container .home-intro .home-block > p:last-child,
+div.home-container .home-intro .home-block > ul:last-child { padding-bottom: 0; margin-bottom: 0; }
 
 div.home-container .home-profile img {
   width: 100%;
@@ -1521,7 +1530,7 @@ body.home footer { margin-top: 0; border-top: 0; }
    ===================================================================== */
 :root { --font-serif: "Source Serif 4", "Charter", Georgia, serif; }
 
-div.home-container .home-intro > p,
+div.home-container .home-intro p,
 div.home-container .home-intro .home-list,
 div.home-container .home-intro .home-list li,
 .container p.text,
@@ -1539,7 +1548,7 @@ footer .footer-bird {
 
 /* Clarity names Poppins on a and li directly, so links and bold runs inside
    serif text would otherwise switch face mid-sentence. */
-div.home-container .home-intro > p a,
+div.home-container .home-intro p a,
 div.home-container .home-intro .home-list a,
 .container p.text a,
 .rf-statement p a,
@@ -1551,7 +1560,7 @@ footer .footer-bird a {
   font-family: inherit;
   font-weight: inherit;
 }
-div.home-container .home-intro > p b,
+div.home-container .home-intro p b,
 .container p.text b,
 .news-row .news-body b,
 .paper-row .paper-info .paper-authors b { font-weight: 600; }

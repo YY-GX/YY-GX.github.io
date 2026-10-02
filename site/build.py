@@ -1059,11 +1059,19 @@ def build_home():
             # them inside one bracket invited the reader to match them element
             # by element, and a Chinese name is surname first, so the order
             # looked wrong.
+            # Three clusters, who, what and where, then the button: tight inside
+            # a cluster, a clear gap between them.
+            '                <div class="home-block">\n'
             f'                <p>I am {html.escape(NAME)} {name_mark()},<br>\n'
             f'                   {html.escape(IDENTITY)}</p>\n'
+            '                </div>\n'
+            '                <div class="home-block">\n'
             f'                {research_html()}'
+            '                </div>\n'
+            '                <div class="home-block">\n'
             f'                {industry_html()}'
-            '                <div>\n'
+            '                </div>\n'
+            '                <div class="home-block home-cta">\n'
             '                    <a href="/about/" class="button icon">Read More '
             '<i class="fa-solid fa-arrow-right"></i></a>\n'
             '                </div>\n'
