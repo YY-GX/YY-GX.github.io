@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css?v=3bf429bc">
+    <link rel="stylesheet" href="/assets/site.css?v=7bfd7282">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -87,7 +87,7 @@
         <div class="rf-intro">
             <div class="rf-statement">
                 <p>I work on <b>robot learning for reliable long-horizon manipulation</b>. I treat a long task as a chain of skills and study the full lifecycle of a skill: how to <b>collect and generate the demonstrations</b> that teach it, how to make <b>each skill robust and safe</b> on its own, and how to <b>compose skills</b> into long tasks and evaluate them.</p>
-                <p>Representative work: collecting and generating demonstrations with AR (ARCADE) and with a real-to-sim engine that turns human hand motion into 200k dexterous demonstrations with contact-force labels (GNR); keeping each skill robust to sensor corruption across vision and touch (EGR) and safe through barrier functions learned from demonstrations (SECURE); and composing and evaluating skills, by exposing how earlier skills break later ones (BOSS), linking object-centric VLA skills that hold up to these shifts (LiLo-VLA), and autonomously resetting and scoring long-horizon rollouts on real robots (HALTER).</p>
+                <p>Representative work: collecting and generating demonstrations with AR (<a class="rf-ref data" href="/publications/#yang2024arcade">ARCADE</a>) and with a real-to-sim engine that turns human hand motion into 200k dexterous demonstrations with contact-force labels (<a class="rf-ref data" href="/publications/#gao2026generative">GNR</a>); keeping each skill robust to sensor corruption across vision and touch (<a class="rf-ref robust" href="/publications/#yang2026sensing">EGR</a>) and safe through barrier functions learned from demonstrations (<a class="rf-ref robust" href="/publications/#yang2024enhancing">SECURE</a>); and composing and evaluating skills, by exposing how earlier skills break later ones (<a class="rf-ref chain" href="/publications/#yang2025boss">BOSS</a>), linking object-centric VLA skills that hold up to these shifts (<a class="rf-ref chain" href="/publications/#yang2026lilo">LiLo-VLA</a>), and autonomously resetting and scoring long-horizon rollouts on real robots (<a class="rf-ref chain" href="/publications/#jiang2026halter">HALTER</a>).</p>
             </div>
             <aside class="rf-keys">
                 <span class="rf-keys-label">Keywords</span>
@@ -301,7 +301,7 @@
       var more = document.querySelector('.pub-more');
       var moreText = more && more.querySelector('.pub-more-text');
       var moreJump = more && more.querySelector('.view-jump');
-      var state = {view: 'all', topic: 'all'};
+      var state = {view: 'all', topic: 'all', paper: ''};
 
       function apply() {
         var shown = 0;
@@ -356,7 +356,7 @@
         if (history.replaceState) {
           history.replaceState(null, '', location.pathname +
             (state.view === 'selected' ? '?view=selected' : '') +
-            (state.topic === 'all' ? '' : '#' + state.topic));
+            (state.topic !== 'all' ? '#' + state.topic : (state.paper ? '#' + state.paper : '')));
         }
       }
 
@@ -365,6 +365,7 @@
           var t = c.getAttribute('data-topic');
           // Clicking the active tag clears it, so the filter is never a trap.
           state.topic = c.classList.contains('is-on') && t !== 'all' ? 'all' : t;
+          state.paper = '';
           apply();
         });
       });
@@ -388,6 +389,19 @@
       function fromUrl() {
         var h = (location.hash || '').replace('#', '');
         if (Object.prototype.hasOwnProperty.call(aliases, h)) h = aliases[h];
+        // A paper's own id (linked from the About statement): show everything
+        // so the row is never filtered out, then bring it into view.
+        var target = h && document.getElementById(h);
+        if (target && target.classList.contains('paper-row')) {
+          state.topic = 'all'; state.view = 'all'; state.paper = h;
+          apply();
+          target.scrollIntoView({block: 'center'});
+          target.classList.remove('is-target');
+          void target.offsetWidth;
+          target.classList.add('is-target');
+          return;
+        }
+        state.paper = '';
         state.topic = chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all';
         // All is the default and carries no parameter; an old ?view=all link
         // still lands on All.

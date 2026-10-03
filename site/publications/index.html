@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css?v=3bf429bc">
+    <link rel="stylesheet" href="/assets/site.css?v=7bfd7282">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -33,7 +33,7 @@
       gtag('js', new Date());
       gtag('config', 'G-L4FWDSZJVD');
     </script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "Publications by Yue Yang", "numberOfItems": 21, "itemListElement": [{"@type": "ListItem", "position": 1, "item": {"@type": "ScholarlyArticle", "name": "Generative Neural Retargeting for Human-to-Robot Dexterous Manipulation", "author": [{"@type": "Person", "name": "Dechen Gao"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Ben Abbatematteo"}, {"@type": "Person", "name": "Nathan Godwin"}, {"@type": "Person", "name": "Pengcheng Wang"}, {"@type": "Person", "name": "Roger Boldu"}, {"@type": "Person", "name": "Steven Man"}, {"@type": "Person", "name": "Zhiyang Dou"}, {"@type": "Person", "name": "Chuan Qin"}, {"@type": "Person", "name": "Sho Nakagome"}, {"@type": "Person", "name": "Eric Whitmire"}], "datePublished": "2026-09-25", "creativeWorkStatus": "Under review"}}, {"@type": "ListItem", "position": 2, "item": {"@type": "ScholarlyArticle", "name": "From Rollout to Reset: A Graph-Based Harness for Autonomous Long-Horizon Manipulation Evaluation", "author": [{"@type": "Person", "name": "Jing Jiang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Xinkai Jiang"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Rudolf Lioutikov"}], "datePublished": "2026-09-16", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2609.19413"}, "sameAs": "https://doi.org/10.48550/arXiv.2609.19413", "creativeWorkStatus": "Under review", "url": "https://yy-gx.github.io/HALTER/", "abstract": "Testing a real robot means a human resetting every object between rollouts, which eats hours and leaves the starting state undefined, so results rarely reproduce. Long tasks make it worse. We build a scene graph, let an LLM read it to score the run and plan the cleanup, then chain small skills to reset."}}, {"@type": "ListItem", "position": 3, "item": {"@type": "ScholarlyArticle", "name": "Diagnosing and Recovering from Observation-Space Shift at Long-Horizon Skill Seams", "author": [{"@type": "Person", "name": "Pranav Wagh"}, {"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Mingyu Ding"}], "datePublished": "2026", "creativeWorkStatus": "Under review", "abstract": "Skills that each work on their own can fail once chained, because the next skill starts from whatever scene the last one left behind. Privileged simulator resets show the shift comes mostly from displaced scene state, such as a drawer left open or a bowl moved aside, rather than from the arm or the object being handled. A learned detect, restore, resume loop puts that scene back and lets the skill continue, raising full-chain success on BOSS-44 from 7.6% to 26.5%."}}, {"@type": "ListItem", "position": 4, "item": {"@type": "ScholarlyArticle", "name": "Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Diego Romeres"}, {"@type": "Person", "name": "Chiori Hori"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Siddarth Jain"}], "datePublished": "2026-09-02", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2609.03142"}, "sameAs": "https://doi.org/10.48550/arXiv.2609.03142", "creativeWorkStatus": "Under review", "url": "https://yy-gx.github.io/EGR/", "abstract": "Block a camera that shows nothing useful and a multi-sensor robot policy still falls apart, because training on narrow demos ties the sensors together instead of to the task. Our fix scores, frame by frame, which sensor carries evidence, then trains the policy to ignore the useless ones and work from the useful one alone."}}, {"@type": "ListItem", "position": 5, "item": {"@type": "ScholarlyArticle", "name": "DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation", "author": [{"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Wanxi Dong"}, {"@type": "Person", "name": "Jiaqi Liu"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Mingxiao Huo"}, {"@type": "Person", "name": "Yao Mu"}, {"@type": "Person", "name": "Huaxiu Yao"}, {"@type": "Person", "name": "Li Erran Li"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Mingyu Ding"}], "datePublished": "2026-07-14", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2607.13033"}, "sameAs": "https://doi.org/10.48550/arXiv.2607.13033", "creativeWorkStatus": "Under review", "url": "https://dense-reward.github.io/", "abstract": "Reward models for robots mostly say pass or fail at the end of a run, which tells a learner nothing about where things went wrong. Fake failures made by relabeling good runs look nothing like a dropped cup, so we build realistic ones in simulation and train a model that scores progress frame by frame."}}, {"@type": "ListItem", "position": 6, "item": {"@type": "ScholarlyArticle", "name": "FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model", "author": [{"@type": "Person", "name": "Chenyang Ma"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Radu Corcodel"}, {"@type": "Person", "name": "Siddarth Jain"}, {"@type": "Person", "name": "Andrew Wu"}, {"@type": "Person", "name": "Chiori Hori"}, {"@type": "Person", "name": "Diego Romeres"}], "datePublished": "2026-07-01", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2607.01212"}, "sameAs": "https://doi.org/10.48550/arXiv.2607.01212", "creativeWorkStatus": "Under review", "url": "https://dannymcy.github.io/furniturevla/", "abstract": "Assembling real furniture takes two arms and over 1500 control steps, but most robot assembly work stops at toy parts and a single arm. We build a simulation data pipeline and a VR rig that lets one person drive both arms. The policy predicts how far along it is, so it moves on by itself."}}, {"@type": "ListItem", "position": 7, "item": {"@type": "ScholarlyArticle", "name": "WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation", "author": [{"@type": "Person", "name": "Baiqi Li"}, {"@type": "Person", "name": "Ce Zhang"}, {"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Shangzhe Li"}, {"@type": "Person", "name": "Mingyu Ding"}, {"@type": "Person", "name": "Gedas Bertasius"}], "datePublished": "2026-06-24", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2606.26443"}, "sameAs": "https://doi.org/10.48550/arXiv.2606.26443", "creativeWorkStatus": "Under review", "url": "https://baiqi-li.github.io/watchact_page/", "abstract": "A robot helping a person needs to know what they already did and why, yet manipulation benchmarks hand a policy one instruction and one snapshot. WatchAct builds 3,000 cases pairing real human video with a matching simulator scene and a runnable task, then scores planning and execution separately so you see which half broke."}}, {"@type": "ListItem", "position": 8, "item": {"@type": "ScholarlyArticle", "name": "LiLo-VLA: Compositional Long-Horizon Manipulation via Linked Object-Centric Policies", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Shuo Cheng"}, {"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Homanga Bharadhwaj"}, {"@type": "Person", "name": "Mingyu Ding"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2026-02-25", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2602.21531"}, "sameAs": "https://doi.org/10.48550/arXiv.2602.21531", "creativeWorkStatus": "Under review", "award": "Best Paper Award, IROS 2026 Workshop on Compositional and Modular Learning", "url": "https://yy-gx.github.io/LiLo-VLA/", "abstract": "A skill trained on a tidy table gets distracted by a mug it never needed, and one slip in a chain ruins everything after. We split the job: one module drives the arm to the right place, a second looks only at the object being touched. The split lets the robot replan and reuse skills."}}, {"@type": "ListItem", "position": 9, "item": {"@type": "ScholarlyArticle", "name": "When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs", "author": [{"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Yuchun Feng"}, {"@type": "Person", "name": "Dong Jing"}, {"@type": "Person", "name": "Jiaqi Liu"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Zhenyu Wei"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Mingyu Ding"}], "datePublished": "2026-02-19", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2602.17659"}, "sameAs": "https://doi.org/10.48550/arXiv.2602.17659", "publication": "Proceedings of the Conference on Robot Learning (CoRL)", "award": "Spotlight", "url": "https://vla-cf.github.io/", "abstract": "Tell a VLA to pick up the bowl where it usually trained on the plate, and it often grabs the plate anyway: the visual habit beats the words. We build a test set that swaps instructions on familiar layouts, then run each policy beside a language-blind twin and use the gap to steer it back."}}, {"@type": "ListItem", "position": 10, "item": {"@type": "ScholarlyArticle", "name": "Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station", "author": [{"@type": "Person", "name": "Nicholas Conlon"}, {"@type": "Person", "name": "Pawel Sawicki"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Nisar R Ahmed"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2025", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/TFR.2025.3607856"}, "sameAs": "https://doi.org/10.1109/TFR.2025.3607856", "publication": "IEEE Transactions on Field Robotics (T-FR)", "url": "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11154044", "abstract": "Astronauts will one day hand jobs to autonomous rovers, but only if they can judge when a rover is likely to fail. We spent two weeks with a Mars Desert Research Station crew in Utah, running a ground robot that estimates its own competence and reports it, then watched how the crew planned around it."}}, {"@type": "ListItem", "position": 11, "item": {"@type": "ScholarlyArticle", "name": "Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis", "author": [{"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Xinghao Zhu"}, {"@type": "Person", "name": "Kaiyuan Zheng"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Mingyu Ding"}], "datePublished": "2025-10-19", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/IROS60139.2025.11246305"}, "sameAs": "https://doi.org/10.1109/IROS60139.2025.11246305", "publication": "Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)", "url": "https://yuffish.github.io/rebot/", "abstract": "Robot data is expensive, so a pretrained policy often meets your lab table and objects only on deployment day. Instead of collecting more, we replay real trajectories in a simulator with swapped objects, then paste those motions back onto inpainted real video. The output is new training clips with real backgrounds and physically believable motion."}}, {"@type": "ListItem", "position": 12, "item": {"@type": "ScholarlyArticle", "name": "BOSS: Benchmark for Observation Space Shift in Long-Horizon Task", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Linfeng Zhao"}, {"@type": "Person", "name": "Mingyu Ding"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2025-09", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/LRA.2025.3585390"}, "sameAs": "https://doi.org/10.1109/LRA.2025.3585390", "publication": "IEEE Robotics and Automation Letters (RA-L), presented at ICRA 2026", "url": "https://boss-benchmark.github.io/", "abstract": "Run one skill and it quietly rewrites the scene for the next one: the drawer is now open, the mug is now in the gripper, and the second policy has never seen that. We call this observation space shift, build a benchmark that isolates it three ways, and ask whether more varied demos are enough."}}, {"@type": "ListItem", "position": 13, "item": {"@type": "ScholarlyArticle", "name": "Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality", "author": [{"@type": "Person", "name": "Chenyang Ma"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Bryce Ikeda"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2025-03-04", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/HRI61500.2025.10973947"}, "sameAs": "https://doi.org/10.1109/HRI61500.2025.10973947", "publication": "Late-Breaking Reports, 2025 ACM/IEEE International Conference on Human-Robot Interaction (alt.HRI)", "url": "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10973947", "abstract": "Working with a robot on a long task, you often cannot tell which step it thinks comes next, and some steps have more than one sensible answer. We use augmented reality as a two-way channel: the robot shows what it intends to do when a subtask is ambiguous, and adjusts to what the person answers."}}, {"@type": "ListItem", "position": 14, "item": {"@type": "ScholarlyArticle", "name": "ARCADE: Scalable Demonstration Collection and Generation via Augmented Reality for Imitation Learning", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Bryce Ikeda"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2024-10-14", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/IROS58592.2024.10801810"}, "sameAs": "https://doi.org/10.1109/IROS58592.2024.10801810", "publication": "Proceedings of the 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)", "url": "https://yy-gx.github.io/ARCADE/", "abstract": "Imitation learning needs dozens of demonstrations per task, and each one is a person tediously driving a robot arm through the same motion. Wearing a headset, a person does the task once with their bare hands, and the system turns that single demo into many synthetic ones. Tested on a real Fetch robot."}}, {"@type": "ListItem", "position": 15, "item": {"@type": "ScholarlyArticle", "name": "Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Letian Chen"}, {"@type": "Person", "name": "Zulfiqar Zaidi"}, {"@type": "Person", "name": "Sanne van Waveren"}, {"@type": "Person", "name": "Arjun Krishna"}, {"@type": "Person", "name": "Matthew Gombolay"}], "datePublished": "2024-03-11", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1145/3610977.3635002"}, "sameAs": "https://doi.org/10.1145/3610977.3635002", "publication": "Proceedings of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (HRI)", "url": "https://dl.acm.org/doi/pdf/10.1145/3610977.3635002", "abstract": "Anyone can teach a robot a task by demonstrating it, but nothing stops the learned policy from swinging a knife toward your hand. So the user demonstrates safety too, drawing where the line is for them, and we turn that into a shield that blocks unsafe actions while leaving the task mostly alone."}}, {"@type": "ListItem", "position": 16, "item": {"@type": "ScholarlyArticle", "name": "Augmented Reality Demonstrations for Scalable Robot Imitation Learning", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Bryce Ikeda"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2024-03-20", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2403.13910"}, "sameAs": "https://doi.org/10.48550/arXiv.2403.13910", "publication": "7th International Workshop on Virtual, Augmented, and Mixed-Reality for Human-Robot Interactions (VAM-HRI)", "url": "https://arxiv.org/pdf/2403.13910", "abstract": "Most demonstration data comes from people already trained to drive a robot arm, which keeps the pool of teachers small. Our HoloLens 2 setup lets someone with no robotics background record a demonstration by moving their own hand, and we check the recordings by replaying them on a real arm for reach, push and pick-and-place."}}, {"@type": "ListItem", "position": 17, "item": {"@type": "ScholarlyArticle", "name": "Annotated Hands for Generative Models", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Atith N Gandhi"}, {"@type": "Person", "name": "Greg Turk"}], "datePublished": "2024-01-26", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2401.15075"}, "sameAs": "https://doi.org/10.48550/arXiv.2401.15075", "publication": "arXiv preprint arXiv:2401.15075", "url": "https://arxiv.org/pdf/2401.15075.pdf", "abstract": "Image generators got very good, and still produce hands with six fingers and thumbs bent the wrong way. We add three extra channels to every training image that mark where the hand and its joints are, giving the model structure it otherwise has to guess. Tried on both a GAN and a diffusion model."}}, {"@type": "ListItem", "position": 18, "item": {"@type": "ScholarlyArticle", "name": "Safe Inverse Reinforcement Learning via Control Barrier Function", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Letian Chen"}, {"@type": "Person", "name": "Matthew Gombolay"}], "datePublished": "2022-12-06", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2212.02753"}, "sameAs": "https://doi.org/10.48550/arXiv.2212.02753", "publication": "Proceedings of CoRL Learning for Agile Robotics workshop", "url": "https://arxiv.org/pdf/2212.02753", "abstract": "Inverse reinforcement learning copies the reward behind a demonstration, but nothing in it keeps a fast car or drone from hitting a wall. Rather than filtering actions afterwards, we fold a control barrier function straight into the training loss, so safety and reward-matching are learned together. Tested on a 2D racecar and a 3D drone."}}, {"@type": "ListItem", "position": 19, "item": {"@type": "ScholarlyArticle", "name": "Discriminative Cross-Modal Data Augmentation for Medical Imaging Applications", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Pengtao Xie"}], "datePublished": "2020-10-07", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2010.03468"}, "sameAs": "https://doi.org/10.48550/arXiv.2010.03468", "publication": "arXiv preprint arXiv:2010.03468", "url": "https://arxiv.org/pdf/2010.03468.pdf", "abstract": "Labeled medical images are scarce: privacy limits sharing and few clinicians have time to annotate. One fix is translating scans from one modality into another, but a translator trained alone makes images that look right but add nothing. We train the translator jointly with the diagnosis model, so the prediction task steers what gets generated."}}, {"@type": "ListItem", "position": 20, "item": {"@type": "ScholarlyArticle", "name": "Transfer Learning or Self-supervised Learning? A Tale of Two Pretraining Paradigms", "author": [{"@type": "Person", "name": "Xingyi Yang"}, {"@type": "Person", "name": "Xuehai He"}, {"@type": "Person", "name": "Yuxiao Liang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Shanghang Zhang"}, {"@type": "Person", "name": "Pengtao Xie"}], "datePublished": "2020-06-19", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2007.04234"}, "sameAs": "https://doi.org/10.48550/arXiv.2007.04234", "publication": "arXiv preprint arXiv:2007.04234", "url": "https://arxiv.org/pdf/2007.04234.pdf", "abstract": "Should you pretrain with labels or without them? The honest answer used to be to try both and see, which burns a lot of compute. We run that comparison carefully, varying how far the source domain sits from the target, how much pretraining data there is, and how imbalanced the source labels are."}}, {"@type": "ListItem", "position": 21, "item": {"@type": "ScholarlyArticle", "name": "MedDialog: Large-scale Medical Dialogue Datasets", "author": [{"@type": "Person", "name": "Guangtao Zeng"}, {"@type": "Person", "name": "Wenmian Yang"}, {"@type": "Person", "name": "Zeqian Ju"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Sicheng Wang"}, {"@type": "Person", "name": "Ruisi Zhang"}, {"@type": "Person", "name": "Meng Zhou"}, {"@type": "Person", "name": "Jiaqi Zeng"}, {"@type": "Person", "name": "Xiangyu Dong"}, {"@type": "Person", "name": "Ruoyu Zhang"}, {"@type": "Person", "name": "Hongchao Fang"}, {"@type": "Person", "name": "Penghui Zhu"}, {"@type": "Person", "name": "Shu Chen"}, {"@type": "Person", "name": "Pengtao Xie"}], "datePublished": "2020-11", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.18653/v1/2020.emnlp-main.743"}, "sameAs": "https://doi.org/10.18653/v1/2020.emnlp-main.743", "publication": "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)", "url": "https://par.nsf.gov/servlets/purl/10279920"}}]}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "Publications by Yue Yang", "numberOfItems": 21, "itemListElement": [{"@type": "ListItem", "position": 1, "item": {"@type": "ScholarlyArticle", "name": "Generative Neural Retargeting for Human-to-Robot Dexterous Manipulation", "author": [{"@type": "Person", "name": "Dechen Gao"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Ben Abbatematteo"}, {"@type": "Person", "name": "Nathan Godwin"}, {"@type": "Person", "name": "Pengcheng Wang"}, {"@type": "Person", "name": "Roger Boldu"}, {"@type": "Person", "name": "Steven Man"}, {"@type": "Person", "name": "Zhiyang Dou"}, {"@type": "Person", "name": "Chuan Qin"}, {"@type": "Person", "name": "Sho Nakagome"}, {"@type": "Person", "name": "Eric Whitmire"}], "datePublished": "2026-09-25", "creativeWorkStatus": "Under review"}}, {"@type": "ListItem", "position": 2, "item": {"@type": "ScholarlyArticle", "name": "Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Diego Romeres"}, {"@type": "Person", "name": "Chiori Hori"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Siddarth Jain"}], "datePublished": "2026-09-02", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2609.03142"}, "sameAs": "https://doi.org/10.48550/arXiv.2609.03142", "creativeWorkStatus": "Under review", "url": "https://yy-gx.github.io/EGR/", "abstract": "Block a camera that shows nothing useful and a multi-sensor robot policy still falls apart, because training on narrow demos ties the sensors together instead of to the task. Our fix scores, frame by frame, which sensor carries evidence, then trains the policy to ignore the useless ones and work from the useful one alone."}}, {"@type": "ListItem", "position": 3, "item": {"@type": "ScholarlyArticle", "name": "From Rollout to Reset: A Graph-Based Harness for Autonomous Long-Horizon Manipulation Evaluation", "author": [{"@type": "Person", "name": "Jing Jiang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Xinkai Jiang"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Rudolf Lioutikov"}], "datePublished": "2026-09-16", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2609.19413"}, "sameAs": "https://doi.org/10.48550/arXiv.2609.19413", "creativeWorkStatus": "Under review", "url": "https://yy-gx.github.io/HALTER/", "abstract": "Testing a real robot means a human resetting every object between rollouts, which eats hours and leaves the starting state undefined, so results rarely reproduce. Long tasks make it worse. We build a scene graph, let an LLM read it to score the run and plan the cleanup, then chain small skills to reset."}}, {"@type": "ListItem", "position": 4, "item": {"@type": "ScholarlyArticle", "name": "Diagnosing and Recovering from Observation-Space Shift at Long-Horizon Skill Seams", "author": [{"@type": "Person", "name": "Pranav Wagh"}, {"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Mingyu Ding"}], "datePublished": "2026", "creativeWorkStatus": "Under review", "abstract": "Skills that each work on their own can fail once chained, because the next skill starts from whatever scene the last one left behind. Privileged simulator resets show the shift comes mostly from displaced scene state, such as a drawer left open or a bowl moved aside, rather than from the arm or the object being handled. A learned detect, restore, resume loop puts that scene back and lets the skill continue, raising full-chain success on BOSS-44 from 7.6% to 26.5%."}}, {"@type": "ListItem", "position": 5, "item": {"@type": "ScholarlyArticle", "name": "WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation", "author": [{"@type": "Person", "name": "Baiqi Li"}, {"@type": "Person", "name": "Ce Zhang"}, {"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Shangzhe Li"}, {"@type": "Person", "name": "Mingyu Ding"}, {"@type": "Person", "name": "Gedas Bertasius"}], "datePublished": "2026-06-24", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2606.26443"}, "sameAs": "https://doi.org/10.48550/arXiv.2606.26443", "creativeWorkStatus": "Under review", "url": "https://baiqi-li.github.io/watchact_page/", "abstract": "A robot helping a person needs to know what they already did and why, yet manipulation benchmarks hand a policy one instruction and one snapshot. WatchAct builds 3,000 cases pairing real human video with a matching simulator scene and a runnable task, then scores planning and execution separately so you see which half broke."}}, {"@type": "ListItem", "position": 6, "item": {"@type": "ScholarlyArticle", "name": "DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation", "author": [{"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Wanxi Dong"}, {"@type": "Person", "name": "Jiaqi Liu"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Mingxiao Huo"}, {"@type": "Person", "name": "Yao Mu"}, {"@type": "Person", "name": "Huaxiu Yao"}, {"@type": "Person", "name": "Li Erran Li"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Mingyu Ding"}], "datePublished": "2026-07-14", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2607.13033"}, "sameAs": "https://doi.org/10.48550/arXiv.2607.13033", "creativeWorkStatus": "Under review", "url": "https://dense-reward.github.io/", "abstract": "Reward models for robots mostly say pass or fail at the end of a run, which tells a learner nothing about where things went wrong. Fake failures made by relabeling good runs look nothing like a dropped cup, so we build realistic ones in simulation and train a model that scores progress frame by frame."}}, {"@type": "ListItem", "position": 7, "item": {"@type": "ScholarlyArticle", "name": "LiLo-VLA: Compositional Long-Horizon Manipulation via Linked Object-Centric Policies", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Shuo Cheng"}, {"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Homanga Bharadhwaj"}, {"@type": "Person", "name": "Mingyu Ding"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2026-02-25", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2602.21531"}, "sameAs": "https://doi.org/10.48550/arXiv.2602.21531", "creativeWorkStatus": "Under review", "award": "Best Paper Award, IROS 2026 Workshop on Compositional and Modular Learning", "url": "https://yy-gx.github.io/LiLo-VLA/", "abstract": "A skill trained on a tidy table gets distracted by a mug it never needed, and one slip in a chain ruins everything after. We split the job: one module drives the arm to the right place, a second looks only at the object being touched. The split lets the robot replan and reuse skills."}}, {"@type": "ListItem", "position": 8, "item": {"@type": "ScholarlyArticle", "name": "When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs", "author": [{"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Yuchun Feng"}, {"@type": "Person", "name": "Dong Jing"}, {"@type": "Person", "name": "Jiaqi Liu"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Zhenyu Wei"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Mingyu Ding"}], "datePublished": "2026-02-19", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2602.17659"}, "sameAs": "https://doi.org/10.48550/arXiv.2602.17659", "publication": "Proceedings of the Conference on Robot Learning (CoRL)", "award": "Spotlight", "url": "https://vla-cf.github.io/", "abstract": "Tell a VLA to pick up the bowl where it usually trained on the plate, and it often grabs the plate anyway: the visual habit beats the words. We build a test set that swaps instructions on familiar layouts, then run each policy beside a language-blind twin and use the gap to steer it back."}}, {"@type": "ListItem", "position": 9, "item": {"@type": "ScholarlyArticle", "name": "FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model", "author": [{"@type": "Person", "name": "Chenyang Ma"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Radu Corcodel"}, {"@type": "Person", "name": "Siddarth Jain"}, {"@type": "Person", "name": "Andrew Wu"}, {"@type": "Person", "name": "Chiori Hori"}, {"@type": "Person", "name": "Diego Romeres"}], "datePublished": "2026-07-01", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2607.01212"}, "sameAs": "https://doi.org/10.48550/arXiv.2607.01212", "creativeWorkStatus": "Under review", "url": "https://dannymcy.github.io/furniturevla/", "abstract": "Assembling real furniture takes two arms and over 1500 control steps, but most robot assembly work stops at toy parts and a single arm. We build a simulation data pipeline and a VR rig that lets one person drive both arms. The policy predicts how far along it is, so it moves on by itself."}}, {"@type": "ListItem", "position": 10, "item": {"@type": "ScholarlyArticle", "name": "BOSS: Benchmark for Observation Space Shift in Long-Horizon Task", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Linfeng Zhao"}, {"@type": "Person", "name": "Mingyu Ding"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2025-09", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/LRA.2025.3585390"}, "sameAs": "https://doi.org/10.1109/LRA.2025.3585390", "publication": "IEEE Robotics and Automation Letters (RA-L), presented at ICRA 2026", "url": "https://boss-benchmark.github.io/", "abstract": "Run one skill and it quietly rewrites the scene for the next one: the drawer is now open, the mug is now in the gripper, and the second policy has never seen that. We call this observation space shift, build a benchmark that isolates it three ways, and ask whether more varied demos are enough."}}, {"@type": "ListItem", "position": 11, "item": {"@type": "ScholarlyArticle", "name": "ReBot: Scaling Robot Learning with Real-to-Sim-to-Real Robotic Video Synthesis", "author": [{"@type": "Person", "name": "Yu Fang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Xinghao Zhu"}, {"@type": "Person", "name": "Kaiyuan Zheng"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}, {"@type": "Person", "name": "Mingyu Ding"}], "datePublished": "2025-10-19", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/IROS60139.2025.11246305"}, "sameAs": "https://doi.org/10.1109/IROS60139.2025.11246305", "publication": "Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)", "url": "https://yuffish.github.io/rebot/", "abstract": "Robot data is expensive, so a pretrained policy often meets your lab table and objects only on deployment day. Instead of collecting more, we replay real trajectories in a simulator with swapped objects, then paste those motions back onto inpainted real video. The output is new training clips with real backgrounds and physically believable motion."}}, {"@type": "ListItem", "position": 12, "item": {"@type": "ScholarlyArticle", "name": "Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality", "author": [{"@type": "Person", "name": "Chenyang Ma"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Bryce Ikeda"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2025-03-04", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/HRI61500.2025.10973947"}, "sameAs": "https://doi.org/10.1109/HRI61500.2025.10973947", "publication": "Late-Breaking Reports, 2025 ACM/IEEE International Conference on Human-Robot Interaction (alt.HRI)", "url": "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10973947", "abstract": "Working with a robot on a long task, you often cannot tell which step it thinks comes next, and some steps have more than one sensible answer. We use augmented reality as a two-way channel: the robot shows what it intends to do when a subtask is ambiguous, and adjusts to what the person answers."}}, {"@type": "ListItem", "position": 13, "item": {"@type": "ScholarlyArticle", "name": "Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station", "author": [{"@type": "Person", "name": "Nicholas Conlon"}, {"@type": "Person", "name": "Pawel Sawicki"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Nisar R Ahmed"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2025", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/TFR.2025.3607856"}, "sameAs": "https://doi.org/10.1109/TFR.2025.3607856", "publication": "IEEE Transactions on Field Robotics (T-FR)", "url": "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11154044", "abstract": "Astronauts will one day hand jobs to autonomous rovers, but only if they can judge when a rover is likely to fail. We spent two weeks with a Mars Desert Research Station crew in Utah, running a ground robot that estimates its own competence and reports it, then watched how the crew planned around it."}}, {"@type": "ListItem", "position": 14, "item": {"@type": "ScholarlyArticle", "name": "ARCADE: Scalable Demonstration Collection and Generation via Augmented Reality for Imitation Learning", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Bryce Ikeda"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2024-10-14", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1109/IROS58592.2024.10801810"}, "sameAs": "https://doi.org/10.1109/IROS58592.2024.10801810", "publication": "Proceedings of the 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)", "url": "https://yy-gx.github.io/ARCADE/", "abstract": "Imitation learning needs dozens of demonstrations per task, and each one is a person tediously driving a robot arm through the same motion. Wearing a headset, a person does the task once with their bare hands, and the system turns that single demo into many synthetic ones. Tested on a real Fetch robot."}}, {"@type": "ListItem", "position": 15, "item": {"@type": "ScholarlyArticle", "name": "Augmented Reality Demonstrations for Scalable Robot Imitation Learning", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Bryce Ikeda"}, {"@type": "Person", "name": "Gedas Bertasius"}, {"@type": "Person", "name": "Daniel Szafir"}], "datePublished": "2024-03-20", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2403.13910"}, "sameAs": "https://doi.org/10.48550/arXiv.2403.13910", "publication": "7th International Workshop on Virtual, Augmented, and Mixed-Reality for Human-Robot Interactions (VAM-HRI)", "url": "https://arxiv.org/pdf/2403.13910", "abstract": "Most demonstration data comes from people already trained to drive a robot arm, which keeps the pool of teachers small. Our HoloLens 2 setup lets someone with no robotics background record a demonstration by moving their own hand, and we check the recordings by replaying them on a real arm for reach, push and pick-and-place."}}, {"@type": "ListItem", "position": 16, "item": {"@type": "ScholarlyArticle", "name": "Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Letian Chen"}, {"@type": "Person", "name": "Zulfiqar Zaidi"}, {"@type": "Person", "name": "Sanne van Waveren"}, {"@type": "Person", "name": "Arjun Krishna"}, {"@type": "Person", "name": "Matthew Gombolay"}], "datePublished": "2024-03-11", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.1145/3610977.3635002"}, "sameAs": "https://doi.org/10.1145/3610977.3635002", "publication": "Proceedings of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (HRI)", "url": "https://dl.acm.org/doi/pdf/10.1145/3610977.3635002", "abstract": "Anyone can teach a robot a task by demonstrating it, but nothing stops the learned policy from swinging a knife toward your hand. So the user demonstrates safety too, drawing where the line is for them, and we turn that into a shield that blocks unsafe actions while leaving the task mostly alone."}}, {"@type": "ListItem", "position": 17, "item": {"@type": "ScholarlyArticle", "name": "Annotated Hands for Generative Models", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Atith N Gandhi"}, {"@type": "Person", "name": "Greg Turk"}], "datePublished": "2024-01-26", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2401.15075"}, "sameAs": "https://doi.org/10.48550/arXiv.2401.15075", "publication": "arXiv preprint arXiv:2401.15075", "url": "https://arxiv.org/pdf/2401.15075.pdf", "abstract": "Image generators got very good, and still produce hands with six fingers and thumbs bent the wrong way. We add three extra channels to every training image that mark where the hand and its joints are, giving the model structure it otherwise has to guess. Tried on both a GAN and a diffusion model."}}, {"@type": "ListItem", "position": 18, "item": {"@type": "ScholarlyArticle", "name": "Safe Inverse Reinforcement Learning via Control Barrier Function", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Letian Chen"}, {"@type": "Person", "name": "Matthew Gombolay"}], "datePublished": "2022-12-06", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2212.02753"}, "sameAs": "https://doi.org/10.48550/arXiv.2212.02753", "publication": "Proceedings of CoRL Learning for Agile Robotics workshop", "url": "https://arxiv.org/pdf/2212.02753", "abstract": "Inverse reinforcement learning copies the reward behind a demonstration, but nothing in it keeps a fast car or drone from hitting a wall. Rather than filtering actions afterwards, we fold a control barrier function straight into the training loss, so safety and reward-matching are learned together. Tested on a 2D racecar and a 3D drone."}}, {"@type": "ListItem", "position": 19, "item": {"@type": "ScholarlyArticle", "name": "Discriminative Cross-Modal Data Augmentation for Medical Imaging Applications", "author": [{"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Pengtao Xie"}], "datePublished": "2020-10-07", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2010.03468"}, "sameAs": "https://doi.org/10.48550/arXiv.2010.03468", "publication": "arXiv preprint arXiv:2010.03468", "url": "https://arxiv.org/pdf/2010.03468.pdf", "abstract": "Labeled medical images are scarce: privacy limits sharing and few clinicians have time to annotate. One fix is translating scans from one modality into another, but a translator trained alone makes images that look right but add nothing. We train the translator jointly with the diagnosis model, so the prediction task steers what gets generated."}}, {"@type": "ListItem", "position": 20, "item": {"@type": "ScholarlyArticle", "name": "Transfer Learning or Self-supervised Learning? A Tale of Two Pretraining Paradigms", "author": [{"@type": "Person", "name": "Xingyi Yang"}, {"@type": "Person", "name": "Xuehai He"}, {"@type": "Person", "name": "Yuxiao Liang"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Shanghang Zhang"}, {"@type": "Person", "name": "Pengtao Xie"}], "datePublished": "2020-06-19", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.48550/arXiv.2007.04234"}, "sameAs": "https://doi.org/10.48550/arXiv.2007.04234", "publication": "arXiv preprint arXiv:2007.04234", "url": "https://arxiv.org/pdf/2007.04234.pdf", "abstract": "Should you pretrain with labels or without them? The honest answer used to be to try both and see, which burns a lot of compute. We run that comparison carefully, varying how far the source domain sits from the target, how much pretraining data there is, and how imbalanced the source labels are."}}, {"@type": "ListItem", "position": 21, "item": {"@type": "ScholarlyArticle", "name": "MedDialog: Large-scale Medical Dialogue Datasets", "author": [{"@type": "Person", "name": "Guangtao Zeng"}, {"@type": "Person", "name": "Wenmian Yang"}, {"@type": "Person", "name": "Zeqian Ju"}, {"@type": "Person", "name": "Yue Yang"}, {"@type": "Person", "name": "Sicheng Wang"}, {"@type": "Person", "name": "Ruisi Zhang"}, {"@type": "Person", "name": "Meng Zhou"}, {"@type": "Person", "name": "Jiaqi Zeng"}, {"@type": "Person", "name": "Xiangyu Dong"}, {"@type": "Person", "name": "Ruoyu Zhang"}, {"@type": "Person", "name": "Hongchao Fang"}, {"@type": "Person", "name": "Penghui Zhu"}, {"@type": "Person", "name": "Shu Chen"}, {"@type": "Person", "name": "Pengtao Xie"}], "datePublished": "2020-11", "identifier": {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.18653/v1/2020.emnlp-main.743"}, "sameAs": "https://doi.org/10.18653/v1/2020.emnlp-main.743", "publication": "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)", "url": "https://par.nsf.gov/servlets/purl/10279920"}}]}</script>
 </head>
 <body>
     <div class="page-body">
@@ -96,7 +96,7 @@
             <button class="tag-chip tag-other" data-topic="other" data-n-selected="0" data-n-all="5" aria-pressed="false">Other <span class="tag-n">5</span></button>
         </div>
         <div class="pub-year" data-year="2026">2026</div>
-    <div class="paper-row" data-topics="data" data-selected="1">
+    <div class="paper-row" id="gao2026generative" data-topics="data" data-selected="1">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/iclr27_gnr.jpg" data-caption="Generative Neural Retargeting for Human-to-Robot Dexterous Manipulation" data-blurb="" aria-label="Enlarge figure from Generative Neural Retargeting for Human-to-Robot Dexterous Manipulation">
                 <img src="/images/publications/iclr27_gnr.jpg" alt="Figure from Generative Neural Retargeting for Human-to-Robot Dexterous Manipulation" loading="lazy">
@@ -112,7 +112,34 @@
             </div>
         </div>
     </div>
-    <div class="paper-row" data-topics="chain" data-selected="1">
+    <div class="paper-row" id="yang2026sensing" data-topics="robust" data-selected="1">
+        <div class="paper-thumb">
+            <button class="thumb-zoom" data-full="/images/publications/full/icra27_egr.png" data-caption="Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies" data-blurb="Block a camera that shows nothing useful and a multi-sensor robot policy still falls apart, because training on narrow demos ties the sensors together instead of to the task. Our fix scores, frame by frame, which sensor carries evidence, then trains the policy to ignore the useless ones and work from the useful one alone." aria-label="Enlarge figure from Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies">
+                <img src="/images/publications/icra27_egr.png" alt="Figure from Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies" loading="lazy">
+            </button>
+            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
+        </div>
+        <div class="paper-info">
+            <p class="paper-title">Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies</p>
+            <p class="paper-authors"><b>Yue Yang</b>, Diego Romeres, Chiori Hori, Gedas Bertasius, Daniel Szafir, Siddarth Jain</p>
+            <p class="paper-venue">Under review</p>
+            <div class="paper-links">
+                <a href="https://yy-gx.github.io/EGR/" class="button icon" target="_blank" rel="noopener noreferrer">Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <a href="https://arxiv.org/pdf/2609.03142" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
+                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-yang2026sensing">BibTeX <i class="fa-regular fa-copy"></i></button>
+            </div>
+            <pre class="paper-cite" id="cite-yang2026sensing" hidden><code>@misc{yang2026sensingmodalitymattersevidencegated,
+      title={Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies},
+      author={Yue Yang and Diego Romeres and Chiori Hori and Gedas Bertasius and Daniel Szafir and Siddarth Jain},
+      year={2026},
+      eprint={2609.03142},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2609.03142},
+}</code></pre>
+        </div>
+    </div>
+    <div class="paper-row" id="jiang2026halter" data-topics="chain" data-selected="1">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/icra27_halter.jpg" data-caption="From Rollout to Reset: A Graph-Based Harness for Autonomous Long-Horizon Manipulation Evaluation" data-blurb="Testing a real robot means a human resetting every object between rollouts, which eats hours and leaves the starting state undefined, so results rarely reproduce. Long tasks make it worse. We build a scene graph, let an LLM read it to score the run and plan the cleanup, then chain small skills to reset." aria-label="Enlarge figure from From Rollout to Reset: A Graph-Based Harness for Autonomous Long-Horizon Manipulation Evaluation">
                 <img src="/images/publications/icra27_halter.jpg" alt="Figure from From Rollout to Reset: A Graph-Based Harness for Autonomous Long-Horizon Manipulation Evaluation" loading="lazy">
@@ -140,7 +167,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row" data-topics="chain" data-selected="0">
+    <div class="paper-row" id="wagh2026diagnosing" data-topics="chain" data-selected="0">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/icra27_pranav.png" data-caption="Diagnosing and Recovering from Observation-Space Shift at Long-Horizon Skill Seams" data-blurb="Skills that each work on their own can fail once chained, because the next skill starts from whatever scene the last one left behind. Privileged simulator resets show the shift comes mostly from displaced scene state, such as a drawer left open or a bowl moved aside, rather than from the arm or the object being handled. A learned detect, restore, resume loop puts that scene back and lets the skill continue, raising full-chain success on BOSS-44 from 7.6% to 26.5%." aria-label="Enlarge figure from Diagnosing and Recovering from Observation-Space Shift at Long-Horizon Skill Seams">
                 <img src="/images/publications/icra27_pranav.png" alt="Figure from Diagnosing and Recovering from Observation-Space Shift at Long-Horizon Skill Seams" loading="lazy">
@@ -156,88 +183,7 @@
             </div>
         </div>
     </div>
-    <div class="paper-row" data-topics="robust" data-selected="1">
-        <div class="paper-thumb">
-            <button class="thumb-zoom" data-full="/images/publications/full/icra27_egr.png" data-caption="Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies" data-blurb="Block a camera that shows nothing useful and a multi-sensor robot policy still falls apart, because training on narrow demos ties the sensors together instead of to the task. Our fix scores, frame by frame, which sensor carries evidence, then trains the policy to ignore the useless ones and work from the useful one alone." aria-label="Enlarge figure from Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies">
-                <img src="/images/publications/icra27_egr.png" alt="Figure from Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies" loading="lazy">
-            </button>
-            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
-        </div>
-        <div class="paper-info">
-            <p class="paper-title">Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies</p>
-            <p class="paper-authors"><b>Yue Yang</b>, Diego Romeres, Chiori Hori, Gedas Bertasius, Daniel Szafir, Siddarth Jain</p>
-            <p class="paper-venue">Under review</p>
-            <div class="paper-links">
-                <a href="https://yy-gx.github.io/EGR/" class="button icon" target="_blank" rel="noopener noreferrer">Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                <a href="https://arxiv.org/pdf/2609.03142" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
-                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-yang2026sensing">BibTeX <i class="fa-regular fa-copy"></i></button>
-            </div>
-            <pre class="paper-cite" id="cite-yang2026sensing" hidden><code>@misc{yang2026sensingmodalitymattersevidencegated,
-      title={Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies},
-      author={Yue Yang and Diego Romeres and Chiori Hori and Gedas Bertasius and Daniel Szafir and Siddarth Jain},
-      year={2026},
-      eprint={2609.03142},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO},
-      url={https://arxiv.org/abs/2609.03142},
-}</code></pre>
-        </div>
-    </div>
-    <div class="paper-row" data-topics="data" data-selected="0">
-        <div class="paper-thumb">
-            <button class="thumb-zoom" data-full="/images/publications/full/icra27_densereward.jpg" data-caption="DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation" data-blurb="Reward models for robots mostly say pass or fail at the end of a run, which tells a learner nothing about where things went wrong. Fake failures made by relabeling good runs look nothing like a dropped cup, so we build realistic ones in simulation and train a model that scores progress frame by frame." aria-label="Enlarge figure from DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation">
-                <img src="/images/publications/icra27_densereward.jpg" alt="Figure from DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation" loading="lazy">
-            </button>
-            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
-        </div>
-        <div class="paper-info">
-            <p class="paper-title">DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation</p>
-            <p class="paper-authors">Yu Fang, Wanxi Dong, Jiaqi Liu, <b>Yue Yang</b>, Mingxiao Huo, Yao Mu, Huaxiu Yao, Li Erran Li, Daniel Szafir, Mingyu Ding</p>
-            <p class="paper-venue">Under review</p>
-            <div class="paper-links">
-                <a href="https://dense-reward.github.io/" class="button icon" target="_blank" rel="noopener noreferrer">Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                <a href="https://arxiv.org/pdf/2607.13033" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
-                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-fang2026densereward">BibTeX <i class="fa-regular fa-copy"></i></button>
-            </div>
-            <pre class="paper-cite" id="cite-fang2026densereward" hidden><code>@misc{fang2026denserewarddenserewardlearning,
-      title={DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation},
-      author={Yu Fang and Wanxi Dong and Jiaqi Liu and Yue Yang and Mingxiao Huo and Yao Mu and Huaxiu Yao and Li Erran Li and Daniel Szafir and Mingyu Ding},
-      year={2026},
-      eprint={2607.13033},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO},
-      url={https://arxiv.org/abs/2607.13033},
-}</code></pre>
-        </div>
-    </div>
-    <div class="paper-row" data-topics="chain" data-selected="0">
-        <div class="paper-thumb">
-            <button class="thumb-zoom" data-full="/images/publications/full/ral_furniturevla.jpg" data-caption="FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model" data-blurb="Assembling real furniture takes two arms and over 1500 control steps, but most robot assembly work stops at toy parts and a single arm. We build a simulation data pipeline and a VR rig that lets one person drive both arms. The policy predicts how far along it is, so it moves on by itself." aria-label="Enlarge figure from FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model">
-                <img src="/images/publications/ral_furniturevla.jpg" alt="Figure from FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model" loading="lazy">
-            </button>
-            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
-        </div>
-        <div class="paper-info">
-            <p class="paper-title">FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model</p>
-            <p class="paper-authors">Chenyang Ma, <b>Yue Yang</b>, Radu Corcodel, Siddarth Jain, Andrew Wu, Chiori Hori, Diego Romeres</p>
-            <p class="paper-venue">Under review</p>
-            <div class="paper-links">
-                <a href="https://dannymcy.github.io/furniturevla/" class="button icon" target="_blank" rel="noopener noreferrer">Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                <a href="https://arxiv.org/pdf/2607.01212" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
-                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-ma2026furniturevla">BibTeX <i class="fa-regular fa-copy"></i></button>
-            </div>
-            <pre class="paper-cite" id="cite-ma2026furniturevla" hidden><code>@misc{ma2026furniturevlalearninglonghorizonbimanual,
-      title={FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model},
-      author={Chenyang Ma and Yue Yang and Radu Corcodel and Siddarth Jain and Andrew Wu and Chiori Hori and Diego Romeres},
-      year={2026},
-      eprint={2607.01212},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO},
-      url={https://arxiv.org/abs/2607.01212},
-}</code></pre>
-        </div>
-    </div>
-    <div class="paper-row" data-topics="chain" data-selected="0">
+    <div class="paper-row" id="li2026watchact" data-topics="chain" data-selected="0">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/icra27_watchact.png" data-caption="WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation" data-blurb="A robot helping a person needs to know what they already did and why, yet manipulation benchmarks hand a policy one instruction and one snapshot. WatchAct builds 3,000 cases pairing real human video with a matching simulator scene and a runnable task, then scores planning and execution separately so you see which half broke." aria-label="Enlarge figure from WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation">
                 <img src="/images/publications/icra27_watchact.png" alt="Figure from WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation" loading="lazy">
@@ -265,7 +211,34 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row" data-topics="chain" data-selected="1">
+    <div class="paper-row" id="fang2026densereward" data-topics="data" data-selected="0">
+        <div class="paper-thumb">
+            <button class="thumb-zoom" data-full="/images/publications/full/icra27_densereward.jpg" data-caption="DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation" data-blurb="Reward models for robots mostly say pass or fail at the end of a run, which tells a learner nothing about where things went wrong. Fake failures made by relabeling good runs look nothing like a dropped cup, so we build realistic ones in simulation and train a model that scores progress frame by frame." aria-label="Enlarge figure from DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation">
+                <img src="/images/publications/icra27_densereward.jpg" alt="Figure from DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation" loading="lazy">
+            </button>
+            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
+        </div>
+        <div class="paper-info">
+            <p class="paper-title">DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation</p>
+            <p class="paper-authors">Yu Fang, Wanxi Dong, Jiaqi Liu, <b>Yue Yang</b>, Mingxiao Huo, Yao Mu, Huaxiu Yao, Li Erran Li, Daniel Szafir, Mingyu Ding</p>
+            <p class="paper-venue">Under review</p>
+            <div class="paper-links">
+                <a href="https://dense-reward.github.io/" class="button icon" target="_blank" rel="noopener noreferrer">Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <a href="https://arxiv.org/pdf/2607.13033" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
+                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-fang2026densereward">BibTeX <i class="fa-regular fa-copy"></i></button>
+            </div>
+            <pre class="paper-cite" id="cite-fang2026densereward" hidden><code>@misc{fang2026denserewarddenserewardlearning,
+      title={DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation},
+      author={Yu Fang and Wanxi Dong and Jiaqi Liu and Yue Yang and Mingxiao Huo and Yao Mu and Huaxiu Yao and Li Erran Li and Daniel Szafir and Mingyu Ding},
+      year={2026},
+      eprint={2607.13033},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2607.13033},
+}</code></pre>
+        </div>
+    </div>
+    <div class="paper-row" id="yang2026lilo" data-topics="chain" data-selected="1">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/icra27_lilovla.webp" data-caption="LiLo-VLA: Compositional Long-Horizon Manipulation via Linked Object-Centric Policies" data-blurb="A skill trained on a tidy table gets distracted by a mug it never needed, and one slip in a chain ruins everything after. We split the job: one module drives the arm to the right place, a second looks only at the object being touched. The split lets the robot replan and reuse skills." aria-label="Enlarge figure from LiLo-VLA: Compositional Long-Horizon Manipulation via Linked Object-Centric Policies">
                 <img src="/images/publications/icra27_lilovla.webp" alt="Figure from LiLo-VLA: Compositional Long-Horizon Manipulation via Linked Object-Centric Policies" loading="lazy">
@@ -294,7 +267,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row" data-topics="robust" data-selected="0">
+    <div class="paper-row" id="fang2026vision" data-topics="robust" data-selected="0">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/corl26_yu.jpg" data-caption="When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs" data-blurb="Tell a VLA to pick up the bowl where it usually trained on the plate, and it often grabs the plate anyway: the visual habit beats the words. We build a test set that swaps instructions on familiar layouts, then run each policy beside a language-blind twin and use the gap to steer it back." aria-label="Enlarge figure from When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs">
                 <img src="/images/publications/corl26_yu.jpg" alt="Figure from When Vision Overrides Language: Evaluating and Mitigating Counterfactual Failures in VLAs" loading="lazy">
@@ -320,56 +293,35 @@
 }</code></pre>
         </div>
     </div>
+    <div class="paper-row" id="ma2026furniturevla" data-topics="chain" data-selected="0">
+        <div class="paper-thumb">
+            <button class="thumb-zoom" data-full="/images/publications/full/ral_furniturevla.jpg" data-caption="FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model" data-blurb="Assembling real furniture takes two arms and over 1500 control steps, but most robot assembly work stops at toy parts and a single arm. We build a simulation data pipeline and a VR rig that lets one person drive both arms. The policy predicts how far along it is, so it moves on by itself." aria-label="Enlarge figure from FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model">
+                <img src="/images/publications/ral_furniturevla.jpg" alt="Figure from FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model" loading="lazy">
+            </button>
+            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
+        </div>
+        <div class="paper-info">
+            <p class="paper-title">FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model</p>
+            <p class="paper-authors">Chenyang Ma, <b>Yue Yang</b>, Radu Corcodel, Siddarth Jain, Andrew Wu, Chiori Hori, Diego Romeres</p>
+            <p class="paper-venue">Under review</p>
+            <div class="paper-links">
+                <a href="https://dannymcy.github.io/furniturevla/" class="button icon" target="_blank" rel="noopener noreferrer">Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <a href="https://arxiv.org/pdf/2607.01212" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
+                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-ma2026furniturevla">BibTeX <i class="fa-regular fa-copy"></i></button>
+            </div>
+            <pre class="paper-cite" id="cite-ma2026furniturevla" hidden><code>@misc{ma2026furniturevlalearninglonghorizonbimanual,
+      title={FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model},
+      author={Chenyang Ma and Yue Yang and Radu Corcodel and Siddarth Jain and Andrew Wu and Chiori Hori and Diego Romeres},
+      year={2026},
+      eprint={2607.01212},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2607.01212},
+}</code></pre>
+        </div>
+    </div>
         <div class="pub-year" data-year="2025">2025</div>
-    <div class="paper-row" data-topics="other" data-selected="0">
-        <div class="paper-thumb">
-            <button class="thumb-zoom" data-full="/images/publications/full/tfr25.png" data-caption="Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station" data-blurb="Astronauts will one day hand jobs to autonomous rovers, but only if they can judge when a rover is likely to fail. We spent two weeks with a Mars Desert Research Station crew in Utah, running a ground robot that estimates its own competence and reports it, then watched how the crew planned around it." aria-label="Enlarge figure from Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station">
-                <img src="/images/publications/tfr25.png" alt="Figure from Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station" loading="lazy">
-            </button>
-            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
-        </div>
-        <div class="paper-info">
-            <p class="paper-title">Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station</p>
-            <p class="paper-authors">Nicholas Conlon, Pawel Sawicki, <b>Yue Yang</b>, Nisar R Ahmed, Daniel Szafir</p>
-            <p class="paper-venue">IEEE Transactions on Field Robotics (T-FR), 2025</p>
-            <div class="paper-links">
-                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=11154044" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
-                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-conlon2025competency">BibTeX <i class="fa-regular fa-copy"></i></button>
-            </div>
-            <pre class="paper-cite" id="cite-conlon2025competency" hidden><code>@article{conlon2025competency,
-  title   = {Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station},
-  author  = {Conlon, Nicholas and Sawicki, Pawel and Yang, Yue and Ahmed, Nisar R and Szafir, Daniel},
-  journal = {IEEE Transactions on Field Robotics (T-FR)},
-  year    = {2025}
-}</code></pre>
-        </div>
-    </div>
-    <div class="paper-row" data-topics="data" data-selected="0">
-        <div class="paper-thumb">
-            <button class="thumb-zoom" data-full="/images/publications/full/iros25.png" data-caption="Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis" data-blurb="Robot data is expensive, so a pretrained policy often meets your lab table and objects only on deployment day. Instead of collecting more, we replay real trajectories in a simulator with swapped objects, then paste those motions back onto inpainted real video. The output is new training clips with real backgrounds and physically believable motion." aria-label="Enlarge figure from Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis">
-                <img src="/images/publications/iros25.png" alt="Figure from Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis" loading="lazy">
-            </button>
-            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
-        </div>
-        <div class="paper-info">
-            <p class="paper-title">Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis</p>
-            <p class="paper-authors">Yu Fang, <b>Yue Yang</b>, Xinghao Zhu, Kaiyuan Zheng, Gedas Bertasius, Daniel Szafir, Mingyu Ding</p>
-            <p class="paper-venue">Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)</p>
-            <div class="paper-links">
-                <a href="https://yuffish.github.io/rebot/" class="button icon" target="_blank" rel="noopener noreferrer">Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                <a href="https://arxiv.org/pdf/2503.14526" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
-                <a href="https://github.com/yuffish/rebot" class="button icon" target="_blank" rel="noopener noreferrer">Code <i class="fa-brands fa-github"></i></a>
-                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-fang2025rebot">BibTeX <i class="fa-regular fa-copy"></i></button>
-            </div>
-            <pre class="paper-cite" id="cite-fang2025rebot" hidden><code>@article{fang2025rebot,
-  title   = {Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis},
-  author  = {Fang, Yu and Yang, Yue and Zhu, Xinghao and Zheng, Kaiyuan and Bertasius, Gedas and Szafir, Daniel and Ding, Mingyu},
-  journal = {Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
-  year    = {2025}
-}</code></pre>
-        </div>
-    </div>
-    <div class="paper-row" data-topics="chain" data-selected="1">
+    <div class="paper-row" id="yang2025boss" data-topics="chain" data-selected="1">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/ral25.png" data-caption="BOSS: Benchmark for Observation Space Shift in Long-Horizon Task" data-blurb="Run one skill and it quietly rewrites the scene for the next one: the drawer is now open, the mug is now in the gripper, and the second policy has never seen that. We call this observation space shift, build a benchmark that isolates it three ways, and ask whether more varied demos are enough." aria-label="Enlarge figure from BOSS: Benchmark for Observation Space Shift in Long-Horizon Task">
                 <img src="/images/publications/ral25.png" alt="Figure from BOSS: Benchmark for Observation Space Shift in Long-Horizon Task" loading="lazy">
@@ -394,7 +346,32 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row" data-topics="chain" data-selected="0">
+    <div class="paper-row" id="fang2025rebot" data-topics="data" data-selected="0">
+        <div class="paper-thumb">
+            <button class="thumb-zoom" data-full="/images/publications/full/iros25.png" data-caption="ReBot: Scaling Robot Learning with Real-to-Sim-to-Real Robotic Video Synthesis" data-blurb="Robot data is expensive, so a pretrained policy often meets your lab table and objects only on deployment day. Instead of collecting more, we replay real trajectories in a simulator with swapped objects, then paste those motions back onto inpainted real video. The output is new training clips with real backgrounds and physically believable motion." aria-label="Enlarge figure from ReBot: Scaling Robot Learning with Real-to-Sim-to-Real Robotic Video Synthesis">
+                <img src="/images/publications/iros25.png" alt="Figure from ReBot: Scaling Robot Learning with Real-to-Sim-to-Real Robotic Video Synthesis" loading="lazy">
+            </button>
+            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
+        </div>
+        <div class="paper-info">
+            <p class="paper-title">ReBot: Scaling Robot Learning with Real-to-Sim-to-Real Robotic Video Synthesis</p>
+            <p class="paper-authors">Yu Fang, <b>Yue Yang</b>, Xinghao Zhu, Kaiyuan Zheng, Gedas Bertasius, Daniel Szafir, Mingyu Ding</p>
+            <p class="paper-venue">Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)</p>
+            <div class="paper-links">
+                <a href="https://yuffish.github.io/rebot/" class="button icon" target="_blank" rel="noopener noreferrer">Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <a href="https://arxiv.org/pdf/2503.14526" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
+                <a href="https://github.com/yuffish/rebot" class="button icon" target="_blank" rel="noopener noreferrer">Code <i class="fa-brands fa-github"></i></a>
+                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-fang2025rebot">BibTeX <i class="fa-regular fa-copy"></i></button>
+            </div>
+            <pre class="paper-cite" id="cite-fang2025rebot" hidden><code>@article{fang2025rebot,
+  title   = {ReBot: Scaling Robot Learning with Real-to-Sim-to-Real Robotic Video Synthesis},
+  author  = {Fang, Yu and Yang, Yue and Zhu, Xinghao and Zheng, Kaiyuan and Bertasius, Gedas and Szafir, Daniel and Ding, Mingyu},
+  journal = {Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  year    = {2025}
+}</code></pre>
+        </div>
+    </div>
+    <div class="paper-row" id="ma2025supporting" data-topics="chain" data-selected="0">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/hrilbr25.png" data-caption="Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality" data-blurb="Working with a robot on a long task, you often cannot tell which step it thinks comes next, and some steps have more than one sensible answer. We use augmented reality as a two-way channel: the robot shows what it intends to do when a subtask is ambiguous, and adjusts to what the person answers." aria-label="Enlarge figure from Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality">
                 <img src="/images/publications/hrilbr25.png" alt="Figure from Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality" loading="lazy">
@@ -417,8 +394,31 @@
 }</code></pre>
         </div>
     </div>
+    <div class="paper-row" id="conlon2025competency" data-topics="other" data-selected="0">
+        <div class="paper-thumb">
+            <button class="thumb-zoom" data-full="/images/publications/full/tfr25.png" data-caption="Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station" data-blurb="Astronauts will one day hand jobs to autonomous rovers, but only if they can judge when a rover is likely to fail. We spent two weeks with a Mars Desert Research Station crew in Utah, running a ground robot that estimates its own competence and reports it, then watched how the crew planned around it." aria-label="Enlarge figure from Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station">
+                <img src="/images/publications/tfr25.png" alt="Figure from Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station" loading="lazy">
+            </button>
+            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
+        </div>
+        <div class="paper-info">
+            <p class="paper-title">Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station</p>
+            <p class="paper-authors">Nicholas Conlon, Pawel Sawicki, <b>Yue Yang</b>, Nisar R Ahmed, Daniel Szafir</p>
+            <p class="paper-venue">IEEE Transactions on Field Robotics (T-FR), 2025</p>
+            <div class="paper-links">
+                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=11154044" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
+                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-conlon2025competency">BibTeX <i class="fa-regular fa-copy"></i></button>
+            </div>
+            <pre class="paper-cite" id="cite-conlon2025competency" hidden><code>@article{conlon2025competency,
+  title   = {Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station},
+  author  = {Conlon, Nicholas and Sawicki, Pawel and Yang, Yue and Ahmed, Nisar R and Szafir, Daniel},
+  journal = {IEEE Transactions on Field Robotics (T-FR)},
+  year    = {2025}
+}</code></pre>
+        </div>
+    </div>
         <div class="pub-year" data-year="2024">2024</div>
-    <div class="paper-row" data-topics="data" data-selected="1">
+    <div class="paper-row" id="yang2024arcade" data-topics="data" data-selected="1">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/iros24.png" data-caption="ARCADE: Scalable Demonstration Collection and Generation via Augmented Reality for Imitation Learning" data-blurb="Imitation learning needs dozens of demonstrations per task, and each one is a person tediously driving a robot arm through the same motion. Wearing a headset, a person does the task once with their bare hands, and the system turns that single demo into many synthetic ones. Tested on a real Fetch robot." aria-label="Enlarge figure from ARCADE: Scalable Demonstration Collection and Generation via Augmented Reality for Imitation Learning">
                 <img src="/images/publications/iros24.png" alt="Figure from ARCADE: Scalable Demonstration Collection and Generation via Augmented Reality for Imitation Learning" loading="lazy">
@@ -443,7 +443,30 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row" data-topics="robust" data-selected="1">
+    <div class="paper-row" id="yang2024augmented" data-topics="data" data-selected="0">
+        <div class="paper-thumb">
+            <button class="thumb-zoom" data-full="/images/publications/full/egocentric_side.png" data-caption="Augmented Reality Demonstrations for Scalable Robot Imitation Learning" data-blurb="Most demonstration data comes from people already trained to drive a robot arm, which keeps the pool of teachers small. Our HoloLens 2 setup lets someone with no robotics background record a demonstration by moving their own hand, and we check the recordings by replaying them on a real arm for reach, push and pick-and-place." aria-label="Enlarge figure from Augmented Reality Demonstrations for Scalable Robot Imitation Learning">
+                <img src="/images/publications/egocentric_side.png" alt="Figure from Augmented Reality Demonstrations for Scalable Robot Imitation Learning" loading="lazy">
+            </button>
+            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
+        </div>
+        <div class="paper-info">
+            <p class="paper-title">Augmented Reality Demonstrations for Scalable Robot Imitation Learning</p>
+            <p class="paper-authors"><b>Yue Yang</b>, Bryce Ikeda, Gedas Bertasius, Daniel Szafir</p>
+            <p class="paper-venue">7th International Workshop on Virtual, Augmented, and Mixed-Reality for Human-Robot Interactions (VAM-HRI), 2024</p>
+            <div class="paper-links">
+                <a href="https://arxiv.org/pdf/2403.13910" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
+                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-yang2024augmented">BibTeX <i class="fa-regular fa-copy"></i></button>
+            </div>
+            <pre class="paper-cite" id="cite-yang2024augmented" hidden><code>@inproceedings{yang2024augmented,
+  title   = {Augmented Reality Demonstrations for Scalable Robot Imitation Learning},
+  author  = {Yang, Yue and Ikeda, Bryce and Bertasius, Gedas and Szafir, Daniel},
+  booktitle = {7th International Workshop on Virtual, Augmented, and Mixed-Reality for Human-Robot Interactions (VAM-HRI)},
+  year    = {2024}
+}</code></pre>
+        </div>
+    </div>
+    <div class="paper-row" id="yang2024enhancing" data-topics="robust" data-selected="1">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/secure-1.png" data-caption="Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding" data-blurb="Anyone can teach a robot a task by demonstrating it, but nothing stops the learned policy from swinging a knife toward your hand. So the user demonstrates safety too, drawing where the line is for them, and we turn that into a shield that blocks unsafe actions while leaving the task mostly alone." aria-label="Enlarge figure from Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding">
                 <img src="/images/publications/secure-1.png" alt="Figure from Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding" loading="lazy">
@@ -467,30 +490,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row" data-topics="data" data-selected="0">
-        <div class="paper-thumb">
-            <button class="thumb-zoom" data-full="/images/publications/full/egocentric_side.png" data-caption="Augmented Reality Demonstrations for Scalable Robot Imitation Learning" data-blurb="Most demonstration data comes from people already trained to drive a robot arm, which keeps the pool of teachers small. Our HoloLens 2 setup lets someone with no robotics background record a demonstration by moving their own hand, and we check the recordings by replaying them on a real arm for reach, push and pick-and-place." aria-label="Enlarge figure from Augmented Reality Demonstrations for Scalable Robot Imitation Learning">
-                <img src="/images/publications/egocentric_side.png" alt="Figure from Augmented Reality Demonstrations for Scalable Robot Imitation Learning" loading="lazy">
-            </button>
-            <span class="thumb-hint" aria-hidden="true">Click to enlarge</span>
-        </div>
-        <div class="paper-info">
-            <p class="paper-title">Augmented Reality Demonstrations for Scalable Robot Imitation Learning</p>
-            <p class="paper-authors"><b>Yue Yang</b>, Bryce Ikeda, Gedas Bertasius, Daniel Szafir</p>
-            <p class="paper-venue">7th International Workshop on Virtual, Augmented, and Mixed-Reality for Human-Robot Interactions (VAM-HRI), 2024</p>
-            <div class="paper-links">
-                <a href="https://arxiv.org/pdf/2403.13910" class="button icon" target="_blank" rel="noopener noreferrer">PDF <i class="fa-regular fa-file-lines"></i></a>
-                <button class="button icon cite-toggle" aria-expanded="false" aria-controls="cite-yang2024augmented">BibTeX <i class="fa-regular fa-copy"></i></button>
-            </div>
-            <pre class="paper-cite" id="cite-yang2024augmented" hidden><code>@inproceedings{yang2024augmented,
-  title   = {Augmented Reality Demonstrations for Scalable Robot Imitation Learning},
-  author  = {Yang, Yue and Ikeda, Bryce and Bertasius, Gedas and Szafir, Daniel},
-  booktitle = {7th International Workshop on Virtual, Augmented, and Mixed-Reality for Human-Robot Interactions (VAM-HRI)},
-  year    = {2024}
-}</code></pre>
-        </div>
-    </div>
-    <div class="paper-row" data-topics="other" data-selected="0">
+    <div class="paper-row" id="yang2024annotated" data-topics="other" data-selected="0">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/annot_hands.png" data-caption="Annotated Hands for Generative Models" data-blurb="Image generators got very good, and still produce hands with six fingers and thumbs bent the wrong way. We add three extra channels to every training image that mark where the hand and its joints are, giving the model structure it otherwise has to guess. Tried on both a GAN and a diffusion model." aria-label="Enlarge figure from Annotated Hands for Generative Models">
                 <img src="/images/publications/annot_hands.png" alt="Figure from Annotated Hands for Generative Models" loading="lazy">
@@ -515,7 +515,7 @@
         </div>
     </div>
         <div class="pub-year" data-year="2022">2022</div>
-    <div class="paper-row" data-topics="robust" data-selected="0">
+    <div class="paper-row" id="yue2022cbfirl" data-topics="robust" data-selected="0">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/corl22.png" data-caption="Safe Inverse Reinforcement Learning via Control Barrier Function" data-blurb="Inverse reinforcement learning copies the reward behind a demonstration, but nothing in it keeps a fast car or drone from hitting a wall. Rather than filtering actions afterwards, we fold a control barrier function straight into the training loss, so safety and reward-matching are learned together. Tested on a 2D racecar and a 3D drone." aria-label="Enlarge figure from Safe Inverse Reinforcement Learning via Control Barrier Function">
                 <img src="/images/publications/corl22.png" alt="Figure from Safe Inverse Reinforcement Learning via Control Barrier Function" loading="lazy">
@@ -540,7 +540,7 @@
         </div>
     </div>
         <div class="pub-year" data-year="2020">2020</div>
-    <div class="paper-row" data-topics="other" data-selected="0">
+    <div class="paper-row" id="yang2020discriminative" data-topics="other" data-selected="0">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/iclr21.jpg" data-caption="Discriminative Cross-Modal Data Augmentation for Medical Imaging Applications" data-blurb="Labeled medical images are scarce: privacy limits sharing and few clinicians have time to annotate. One fix is translating scans from one modality into another, but a translator trained alone makes images that look right but add nothing. We train the translator jointly with the diagnosis model, so the prediction task steers what gets generated." aria-label="Enlarge figure from Discriminative Cross-Modal Data Augmentation for Medical Imaging Applications">
                 <img src="/images/publications/iclr21.jpg" alt="Figure from Discriminative Cross-Modal Data Augmentation for Medical Imaging Applications" loading="lazy">
@@ -564,7 +564,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row" data-topics="other" data-selected="0">
+    <div class="paper-row" id="yang2020transfer" data-topics="other" data-selected="0">
         <div class="paper-thumb">
             <button class="thumb-zoom" data-full="/images/publications/full/cvpr21.png" data-caption="Transfer Learning or Self-supervised Learning? A Tale of Two Pretraining Paradigms" data-blurb="Should you pretrain with labels or without them? The honest answer used to be to try both and see, which burns a lot of compute. We run that comparison carefully, varying how far the source domain sits from the target, how much pretraining data there is, and how imbalanced the source labels are." aria-label="Enlarge figure from Transfer Learning or Self-supervised Learning? A Tale of Two Pretraining Paradigms">
                 <img src="/images/publications/cvpr21.png" alt="Figure from Transfer Learning or Self-supervised Learning? A Tale of Two Pretraining Paradigms" loading="lazy">
@@ -587,7 +587,7 @@
 }</code></pre>
         </div>
     </div>
-    <div class="paper-row no-thumb" data-topics="other" data-selected="0">
+    <div class="paper-row no-thumb" id="zeng2020meddialog" data-topics="other" data-selected="0">
         <div class="paper-info">
             <p class="paper-title">MedDialog: Large-scale Medical Dialogue Datasets</p>
             <p class="paper-authors">Guangtao Zeng, Wenmian Yang, Zeqian Ju, <b>Yue Yang</b>, Sicheng Wang, Ruisi Zhang, Meng Zhou, Jiaqi Zeng, Xiangyu Dong, Ruoyu Zhang, Hongchao Fang, Penghui Zhu, Shu Chen, Pengtao Xie</p>
@@ -648,7 +648,7 @@
       var more = document.querySelector('.pub-more');
       var moreText = more && more.querySelector('.pub-more-text');
       var moreJump = more && more.querySelector('.view-jump');
-      var state = {view: 'all', topic: 'all'};
+      var state = {view: 'all', topic: 'all', paper: ''};
 
       function apply() {
         var shown = 0;
@@ -703,7 +703,7 @@
         if (history.replaceState) {
           history.replaceState(null, '', location.pathname +
             (state.view === 'selected' ? '?view=selected' : '') +
-            (state.topic === 'all' ? '' : '#' + state.topic));
+            (state.topic !== 'all' ? '#' + state.topic : (state.paper ? '#' + state.paper : '')));
         }
       }
 
@@ -712,6 +712,7 @@
           var t = c.getAttribute('data-topic');
           // Clicking the active tag clears it, so the filter is never a trap.
           state.topic = c.classList.contains('is-on') && t !== 'all' ? 'all' : t;
+          state.paper = '';
           apply();
         });
       });
@@ -735,6 +736,19 @@
       function fromUrl() {
         var h = (location.hash || '').replace('#', '');
         if (Object.prototype.hasOwnProperty.call(aliases, h)) h = aliases[h];
+        // A paper's own id (linked from the About statement): show everything
+        // so the row is never filtered out, then bring it into view.
+        var target = h && document.getElementById(h);
+        if (target && target.classList.contains('paper-row')) {
+          state.topic = 'all'; state.view = 'all'; state.paper = h;
+          apply();
+          target.scrollIntoView({block: 'center'});
+          target.classList.remove('is-target');
+          void target.offsetWidth;
+          target.classList.add('is-target');
+          return;
+        }
+        state.paper = '';
         state.topic = chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all';
         // All is the default and carries no parameter; an old ?view=all link
         // still lands on All.

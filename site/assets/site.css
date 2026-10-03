@@ -1328,6 +1328,29 @@ body.home footer { margin-top: 0; border-top: 0; }
 }
 .rf-statement a:hover { border-bottom-color: var(--ink); }
 
+/* System names in the statement carry their stage's colour, the same three
+   as the Research Focus cards below, and jump to the paper on Publications. */
+.container .rf-statement p a.rf-ref {
+  font-weight: 600;
+  border-bottom: 0;                  /* the site underline is the only line */
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+}
+.container .rf-statement p a.rf-ref:hover { text-decoration-color: currentColor; }
+.rf-statement a.rf-ref.data   { color: var(--ra-data); }
+.rf-statement a.rf-ref.robust { color: var(--ra-robust); }
+.rf-statement a.rf-ref.chain  { color: var(--ra-chain); }
+.rf-statement a.rf-ref.data:hover   { color: var(--ra-data-on); }
+.rf-statement a.rf-ref.robust:hover { color: var(--ra-robust-on); }
+.rf-statement a.rf-ref.chain:hover  { color: var(--ra-chain-on); }
+
+/* A row reached from one of those links glows briefly, then settles. */
+.paper-row { scroll-margin-top: 90px; }
+@keyframes paper-target {
+  0%, 35% { box-shadow: 0 0 0 2px color-mix(in srgb, var(--ink) 18%, transparent); }
+  100%    { box-shadow: 0 0 0 2px transparent; }
+}
+.paper-row.is-target { animation: paper-target 2.4s ease-out; border-radius: 6px; }
+
 /* Deliberately not the publications tag chips: those are outlined,
    full-radius and clickable, and these are none of the three. */
 .rf-keys {
@@ -1461,6 +1484,7 @@ body.home footer { margin-top: 0; border-top: 0; }
      50px gap inside the box and moved with the viewport height. */
   padding: 0;
   letter-spacing: -0.005em;
+  text-wrap: balance;                /* "Skill composition / and evaluation", not a lone last word */
 }
 
 .rf .col-head h3 a {

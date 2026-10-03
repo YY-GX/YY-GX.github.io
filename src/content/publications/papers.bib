@@ -13,6 +13,21 @@
   date={2026-09-25}
 }
 
+@article{yang2026sensing,
+  selected={true},
+  title={Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies},
+  author={Yang, Yue and Romeres, Diego and Hori, Chiori and Bertasius, Gedas and Szafir, Daniel and Jain, Siddarth},
+  journal={Under review},
+  year={2026},
+  pdf={https://arxiv.org/pdf/2609.03142},
+  website={https://yy-gx.github.io/EGR/},
+  preview={icra27_egr.png},
+  blurb={Block a camera that shows nothing useful and a multi-sensor robot policy still falls apart, because training on narrow demos ties the sensors together instead of to the task. Our fix scores, frame by frame, which sensor carries evidence, then trains the policy to ignore the useless ones and work from the useful one alone.},
+  topics={robust},
+  doi={10.48550/arXiv.2609.03142}
+  date={2026-09-02}
+}
+
 @article{jiang2026halter,
   selected={true},
   title={From Rollout to Reset: A Graph-Based Harness for Autonomous Long-Horizon Manipulation Evaluation},
@@ -40,19 +55,19 @@
   topics={chain}
 }
 
-@article{yang2026sensing,
-  selected={true},
-  title={Sensing Which Modality Matters: Evidence-Gated Regularization for Robust VLA Policies},
-  author={Yang, Yue and Romeres, Diego and Hori, Chiori and Bertasius, Gedas and Szafir, Daniel and Jain, Siddarth},
+@article{li2026watchact,
+  title={WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation},
+  author={Li, Baiqi and Zhang, Ce and Fang, Yu and Yang, Yue and Li, Shangzhe and Ding, Mingyu and Bertasius, Gedas},
   journal={Under review},
   year={2026},
-  pdf={https://arxiv.org/pdf/2609.03142},
-  website={https://yy-gx.github.io/EGR/},
-  preview={icra27_egr.png},
-  blurb={Block a camera that shows nothing useful and a multi-sensor robot policy still falls apart, because training on narrow demos ties the sensors together instead of to the task. Our fix scores, frame by frame, which sensor carries evidence, then trains the policy to ignore the useless ones and work from the useful one alone.},
-  topics={robust},
-  doi={10.48550/arXiv.2609.03142}
-  date={2026-09-02}
+  pdf={https://arxiv.org/pdf/2606.26443},
+  website={https://baiqi-li.github.io/watchact_page/},
+  code={https://github.com/Baiqi-Li/WatchAct},
+  preview={icra27_watchact.png},
+  blurb={A robot helping a person needs to know what they already did and why, yet manipulation benchmarks hand a policy one instruction and one snapshot. WatchAct builds 3,000 cases pairing real human video with a matching simulator scene and a runnable task, then scores planning and execution separately so you see which half broke.},
+  topics={chain},
+  doi={10.48550/arXiv.2606.26443}
+  date={2026-06-24}
 }
 
 @article{fang2026densereward,
@@ -67,35 +82,6 @@
   topics={data},
   doi={10.48550/arXiv.2607.13033}
   date={2026-07-14}
-}
-
-@article{ma2026furniturevla,
-  title={FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model},
-  author={Ma, Chenyang and Yang, Yue and Corcodel, Radu and Jain, Siddarth and Wu, Andrew and Hori, Chiori and Romeres, Diego},
-  journal={Under review},
-  year={2026},
-  pdf={https://arxiv.org/pdf/2607.01212},
-  website={https://dannymcy.github.io/furniturevla/},
-  preview={ral_furniturevla.jpg},
-  blurb={Assembling real furniture takes two arms and over 1500 control steps, but most robot assembly work stops at toy parts and a single arm. We build a simulation data pipeline and a VR rig that lets one person drive both arms. The policy predicts how far along it is, so it moves on by itself.},
-  topics={chain},
-  doi={10.48550/arXiv.2607.01212}
-  date={2026-07-01}
-}
-
-@article{li2026watchact,
-  title={WatchAct: A Benchmark for Behavior-Grounded Robot Manipulation},
-  author={Li, Baiqi and Zhang, Ce and Fang, Yu and Yang, Yue and Li, Shangzhe and Ding, Mingyu and Bertasius, Gedas},
-  journal={Under review},
-  year={2026},
-  pdf={https://arxiv.org/pdf/2606.26443},
-  website={https://baiqi-li.github.io/watchact_page/},
-  code={https://github.com/Baiqi-Li/WatchAct},
-  preview={icra27_watchact.png},
-  blurb={A robot helping a person needs to know what they already did and why, yet manipulation benchmarks hand a policy one instruction and one snapshot. WatchAct builds 3,000 cases pairing real human video with a matching simulator scene and a runnable task, then scores planning and execution separately so you see which half broke.},
-  topics={chain},
-  doi={10.48550/arXiv.2606.26443}
-  date={2026-06-24}
 }
 
 @article{yang2026lilo,
@@ -131,35 +117,19 @@
   date={2026-02-19}
 }
 
-@article{conlon2025competency,
-  title={Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station},
-  author={Conlon, Nicholas and Sawicki, Pawel and Yang, Yue and Ahmed, Nisar R and Szafir, Daniel},
-  journal={IEEE Transactions on Field Robotics (T-FR)},
-  year={2025},
-  publisher={IEEE},
-  pdf={https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11154044},
-  preview={tfr25.png},
-  blurb={Astronauts will one day hand jobs to autonomous rovers, but only if they can judge when a rover is likely to fail. We spent two weeks with a Mars Desert Research Station crew in Utah, running a ground robot that estimates its own competence and reports it, then watched how the crew planned around it.},
-  topics={other},
-  doi={10.1109/TFR.2025.3607856}
-  date={2025}
+@article{ma2026furniturevla,
+  title={FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model},
+  author={Ma, Chenyang and Yang, Yue and Corcodel, Radu and Jain, Siddarth and Wu, Andrew and Hori, Chiori and Romeres, Diego},
+  journal={Under review},
+  year={2026},
+  pdf={https://arxiv.org/pdf/2607.01212},
+  website={https://dannymcy.github.io/furniturevla/},
+  preview={ral_furniturevla.jpg},
+  blurb={Assembling real furniture takes two arms and over 1500 control steps, but most robot assembly work stops at toy parts and a single arm. We build a simulation data pipeline and a VR rig that lets one person drive both arms. The policy predicts how far along it is, so it moves on by itself.},
+  topics={chain},
+  doi={10.48550/arXiv.2607.01212}
+  date={2026-07-01}
 }
-
-@article{fang2025rebot,
-  title={Rebot: Scaling robot learning with real-to-sim-to-real robotic video synthesis},
-  author={Fang, Yu and Yang, Yue and Zhu, Xinghao and Zheng, Kaiyuan and Bertasius, Gedas and Szafir, Daniel and Ding, Mingyu},
-  journal={Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
-  year={2025},
-  pdf={https://arxiv.org/pdf/2503.14526},
-  preview={iros25.png},
-  website={https://yuffish.github.io/rebot/},
-  code={https://github.com/yuffish/rebot},
-  blurb={Robot data is expensive, so a pretrained policy often meets your lab table and objects only on deployment day. Instead of collecting more, we replay real trajectories in a simulator with swapped objects, then paste those motions back onto inpainted real video. The output is new training clips with real backgrounds and physically believable motion.},
-  topics={data},
-  doi={10.1109/IROS60139.2025.11246305}
-  date={2025-10-19}
-}
-
 
 @article{yang2025boss,
   selected={true},
@@ -177,6 +147,21 @@
   date={2025-09}
 }
 
+@article{fang2025rebot,
+  title={ReBot: Scaling Robot Learning with Real-to-Sim-to-Real Robotic Video Synthesis},
+  author={Fang, Yu and Yang, Yue and Zhu, Xinghao and Zheng, Kaiyuan and Bertasius, Gedas and Szafir, Daniel and Ding, Mingyu},
+  journal={Proceedings of the 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  year={2025},
+  pdf={https://arxiv.org/pdf/2503.14526},
+  preview={iros25.png},
+  website={https://yuffish.github.io/rebot/},
+  code={https://github.com/yuffish/rebot},
+  blurb={Robot data is expensive, so a pretrained policy often meets your lab table and objects only on deployment day. Instead of collecting more, we replay real trajectories in a simulator with swapped objects, then paste those motions back onto inpainted real video. The output is new training clips with real backgrounds and physically believable motion.},
+  topics={data},
+  doi={10.1109/IROS60139.2025.11246305}
+  date={2025-10-19}
+}
+
 @inproceedings{ma2025supporting,
   title={Supporting Long-Horizon Tasks in Human-Robot Collaboration by Aligning Intentions via Augmented Reality},
   author={Ma, Chenyang and Yang, Yue and Ikeda, Bryce and Szafir, Daniel},
@@ -190,6 +175,20 @@
   topics={chain},
   doi={10.1109/HRI61500.2025.10973947}
   date={2025-03-04}
+}
+
+@article{conlon2025competency,
+  title={Competency-Aware Collaborative Robotic Surface Exploration: A Study at the Mars Desert Research Station},
+  author={Conlon, Nicholas and Sawicki, Pawel and Yang, Yue and Ahmed, Nisar R and Szafir, Daniel},
+  journal={IEEE Transactions on Field Robotics (T-FR)},
+  year={2025},
+  publisher={IEEE},
+  pdf={https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11154044},
+  preview={tfr25.png},
+  blurb={Astronauts will one day hand jobs to autonomous rovers, but only if they can judge when a rover is likely to fail. We spent two weeks with a Mars Desert Research Station crew in Utah, running a ground robot that estimates its own competence and reports it, then watched how the crew planned around it.},
+  topics={other},
+  doi={10.1109/TFR.2025.3607856}
+  date={2025}
 }
 
 @inproceedings{yang2024arcade,
@@ -209,6 +208,20 @@
   date={2024-10-14}
 }
 
+@inproceedings{yang2024augmented,
+  title={Augmented Reality Demonstrations for Scalable Robot Imitation Learning},
+  author={Yang, Yue and Ikeda, Bryce and Bertasius, Gedas and Szafir, Daniel},
+  booktitle={7th International Workshop on Virtual, Augmented, and Mixed-Reality for Human-Robot Interactions (VAM-HRI)},
+  bibtex_show={true},
+  year={2024},
+  preview={egocentric_side.png},
+  pdf={https://arxiv.org/pdf/2403.13910},
+  blurb={Most demonstration data comes from people already trained to drive a robot arm, which keeps the pool of teachers small. Our HoloLens 2 setup lets someone with no robotics background record a demonstration by moving their own hand, and we check the recordings by replaying them on a real arm for reach, push and pick-and-place.},
+  topics={data},
+  doi={10.48550/arXiv.2403.13910}
+  date={2024-03-20}
+}
+
 @inproceedings{yang2024enhancing,
   selected={true},
   title={Enhancing Safety in Learning from Demonstration Algorithms via Control Barrier Function Shielding},
@@ -224,20 +237,6 @@
   topics={robust},
   doi={10.1145/3610977.3635002}
   date={2024-03-11}
-}
-
-@inproceedings{yang2024augmented,
-  title={Augmented Reality Demonstrations for Scalable Robot Imitation Learning},
-  author={Yang, Yue and Ikeda, Bryce and Bertasius, Gedas and Szafir, Daniel},
-  booktitle={7th International Workshop on Virtual, Augmented, and Mixed-Reality for Human-Robot Interactions (VAM-HRI)},
-  bibtex_show={true},
-  year={2024},
-  preview={egocentric_side.png},
-  pdf={https://arxiv.org/pdf/2403.13910},
-  blurb={Most demonstration data comes from people already trained to drive a robot arm, which keeps the pool of teachers small. Our HoloLens 2 setup lets someone with no robotics background record a demonstration by moving their own hand, and we check the recordings by replaying them on a real arm for reach, push and pick-and-place.},
-  topics={data},
-  doi={10.48550/arXiv.2403.13910}
-  date={2024-03-20}
 }
 
 @article{yang2024annotated,

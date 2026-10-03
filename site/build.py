@@ -463,7 +463,7 @@ FOOT = """    <footer>
       var more = document.querySelector('.pub-more');
       var moreText = more && more.querySelector('.pub-more-text');
       var moreJump = more && more.querySelector('.view-jump');
-      var state = {{view: 'all', topic: 'all'}};
+      var state = {{view: 'all', topic: 'all', paper: ''}};
 
       function apply() {{
         var shown = 0;
@@ -518,7 +518,7 @@ FOOT = """    <footer>
         if (history.replaceState) {{
           history.replaceState(null, '', location.pathname +
             (state.view === 'selected' ? '?view=selected' : '') +
-            (state.topic === 'all' ? '' : '#' + state.topic));
+            (state.topic !== 'all' ? '#' + state.topic : (state.paper ? '#' + state.paper : '')));
         }}
       }}
 
@@ -527,6 +527,7 @@ FOOT = """    <footer>
           var t = c.getAttribute('data-topic');
           // Clicking the active tag clears it, so the filter is never a trap.
           state.topic = c.classList.contains('is-on') && t !== 'all' ? 'all' : t;
+          state.paper = '';
           apply();
         }});
       }});
@@ -550,6 +551,19 @@ FOOT = """    <footer>
       function fromUrl() {{
         var h = (location.hash || '').replace('#', '');
         if (Object.prototype.hasOwnProperty.call(aliases, h)) h = aliases[h];
+        // A paper's own id (linked from the About statement): show everything
+        // so the row is never filtered out, then bring it into view.
+        var target = h && document.getElementById(h);
+        if (target && target.classList.contains('paper-row')) {{
+          state.topic = 'all'; state.view = 'all'; state.paper = h;
+          apply();
+          target.scrollIntoView({{block: 'center'}});
+          target.classList.remove('is-target');
+          void target.offsetWidth;
+          target.classList.add('is-target');
+          return;
+        }}
+        state.paper = '';
         state.topic = chips.some(function (c) {{ return c.getAttribute('data-topic') === h; }}) ? h : 'all';
         // All is the default and carries no parameter; an old ?view=all link
         // still lands on All.
@@ -858,6 +872,7 @@ def paper_row(p):
     row = "\n                ".join(x for x in links if x)
 
     return (f'    <div class="paper-row{"" if p["preview"] else " no-thumb"}"'
+            f' id="{p["key"]}"'
             f' data-topics="{" ".join(p["topics"])}"'
             f' data-selected="{1 if p["selected"] else 0}">\n'
             f'{thumb}'
@@ -921,14 +936,14 @@ RESEARCH_STATEMENT = [
     "skills** into long tasks and evaluate them.",
 
     "Representative work: collecting and generating demonstrations with AR "
-    "(ARCADE) and with a real-to-sim engine that turns human hand motion into "
-    "200k dexterous demonstrations with contact-force labels (GNR); keeping each "
-    "skill robust to sensor corruption across vision and touch (EGR) and safe "
-    "through barrier functions learned from demonstrations (SECURE); and "
+    "({{ARCADE|data|yang2024arcade}}) and with a real-to-sim engine that turns human hand motion into "
+    "200k dexterous demonstrations with contact-force labels ({{GNR|data|gao2026generative}}); keeping each "
+    "skill robust to sensor corruption across vision and touch ({{EGR|robust|yang2026sensing}}) and safe "
+    "through barrier functions learned from demonstrations ({{SECURE|robust|yang2024enhancing}}); and "
     "composing and evaluating skills, by exposing how earlier skills break later "
-    "ones (BOSS), linking object-centric VLA skills that hold up to these "
-    "shifts (LiLo-VLA), and autonomously resetting and scoring long-horizon "
-    "rollouts on real robots (HALTER).",
+    "ones ({{BOSS|chain|yang2025boss}}), linking object-centric VLA skills that hold up to these "
+    "shifts ({{LiLo-VLA|chain|yang2026lilo}}), and autonomously resetting and scoring long-horizon "
+    "rollouts on real robots ({{HALTER|chain|jiang2026halter}}).",
 ]
 
 # Kept short. Platforms and tools (humanoid, bimanual, AR/VR) belong to the
@@ -949,6 +964,10 @@ def research_statement_html():
     # lede, which read as two different pieces of text rather than one statement.
     for para in RESEARCH_STATEMENT:
         body = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", html.escape(para))
+        # {{Name|stage|bibkey}}: the system's name in its stage's colour,
+        # linking to that paper's row on the publications page.
+        body = re.sub(r"\{\{([^|}]+)\|(\w+)\|([\w-]+)\}\}",
+                      r'<a class="rf-ref \2" href="/publications/#\3">\1</a>', body)
         out += f'                <p>{body}</p>\n'
     out += ('            </div>\n'
             '            <aside class="rf-keys">\n'
