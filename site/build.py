@@ -93,7 +93,7 @@ BIRD_LINE = ("Off the clock I photograph birds, who pull off long-horizon "
 # (key, text, link, Font Awesome icon). Each stage is one bullet on the home
 # page, ending in an arrow in the stage's colour.
 RESEARCH_PARTS = [
-    ("data", "Collecting and generating the data that teaches skills",
+    ("data", "Collecting and generating the demonstrations that teach each skill",
      "/publications/#data", "fa-arrow-right"),
     ("robust", "Making each skill robust and safe",
      "/publications/#robust", "fa-arrow-right"),
@@ -978,17 +978,17 @@ ARDEMO = "https://arxiv.org/pdf/2403.13910"
 
 RESEARCH_FOCUS = [
     ("data", "Skill data", "data",
-     "Collecting and generating the data that teaches skills.",
+     "Collecting and generating the demonstrations that teach each skill.",
      [("Collecting demonstrations",
        [("ARCADE", ARCADE,
-         "AR-assisted demonstration collection and generation"),
+         "AR demonstration collection that turns one demonstration into many"),
         ("AR Demonstrations", ARDEMO,
          "Hand-based demonstration collection through augmented reality")]),
       ("Generating data",
        [("GNR", None,
-         "Generative retargeting of human hand motion into 200k dexterous "
-         "demonstrations with contact-force labels"),
-        ("Rebot", "https://yuffish.github.io/rebot/",
+         "Real-to-sim engine and generative retargeting that turn human hand "
+         "motion into 200k dexterous demonstrations with contact-force labels"),
+        ("ReBot", "https://yuffish.github.io/rebot/",
          "Real-to-sim-to-real video synthesis for VLA adaptation"),
         ("DenseReward", "https://dense-reward.github.io/",
          "Dense reward learning from synthesized failure trajectories")])]),
@@ -997,13 +997,14 @@ RESEARCH_FOCUS = [
      "Making each skill robust and safe on its own.",
      [("Robustness",
        [("EGR", "https://yy-gx.github.io/EGR/",
-         "Evidence-gated regularization for robust multimodal VLA policies"),
+         "Evidence-gated training that keeps VLA policies robust to sensor "
+         "corruption across vision and touch"),
         ("Counterfactual VLA", "https://vla-cf.github.io/",
          "Counterfactual evaluation and action guidance for language "
          "following")]),
       ("Safety",
        [("SECURE", "https://dl.acm.org/doi/pdf/10.1145/3610977.3635002",
-         "Learning safety constraints from demonstrations for CBF shielding"),
+         "Control barrier functions learned from demonstrations for safe skills"),
         ("Safe IRL via CBF", "https://arxiv.org/pdf/2212.02753",
          "CBF-informed optimization for safer inverse reinforcement "
          "learning")])]),
@@ -1012,7 +1013,8 @@ RESEARCH_FOCUS = [
      "Chaining skills into long tasks and evaluating them.",
      [("Chaining skills and subtasks",
        [("LiLo-VLA", LILO,
-         "Object-centric skill composition with failure recovery"),
+         "Object-centric VLA skill composition that holds up to scene shifts, "
+         "with failure recovery"),
         ("FurnitureVLA", "https://dannymcy.github.io/furniturevla/",
          "Progress-aware VLA policies for long-horizon bimanual assembly"),
         ("AR Intent",
@@ -1021,10 +1023,11 @@ RESEARCH_FOCUS = [
          "tasks")]),
       ("Evaluating long tasks",
        [("BOSS", "https://boss-benchmark.github.io/",
-         "Benchmarking observation shifts induced by skill chaining"),
+         "Benchmark exposing how earlier skills change the scene and break "
+         "later ones"),
         ("HALTER", "https://yy-gx.github.io/HALTER/",
-         "Scene-graph-based scoring and autonomous reset for long-horizon "
-         "evaluation"),
+         "Autonomous reset and scoring of long-horizon rollouts on real "
+         "robots"),
         ("WatchAct", "https://baiqi-li.github.io/watchact_page/",
          "Benchmarking manipulation grounded in human behavior videos")])]),
 ]
@@ -1064,7 +1067,6 @@ def research_focus_html():
     # The goal the three stages serve, set above them with a bracket that
     # reaches down to all three cards, so the figure reads as one argument.
     out = ('        <div class="rf-goal">\n'
-           '            <span class="rf-goal-label">Goal</span>\n'
            '            <p class="rf-goal-text">Robot learning for reliable '
            'long-horizon manipulation</p>\n'
            '            <div class="rf-goal-brace" aria-hidden="true"></div>\n'
