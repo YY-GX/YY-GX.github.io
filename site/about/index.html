@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css?v=81e2c41e">
+    <link rel="stylesheet" href="/assets/site.css?v=33cb08e3">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -87,7 +87,7 @@
         <div class="rf-intro">
             <div class="rf-statement">
                 <p>I work on robot learning for reliable long-horizon manipulation. I treat a long task as a chain of skills and study the full lifecycle of a skill: how to collect and generate the data that teaches it, how to make each skill robust and safe on its own, and how to chain skills into long tasks and evaluate them.</p>
-                <p>Representative work: AR-based demonstration collection and generation, and a real-to-sim engine that turns human hand motion into 195k dexterous demonstrations with contact-force labels (ARCADE, GNR); evidence-gated training that keeps VLA policies robust to sensor corruption, and control barrier functions learned from demonstrations for safe skills (EGR, SECURE); and, for chaining skills over long horizons, a benchmark that exposes how earlier skills change the scene and break later ones, a compositional VLA framework that holds up to these changes, and an autonomous harness that resets the scene and scores task progress on real robots (BOSS, LiLo-VLA, HALTER).</p>
+                <p>Representative work: AR-based demonstration collection and generation, and a generative retargeting method that turns human hand motion into 195k dexterous robot demonstrations with contact-force labels (ARCADE, GNR); evidence-gated training that keeps VLA policies robust to sensor corruption, and control barrier functions learned from demonstrations for safe skills (EGR, SECURE); and, for chaining skills over long horizons, a benchmark that exposes how earlier skills change the scene and break later ones, a compositional VLA framework that holds up to these changes, and an autonomous harness that resets the scene and scores task progress on real robots (BOSS, LiLo-VLA, HALTER).</p>
             </div>
             <aside class="rf-keys">
                 <span class="rf-keys-label">Keywords</span>
@@ -121,8 +121,8 @@
                 <div class="sub">
                     <h4>Generating data</h4>
                     <ul class="items">
-                        <li><span class="name">GNR</span><span class="what">Real-to-sim generation of 195k dexterous demonstrations with contact-force labels</span></li>
-                        <li><a href="https://yuffish.github.io/rebot/" target="_blank" rel="noopener noreferrer">ReBot</a><span class="what">Real-to-sim-to-real video synthesis for VLA adaptation</span></li>
+                        <li><span class="name">GNR</span><span class="what">Generative retargeting of human hand motion into 195k dexterous demonstrations with contact-force labels</span></li>
+                        <li><a href="https://yuffish.github.io/rebot/" target="_blank" rel="noopener noreferrer">Rebot</a><span class="what">Real-to-sim-to-real video synthesis for VLA adaptation</span></li>
                         <li><a href="https://dense-reward.github.io/" target="_blank" rel="noopener noreferrer">DenseReward</a><span class="what">Dense reward learning from synthesized failure trajectories</span></li>
                     </ul>
                 </div>
@@ -131,7 +131,7 @@
             <div class="col-head robust">
                 <span class="idx">02</span>
                 <h3><a href="/publications/#robust">Robust and safe skills</a></h3>
-                <p class="q">Keeping each skill reliable on its own, under sensor corruption and safety constraints.</p>
+                <p class="q">Making each skill robust and safe on its own.</p>
                 <button class="rf-more" data-target="rf-robust" aria-controls="rf-robust" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
             </div>
             <div class="tick robust"></div>
@@ -161,7 +161,7 @@
             <div class="tick chain"></div>
             <div class="rf-body chain" id="rf-chain">
                 <div class="sub">
-                    <h4>Chaining skills</h4>
+                    <h4>Chaining skills and subtasks</h4>
                     <ul class="items">
                         <li><a href="https://yy-gx.github.io/LiLo-VLA/" target="_blank" rel="noopener noreferrer">LiLo-VLA</a><span class="what">Object-centric skill composition with failure recovery</span></li>
                         <li><a href="https://dannymcy.github.io/furniturevla/" target="_blank" rel="noopener noreferrer">FurnitureVLA</a><span class="what">Progress-aware VLA policies for long-horizon bimanual assembly</span></li>
@@ -294,6 +294,8 @@
       var years = [].slice.call(document.querySelectorAll('.pub-year'));
       var empty = document.querySelector('.pub-empty');
       var more = document.querySelector('.pub-more');
+      var moreText = more && more.querySelector('.pub-more-text');
+      var moreJump = more && more.querySelector('.view-jump');
       var state = {view: 'all', topic: 'all'};
 
       function apply() {
@@ -328,12 +330,24 @@
           o.classList.toggle('is-on', on);
           o.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
-        // The view rides on the container: in All, first-author rows are tinted
-        // and the swatch beside "First-author" explains the tint.
+        // The view rides on the container: in All, the selected rows
+        // (data-selected) are tinted and the swatch beside "Selected" explains
+        // the tint.
         var pubs = document.querySelector('.pubs');
         if (pubs) pubs.setAttribute('data-view', state.view);
         if (empty) empty.hidden = shown !== 0;
-        if (more) more.hidden = state.view !== 'selected' || shown === 0;
+        if (more) {
+          more.hidden = state.view !== 'selected' || shown === 0;
+          // Count what is on screen, so a topic reads "Showing 2 selected
+          // papers in Robust and safe skills. Show all 4", not the page total.
+          var chip = chips.filter(function (c) { return c.classList.contains('is-on'); })[0];
+          var txt = 'Showing ' + shown + ' selected paper' + (shown === 1 ? '' : 's');
+          if (chip && state.topic !== 'all') {
+            txt += ' in ' + chip.firstChild.nodeValue.trim();
+          }
+          if (moreText) moreText.textContent = txt + '.';
+          if (moreJump && chip) moreJump.textContent = 'Show all ' + chip.getAttribute('data-n-all');
+        }
         if (history.replaceState) {
           history.replaceState(null, '', location.pathname +
             (state.view === 'selected' ? '?view=selected' : '') +
@@ -497,8 +511,12 @@
         function leave() {
           clearTimeout(timer);
           // The connector sits between the pill and the list, so leaving one to
-          // reach the other must not count as leaving.
-          timer = setTimeout(function () { peek = false; sync(); }, 140);
+          // reach the other must not count as leaving. Nor does the pointer
+          // drifting away while keyboard focus is on a paper in the list.
+          timer = setTimeout(function () {
+            if (box.contains(document.activeElement)) return;
+            peek = false; sync();
+          }, 140);
         }
         btn.addEventListener('mouseenter', enter);
         btn.addEventListener('mouseleave', leave);
@@ -509,7 +527,17 @@
         });
         box.addEventListener('mouseleave', leave);
         btn.addEventListener('focus', enter);
-        btn.addEventListener('blur', leave);
+        // Tabbing from the pill into its first paper keeps the list open; so
+        // does Shift+Tab from the list back to the pill. Focus leaving both
+        // closes the preview.
+        btn.addEventListener('blur', function (e) {
+          if (!box.contains(e.relatedTarget)) leave();
+        });
+        box.addEventListener('focusin', enter);
+        box.addEventListener('focusout', function (e) {
+          var to = e.relatedTarget;
+          if (to !== btn && !box.contains(to)) leave();
+        });
       });
     })();
     </script>

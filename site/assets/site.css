@@ -522,7 +522,7 @@ div.home-container .home-profile img {
   font: 500 12.5px/1 "Poppins", sans-serif;
   text-transform: none;
   letter-spacing: 0;
-  color: var(--ink-muted);
+  color: var(--ink-soft);
   background: transparent;
   border: 0;
   border-radius: var(--radius-full, 999px);
@@ -592,7 +592,9 @@ div.home-container .home-profile img {
 
 .pub-more .view-jump,
 .pub-empty .view-jump {
-  margin: 0 0 0 0.35em;
+  /* No left margin: the space before the button already separates it, and
+     when the button wraps to its own line on a phone it lines up flush. */
+  margin: 0;
   padding: 0;
   font: inherit;
   font-weight: 500;
@@ -629,7 +631,7 @@ div.home-container .home-profile img {
   border: 1px solid var(--rule);
   border-radius: var(--radius-full, 999px);
   background: transparent !important;
-  color: var(--ink-muted);
+  color: var(--ink-soft);
   cursor: pointer;
   box-shadow: none;
   transition: color 0.2s var(--ease), border-color 0.2s var(--ease),
@@ -640,7 +642,7 @@ div.home-container .home-profile img {
 
 .tag-bar .tag-chip .tag-n {
   font-size: 0.85em;
-  opacity: 0.55;
+  opacity: 0.75;
   padding-left: 0.3em;
 }
 
@@ -654,11 +656,11 @@ div.home-container .home-profile img {
 .tag-bar .tag-chip.is-on[data-topic="data"]    { background: var(--ra-data) !important; }
 .tag-bar .tag-chip.is-on[data-topic="robust"]  { background: var(--ra-robust) !important; }
 .tag-bar .tag-chip.is-on[data-topic="chain"]   { background: var(--ra-chain) !important; }
-.tag-bar .tag-chip.is-on[data-topic="other"]   { background: var(--ink-muted) !important; }
+.tag-bar .tag-chip.is-on[data-topic="other"]   { background: var(--ink-soft) !important; }
 
 .paper-row[hidden], .pub-year[hidden] { display: none !important; }
 
-/* First-author papers in the All view. A pale blue card, close in hue to the
+/* Selected papers (data-selected="1") in the All view. A pale blue card, close in hue to the
    hero's cool grey so it belongs to the page, and pale enough that the rest of
    the list still reads as one list. The card bleeds a little past the column
    so its text stays aligned with the untinted rows. Selected view shows only
@@ -691,7 +693,7 @@ div.home-container .home-profile img {
   filter: blur(6px);
 }
 
-/* The key for the tint, shown beside "First-author" only while it applies. */
+/* The key for the tint, shown beside "Selected" only while it applies. */
 .sel-swatch {
   display: none;
   width: 0.8em;
@@ -1245,7 +1247,7 @@ body.home footer { margin-top: 0; border-top: 0; }
   /* Spans the container, so its outer edges line up with the figure below.
      The prose keeps its own measure inside a wide track, and the slack falls
      into the gutter rather than stretching the lines. */
-  grid-template-columns: minmax(0, 1fr) minmax(200px, 260px);
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 280px);
   column-gap: 3vw;
   align-items: start;
   margin-top: 0.2em;
@@ -1316,6 +1318,7 @@ body.home footer { margin-top: 0; border-top: 0; }
   background: color-mix(in srgb, var(--ink) 6%, #fff);
   border-radius: 2px;
   padding: 0.42em 0.62em;
+  white-space: nowrap;               /* a chip never breaks across two lines */
 }
 
 @media screen and (max-width: 1000px) {
@@ -1401,7 +1404,7 @@ body.home footer { margin-top: 0; border-top: 0; }
   display: block;
   font: 600 11px "Poppins", sans-serif;
   letter-spacing: 0.16em;
-  color: color-mix(in srgb, var(--c) 55%, #fff);
+  color: color-mix(in srgb, var(--c) 75%, #fff);
   margin-bottom: 0.5em;
 }
 
@@ -1429,6 +1432,7 @@ body.home footer { margin-top: 0; border-top: 0; }
   line-height: 1.45;
   color: var(--ink-soft);
   margin: 0;
+  text-wrap: balance;                /* no lone last word */
 }
 
 /* ---- the control: a pill straddling the head's bottom edge ---- */
@@ -1466,10 +1470,15 @@ body.home footer { margin-top: 0; border-top: 0; }
   transition: transform 0.28s ease;
 }
 .rf .rf-more.is-open .chev { transform: translateY(1px) rotate(-135deg); }
+/* Pinned is the filled pill; a hover or focus preview is only a light tint,
+   so the reader can tell whether a card will stay open. */
 .rf .rf-more:hover,
-.rf .rf-more.is-pinned { background: var(--c); color: #fff; }
+.rf .rf-more.is-open { background: color-mix(in srgb, var(--c) 12%, #fff); }
+.rf .rf-more.is-pinned,
+.rf .rf-more.is-pinned:hover { background: var(--c); color: #fff; }
 .rf .rf-more:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 25%, transparent);
+  outline: 2px solid var(--c);
+  outline-offset: 2px;
 }
 
 /* down connector from the head into the stack of sub-areas */
@@ -1517,15 +1526,20 @@ body.home footer { margin-top: 0; border-top: 0; }
   padding: 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.34s ease;
+  /* hidden, not just 0px high, so Tab skips the links of a closed card.
+     visibility flips only after the close animation has run. */
+  visibility: hidden;
+  transition: max-height 0.34s ease, visibility 0s linear 0.34s;
 }
 .rf .rf-body.is-open .sub .items {
   max-height: 560px;
+  visibility: visible;
+  transition-delay: 0s;
   border-top: 1px solid color-mix(in srgb, var(--c) 22%, #fff);
 }
 .rf .sub .items > li {
   padding: 0.55em 0.85em;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   border-bottom: 1px solid color-mix(in srgb, var(--c) 12%, #fff);
   opacity: 0;
@@ -1546,12 +1560,14 @@ body.home footer { margin-top: 0; border-top: 0; }
   color: var(--c);
   text-decoration: none;
 }
+/* A paper with no public page yet: plain text, not a link look-alike. */
+.rf .sub .items .name { color: var(--ink-soft); }
 .rf .sub .items a:hover { text-decoration: underline; }
 .rf .sub .items .what {
   display: block;
   margin-top: 0.1em;
   color: var(--ink-soft);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.4;
 }
 

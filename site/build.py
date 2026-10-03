@@ -461,6 +461,8 @@ FOOT = """    <footer>
       var years = [].slice.call(document.querySelectorAll('.pub-year'));
       var empty = document.querySelector('.pub-empty');
       var more = document.querySelector('.pub-more');
+      var moreText = more && more.querySelector('.pub-more-text');
+      var moreJump = more && more.querySelector('.view-jump');
       var state = {{view: 'all', topic: 'all'}};
 
       function apply() {{
@@ -495,12 +497,24 @@ FOOT = """    <footer>
           o.classList.toggle('is-on', on);
           o.setAttribute('aria-pressed', on ? 'true' : 'false');
         }});
-        // The view rides on the container: in All, first-author rows are tinted
-        // and the swatch beside "First-author" explains the tint.
+        // The view rides on the container: in All, the selected rows
+        // (data-selected) are tinted and the swatch beside "Selected" explains
+        // the tint.
         var pubs = document.querySelector('.pubs');
         if (pubs) pubs.setAttribute('data-view', state.view);
         if (empty) empty.hidden = shown !== 0;
-        if (more) more.hidden = state.view !== 'selected' || shown === 0;
+        if (more) {{
+          more.hidden = state.view !== 'selected' || shown === 0;
+          // Count what is on screen, so a topic reads "Showing 2 selected
+          // papers in Robust and safe skills. Show all 4", not the page total.
+          var chip = chips.filter(function (c) {{ return c.classList.contains('is-on'); }})[0];
+          var txt = 'Showing ' + shown + ' selected paper' + (shown === 1 ? '' : 's');
+          if (chip && state.topic !== 'all') {{
+            txt += ' in ' + chip.firstChild.nodeValue.trim();
+          }}
+          if (moreText) moreText.textContent = txt + '.';
+          if (moreJump && chip) moreJump.textContent = 'Show all ' + chip.getAttribute('data-n-all');
+        }}
         if (history.replaceState) {{
           history.replaceState(null, '', location.pathname +
             (state.view === 'selected' ? '?view=selected' : '') +
@@ -664,8 +678,12 @@ FOOT = """    <footer>
         function leave() {{
           clearTimeout(timer);
           // The connector sits between the pill and the list, so leaving one to
-          // reach the other must not count as leaving.
-          timer = setTimeout(function () {{ peek = false; sync(); }}, 140);
+          // reach the other must not count as leaving. Nor does the pointer
+          // drifting away while keyboard focus is on a paper in the list.
+          timer = setTimeout(function () {{
+            if (box.contains(document.activeElement)) return;
+            peek = false; sync();
+          }}, 140);
         }}
         btn.addEventListener('mouseenter', enter);
         btn.addEventListener('mouseleave', leave);
@@ -676,7 +694,17 @@ FOOT = """    <footer>
         }});
         box.addEventListener('mouseleave', leave);
         btn.addEventListener('focus', enter);
-        btn.addEventListener('blur', leave);
+        // Tabbing from the pill into its first paper keeps the list open; so
+        // does Shift+Tab from the list back to the pill. Focus leaving both
+        // closes the preview.
+        btn.addEventListener('blur', function (e) {{
+          if (!box.contains(e.relatedTarget)) leave();
+        }});
+        box.addEventListener('focusin', enter);
+        box.addEventListener('focusout', function (e) {{
+          var to = e.relatedTarget;
+          if (to !== btn && !box.contains(to)) leave();
+        }});
       }});
     }})();
     </script>
@@ -888,9 +916,10 @@ RESEARCH_STATEMENT = [
     "evaluate them.",
 
     "Representative work: AR-based demonstration collection and generation, and "
-    "a real-to-sim engine that turns human hand motion into 195k dexterous "
-    "demonstrations with contact-force labels (ARCADE, GNR); evidence-gated "
-    "training that keeps VLA policies robust to sensor corruption, and control "
+    "a generative retargeting method that turns human hand motion into 195k "
+    "dexterous robot demonstrations with contact-force labels (ARCADE, GNR); "
+    "evidence-gated training that keeps VLA policies robust to sensor "
+    "corruption, and control "
     "barrier functions learned from demonstrations for safe skills (EGR, "
     "SECURE); and, for chaining skills over long horizons, a benchmark that "
     "exposes how earlier skills change the scene and break later ones, a "
@@ -953,16 +982,15 @@ RESEARCH_FOCUS = [
          "Hand-based demonstration collection through augmented reality")]),
       ("Generating data",
        [("GNR", None,
-         "Real-to-sim generation of 195k dexterous demonstrations with "
-         "contact-force labels"),
-        ("ReBot", "https://yuffish.github.io/rebot/",
+         "Generative retargeting of human hand motion into 195k dexterous "
+         "demonstrations with contact-force labels"),
+        ("Rebot", "https://yuffish.github.io/rebot/",
          "Real-to-sim-to-real video synthesis for VLA adaptation"),
         ("DenseReward", "https://dense-reward.github.io/",
          "Dense reward learning from synthesized failure trajectories")])]),
 
     ("robust", "Robust and safe skills", "robust",
-     "Keeping each skill reliable on its own, under sensor corruption and "
-     "safety constraints.",
+     "Making each skill robust and safe on its own.",
      [("Robustness",
        [("EGR", "https://yy-gx.github.io/EGR/",
          "Evidence-gated regularization for robust multimodal VLA policies"),
@@ -978,7 +1006,7 @@ RESEARCH_FOCUS = [
 
     ("chain", "Chaining and evaluation", "chain",
      "Chaining skills into long tasks and evaluating them.",
-     [("Chaining skills",
+     [("Chaining skills and subtasks",
        [("LiLo-VLA", LILO,
          "Object-centric skill composition with failure recovery"),
         ("FurnitureVLA", "https://dannymcy.github.io/furniturevla/",
@@ -1171,7 +1199,8 @@ def build_publications(papers):
             body += paper_row(p)
     body += ('        <p class="pub-empty" hidden>No selected papers in this topic.'
              ' <button class="view-jump">Show all papers in this topic</button></p>\n'
-             f'        <p class="pub-more" hidden>Showing {n_sel} selected papers.'
+             f'        <p class="pub-more" hidden><span class="pub-more-text">'
+             f'Showing {n_sel} selected papers.</span>'
              f' <button class="view-jump">Show all {len(papers)}</button></p>\n'
              '    </div>\n')
     return page(
