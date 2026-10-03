@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css?v=07e8d3ca">
+    <link rel="stylesheet" href="/assets/site.css?v=0ef72753">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -194,8 +194,11 @@
         });
       });
 
+      // Hashes from before the topics were regrouped still land somewhere.
+      var aliases = {"skills": "chain", "earlier": "other", "hri": "all"};
       function fromUrl() {
         var h = (location.hash || '').replace('#', '');
+        if (Object.prototype.hasOwnProperty.call(aliases, h)) h = aliases[h];
         state.topic = chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all';
         // All is the default and carries no parameter; an old ?view=all link
         // still lands on All.

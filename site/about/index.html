@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css?v=07e8d3ca">
+    <link rel="stylesheet" href="/assets/site.css?v=0ef72753">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -86,17 +86,19 @@
         <div class="page-head" id="research-focus"><h1>Research Focus</h1></div>
         <div class="rf-intro">
             <div class="rf-statement">
-                <p>My research focuses on robot learning for reliable long-horizon manipulation. I investigate how learned skills can remain robust as task contexts change and be composed to accomplish extended tasks. This goal connects my work on skill learning, robot data generation, and human-robot interaction.</p>
-                <p>I develop methods for learning and composing reusable skills, collecting and synthesizing training data, and enabling people to teach and guide robots. These efforts span task-relevant policy learning, intent communication, and learning safety constraints from demonstrations. Through benchmarks and evaluation systems, I study the capabilities and failure modes of learned policies.</p>
+                <p>I work on robot learning for reliable long-horizon manipulation. I treat a long task as a chain of skills and study the full lifecycle of a skill: how to collect and generate the data that teaches it, how to make each skill robust and safe on its own, and how to chain skills into long tasks and evaluate them.</p>
+                <p>Representative work: AR-based demonstration collection and generation, and a real-to-sim engine that turns human hand motion into 195k dexterous demonstrations with contact-force labels (ARCADE, GNR); evidence-gated training that keeps VLA policies robust to sensor corruption, and control barrier functions learned from demonstrations for safe skills (EGR, SECURE); and, for chaining skills over long horizons, a benchmark that exposes how earlier skills change the scene and break later ones, a compositional VLA framework that holds up to these changes, and an autonomous harness that resets the scene and scores task progress on real robots (BOSS, LiLo-VLA, HALTER).</p>
             </div>
             <aside class="rf-keys">
                 <span class="rf-keys-label">Keywords</span>
                 <ul>
                     <li>Long-horizon manipulation</li>
-                    <li>Compositional robot learning</li>
-                    <li>Multimodal robustness</li>
-                    <li>Robot data synthesis</li>
-                    <li>Human-robot interaction</li>
+                    <li>Skill chaining</li>
+                    <li>Robot data generation</li>
+                    <li>Real-to-sim</li>
+                    <li>VLA robustness</li>
+                    <li>Safe learning from demonstration</li>
+                    <li>Dexterous manipulation</li>
                 </ul>
             </aside>
         </div>
@@ -373,8 +375,11 @@
         });
       });
 
+      // Hashes from before the topics were regrouped still land somewhere.
+      var aliases = {"skills": "chain", "earlier": "other", "hri": "all"};
       function fromUrl() {
         var h = (location.hash || '').replace('#', '');
+        if (Object.prototype.hasOwnProperty.call(aliases, h)) h = aliases[h];
         state.topic = chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all';
         // All is the default and carries no parameter; an old ?view=all link
         // still lands on All.

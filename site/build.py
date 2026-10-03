@@ -13,6 +13,7 @@ import os
 import re
 import hashlib as _hashlib
 import html
+import json
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 # Content lives one level up (site.config.yml, src/content/...). Derived from
@@ -70,14 +71,13 @@ NAME_ZH = "杨越"
 IDENTITY = ("A Computer Science PhD student at UNC Chapel Hill, "
             "with an M.S. in CS from Georgia Tech.")
 
-# The research sentence, split into its three strands so each can be coloured
-# and, once the publications page is grouped by topic, linked. To turn a strand
-# into a link later, just fill in its `href`: the renderer already handles it.
-# The lead names the research area and links to the Research Focus section,
-# which is where that area is actually laid out. The three strands after the
-# colon keep pointing at the publications filter.
+# The research sentence: a lead, then the three stages of a skill's lifecycle,
+# one bullet each. The lead names the research area and links to the Research
+# Focus section, which is where that area is laid out. Each stage links to its
+# publications filter.
 RESEARCH_LEAD_PRE = "I work on"
 RESEARCH_LEAD_KEY = "robot learning for reliable long-horizon manipulation"
+RESEARCH_LEAD_POST = ", treating a long task as a chain of skills:"
 # Flock is a separate GitHub Pages project sitting on the same domain, so
 # the absolute URL works from the local server as well as from the live
 # site. It opens in its own tab: it is a different site.
@@ -90,24 +90,28 @@ RESEARCH_LEAD_HREF = "/about/#research-focus"
 BIRD_LINE = ("Off the clock I photograph birds, who pull off long-horizon "
              "tasks with no training data at all :) The results are in "
              "[my flock](%s)." % FLOCK_URL)
-# (key, text, link, Font Awesome icon). Each strand is one bullet on the home
-# page; the coloured icon is the marker.
+# (key, text, link, Font Awesome icon). Each stage is one bullet on the home
+# page, ending in an arrow in the stage's colour.
 RESEARCH_PARTS = [
-    ("skills", "Learning skills and the way to chain them",
-     "/publications/#skills", "fa-arrow-right"),
-    ("data", "Generating the data to train them",
+    ("data", "Collecting and generating the data that teaches skills",
      "/publications/#data", "fa-arrow-right"),
-    ("hri", "What people and robots need to tell each other to work together",
-     "/publications/#hri", "fa-arrow-right"),
+    ("robust", "Making each skill robust and safe",
+     "/publications/#robust", "fa-arrow-right"),
+    ("chain", "Chaining skills into long tasks and evaluating them",
+     "/publications/#chain", "fa-arrow-right"),
 ]
 
-# Publication topics. The first three share their keys, labels and colours with
-# RESEARCH_PARTS above, so a strand on the home page lands on this page with the
-# matching tag already selected. A paper may carry more than one.
-TOPICS = [("skills", "Skill learning &amp; chaining"),
-          ("data", "Data generation"),
-          ("hri", "Human-robot interaction"),
-          ("earlier", "Earlier work")]
+# Publication topics, one per paper. The first three share their keys and
+# colours with RESEARCH_PARTS above (and with the Research Focus cards on the
+# About page), so a link from either lands on this page with the matching chip
+# already on. Old hashes from the previous taxonomy are mapped in TOPIC_ALIASES.
+TOPICS = [("data", "Skill data"),
+          ("robust", "Robust and safe skills"),
+          ("chain", "Chaining and evaluation"),
+          ("other", "Other")]
+# Old hash -> new topic, so links made before the regrouping still land.
+# There is no longer an HRI category, so #hri opens the full list.
+TOPIC_ALIASES = {"skills": "chain", "earlier": "other", "hri": "all"}
 # Reverse chronological: Meta (Jun-Aug 2026) then MERL (Jan-Apr 2026).
 PREVIOUSLY = ["Meta Reality Labs Research (RLR)",
               "Mitsubishi Electric Research Laboratories (MERL)"]
@@ -527,8 +531,11 @@ FOOT = """    <footer>
         }});
       }});
 
+      // Hashes from before the topics were regrouped still land somewhere.
+      var aliases = {aliases_js};
       function fromUrl() {{
         var h = (location.hash || '').replace('#', '');
+        if (Object.prototype.hasOwnProperty.call(aliases, h)) h = aliases[h];
         state.topic = chips.some(function (c) {{ return c.getAttribute('data-topic') === h; }}) ? h : 'all';
         // All is the default and carries no parameter; an old ?view=all link
         // still lands on All.
@@ -705,8 +712,10 @@ def json_ld():
                           "name": "Georgia Institute of Technology"}],
             "knowsAbout": ["Robot learning", "Long-horizon manipulation",
                            "Skill chaining", "Vision-Language-Action models",
-                           "Robot data generation", "Imitation learning",
-                           "Human-robot interaction", "Augmented reality"],
+                           "Robot data generation", "Dexterous manipulation",
+                           "Safe learning from demonstration",
+                           "Imitation learning", "Human-robot interaction",
+                           "Augmented reality"],
             "url": SITE_URL, "email": EMAIL, "sameAs": same}
     if S("orcid"):
         data["identifier"] = {"@type": "PropertyValue", "propertyID": "ORCID",
@@ -766,7 +775,8 @@ def page(title, desc, current, body, hero=False, body_class="", slug="", extra_l
                         jsonld=(json_ld() if slug == "" else "") + extra_ld)
             + f'    <div{cls}>\n' + nav(current) + body + '    </div>\n'
             + FOOT.format(name=html.escape(NAME), tagline=tag_html,
-                          bird=md_inline(BIRD_LINE)))
+                          bird=md_inline(BIRD_LINE),
+                          aliases_js=json.dumps(TOPIC_ALIASES)))
 
 
 def award_lines(awards):
@@ -842,11 +852,13 @@ def name_mark():
 
 
 def research_html():
-    """The lead sentence, then one bullet per strand. Each bullet is a whole-line
-    link to its publications filter, ending in an arrow in the strand's colour."""
+    """The lead sentence, then one bullet per lifecycle stage. Each bullet is a
+    whole-line link to its publications filter, ending in an arrow in the
+    stage's colour."""
     lead = (f'{html.escape(RESEARCH_LEAD_PRE)} '
             f'<a class="ra-lead" href="{RESEARCH_LEAD_HREF}">'
-            f'{html.escape(RESEARCH_LEAD_KEY)}</a>:')
+            f'{html.escape(RESEARCH_LEAD_KEY)}</a>'
+            f'{html.escape(RESEARCH_LEAD_POST)}')
     # Plain dots as markers; the coloured arrow after each line is what says
     # "this goes somewhere", one arrow shape for all three.
     items = "".join(
@@ -869,26 +881,30 @@ def industry_sentence():
 # terms a recruiter or a search scans for, so neither job spoils the other.
 # ---------------------------------------------------------------------------
 RESEARCH_STATEMENT = [
-    "My research focuses on robot learning for reliable long-horizon "
-    "manipulation. I investigate how learned skills can remain robust as task "
-    "contexts change and be composed to accomplish extended tasks. This goal "
-    "connects my work on skill learning, robot data generation, and "
-    "human-robot interaction.",
+    "I work on robot learning for reliable long-horizon manipulation. I treat a "
+    "long task as a chain of skills and study the full lifecycle of a skill: how "
+    "to collect and generate the data that teaches it, how to make each skill "
+    "robust and safe on its own, and how to chain skills into long tasks and "
+    "evaluate them.",
 
-    "I develop methods for learning and composing reusable skills, collecting "
-    "and synthesizing training data, and enabling people to teach and guide "
-    "robots. These efforts span task-relevant policy learning, intent "
-    "communication, and learning safety constraints from demonstrations. "
-    "Through benchmarks and evaluation systems, I study the capabilities and "
-    "failure modes of learned policies.",
+    "Representative work: AR-based demonstration collection and generation, and "
+    "a real-to-sim engine that turns human hand motion into 195k dexterous "
+    "demonstrations with contact-force labels (ARCADE, GNR); evidence-gated "
+    "training that keeps VLA policies robust to sensor corruption, and control "
+    "barrier functions learned from demonstrations for safe skills (EGR, "
+    "SECURE); and, for chaining skills over long horizons, a benchmark that "
+    "exposes how earlier skills change the scene and break later ones, a "
+    "compositional VLA framework that holds up to these changes, and an "
+    "autonomous harness that resets the scene and scores task progress on real "
+    "robots (BOSS, LiLo-VLA, HALTER).",
 ]
 
 # Five, not ten. Platforms and tools (humanoid, bimanual, vision-tactile,
 # AR/VR) belong to the individual projects, not beside the research areas.
 RESEARCH_KEYWORDS = [
-    "Long-horizon manipulation", "Compositional robot learning",
-    "Multimodal robustness", "Robot data synthesis",
-    "Human-robot interaction",
+    "Long-horizon manipulation", "Skill chaining", "Robot data generation",
+    "Real-to-sim", "VLA robustness", "Safe learning from demonstration",
+    "Dexterous manipulation",
 ]
 
 
@@ -1164,9 +1180,9 @@ def build_publications(papers):
              '    </div>\n')
     return page(
         f"Publications | {NAME}",
-        "Peer-reviewed papers and preprints on long-horizon robot manipulation, "
-        "skill learning and chaining, robot data generation, and human-robot "
-        f"interaction, by {NAME} (UNC Chapel Hill).",
+        "Peer-reviewed papers and preprints on long-horizon robot manipulation: "
+        "skill data, robust and safe skills, and chaining and evaluating skills, "
+        f"by {NAME} (UNC Chapel Hill).",
         "/publications/", body, slug="publications/",
         extra_ld=scholarly_ld(papers))
 

@@ -302,12 +302,12 @@ div.home-container .home-intro .home-research { color: var(--ink); }
    character. All three separate cleanly from each other, 67 to 72 dE.
    Hover states drop a further 11 points of lightness. */
 :root {
-  --ra-skills: #a13b1f;   /* terracotta, from #e07a5f */
-  --ra-data:   #783f8e;   /* purple, as given */
-  --ra-hri:    #3d6451;   /* sage, from #81b29a */
-  --ra-skills-on: #722a16;
+  --ra-data:   #783f8e;   /* purple, as given: skill data */
+  --ra-robust: #a13b1f;   /* terracotta, from #e07a5f: robust and safe skills */
+  --ra-chain:  #3d6451;   /* sage, from #81b29a: chaining and evaluation */
   --ra-data-on:   #572e67;
-  --ra-hri-on:    #284135;
+  --ra-robust-on: #722a16;
+  --ra-chain-on:  #284135;
 }
 
 /* The lead phrase names the research area and goes to the Research Focus
@@ -383,15 +383,15 @@ div.home-container .home-intro a.strand:focus-visible span {
   text-decoration-color: currentColor;
 }
 
-div.home-container .home-intro .strand-skills i { color: var(--ra-skills); }
 div.home-container .home-intro .strand-data i   { color: var(--ra-data); }
-div.home-container .home-intro .strand-hri i    { color: var(--ra-hri); }
-div.home-container .home-intro .strand-skills:hover i,
-div.home-container .home-intro .strand-skills:focus-visible i { color: var(--ra-skills-on); }
+div.home-container .home-intro .strand-robust i { color: var(--ra-robust); }
+div.home-container .home-intro .strand-chain i  { color: var(--ra-chain); }
 div.home-container .home-intro .strand-data:hover i,
 div.home-container .home-intro .strand-data:focus-visible i   { color: var(--ra-data-on); }
-div.home-container .home-intro .strand-hri:hover i,
-div.home-container .home-intro .strand-hri:focus-visible i    { color: var(--ra-hri-on); }
+div.home-container .home-intro .strand-robust:hover i,
+div.home-container .home-intro .strand-robust:focus-visible i { color: var(--ra-robust-on); }
+div.home-container .home-intro .strand-chain:hover i,
+div.home-container .home-intro .strand-chain:focus-visible i  { color: var(--ra-chain-on); }
 
 /* Every item in both lists: a small neutral dot in the marker column. */
 div.home-container .home-intro .home-list li::before {
@@ -437,16 +437,29 @@ div.home-container .home-intro .home-block + .home-block { margin-top: 0; }
   /* A fixed minimum gap: the height-scaled one grew on tall screens and
      pushed the text past the shorter square. */
   div.home-container .home-intro { align-self: stretch; justify-content: space-between; row-gap: 18px; }
-}
-@media screen and (min-width: 769px) and (max-height: 820px) {
-  /* Small laptops: the square is ~435px, so the minimum gap gives a little. */
-  div.home-container .home-intro { row-gap: 10px; }
-  div.home-container .home-profile { align-self: center; }
   /* Clarity's 10px under every button would leave Read More short of the
      photo's bottom edge. */
   div.home-container .home-intro .home-cta .button { margin-bottom: 0; }
+  /* Slightly tighter lines than on a phone, so the longer research lead
+     still fits beside the square (it measured 35px too tall at 1680x1050). */
+  div.home-container .home-intro p,
+  div.home-container .home-intro .home-list li { line-height: 1.4; }
+}
+@media screen and (min-width: 769px) and (max-height: 820px) {
+  /* Small laptops: the square is ~435px, so the minimum gap gives a little,
+     and the lines and cluster padding tighten a little more (at 1280x800 the
+     text was 50px taller than the square). */
+  div.home-container .home-intro { row-gap: 10px; }
+  div.home-container .home-profile { align-self: center; }
+  div.home-container .home-intro p,
+  div.home-container .home-intro .home-list li { line-height: 1.3; }
+  div.home-container .home-intro .home-list li { padding-bottom: 0; }
+  div.home-container .home-intro h1.title { line-height: 1.05; }
 }
 div.home-container .home-intro .home-block p { padding-bottom: 0.3em; }
+@media screen and (min-width: 769px) and (max-height: 820px) {
+  div.home-container .home-intro .home-block p { padding-bottom: 0.15em; }
+}
 /* Only text closes a cluster flush; the button keeps its own padding. */
 div.home-container .home-intro .home-block > p:last-child,
 div.home-container .home-intro .home-block > ul:last-child { padding-bottom: 0; margin-bottom: 0; }
@@ -470,15 +483,16 @@ div.home-container .home-profile img {
     /* A square is shorter than the old 3:4 crop at the same width, so the
        column is a little wider to keep room for the text beside it. */
     grid-template-columns: minmax(0, 1fr) min(34vw, 540px);
-    column-gap: 5vw;
+    column-gap: 3.5vw;
     row-gap: 0;
   }
 }
 
 @media screen and (min-width: 992px) {
   /* Was 10vw, which on a 1440 screen spent 144px between the columns and
-     pushed the text into more lines than the portrait is tall. */
-  div.home-container { column-gap: 5vw; }
+     pushed the text into more lines than the portrait is tall. Then 5vw, cut
+     to 3.5vw when the research lead grew a clause, so it wraps less. */
+  div.home-container { column-gap: 3.5vw; }
 }
 
 /* --- topic tags ---------------------------------------------------------- */
@@ -637,10 +651,10 @@ div.home-container .home-profile img {
   border-color: transparent;
 }
 .tag-bar .tag-chip.is-on[data-topic="all"]     { background: var(--ink-soft) !important; }
-.tag-bar .tag-chip.is-on[data-topic="skills"]  { background: var(--ra-skills) !important; }
 .tag-bar .tag-chip.is-on[data-topic="data"]    { background: var(--ra-data) !important; }
-.tag-bar .tag-chip.is-on[data-topic="hri"]     { background: var(--ra-hri) !important; }
-.tag-bar .tag-chip.is-on[data-topic="earlier"] { background: var(--ink-muted) !important; }
+.tag-bar .tag-chip.is-on[data-topic="robust"]  { background: var(--ra-robust) !important; }
+.tag-bar .tag-chip.is-on[data-topic="chain"]   { background: var(--ra-chain) !important; }
+.tag-bar .tag-chip.is-on[data-topic="other"]   { background: var(--ink-muted) !important; }
 
 .paper-row[hidden], .pub-year[hidden] { display: none !important; }
 
@@ -956,7 +970,7 @@ div.home-container .home-profile img {
 .paper-row .paper-info .paper-award i {
   font-size: 0.85em;
   margin-right: 0.45em;
-  color: color-mix(in srgb, var(--ra-skills) 70%, #fff);
+  color: color-mix(in srgb, var(--ra-robust) 70%, #fff);
 }
 
 .paper-row .paper-info .paper-links { padding-top: 0.8em; }

@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css?v=07e8d3ca">
+    <link rel="stylesheet" href="/assets/site.css?v=0ef72753">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -33,7 +33,7 @@
       gtag('js', new Date());
       gtag('config', 'G-L4FWDSZJVD');
     </script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Yue Yang", "jobTitle": "PhD Student, Department of Computer Science", "affiliation": {"@type": "CollegeOrUniversity", "name": "The University of North Carolina at Chapel Hill"}, "alumniOf": [{"@type": "CollegeOrUniversity", "name": "Georgia Institute of Technology"}], "knowsAbout": ["Robot learning", "Long-horizon manipulation", "Skill chaining", "Vision-Language-Action models", "Robot data generation", "Imitation learning", "Human-robot interaction", "Augmented reality"], "url": "https://yy-gx.github.io", "email": "yygx@cs.unc.edu", "sameAs": ["https://scholar.google.com/citations?user=NafmySAAAAAJ", "https://github.com/YY-GX", "https://twitter.com/YYang9923", "https://www.linkedin.com/in/yue-yang-6a1493185/", "https://orcid.org/0009-0000-8433-6246", "https://www.semanticscholar.org/author/2292430956"], "identifier": {"@type": "PropertyValue", "propertyID": "ORCID", "value": "https://orcid.org/0009-0000-8433-6246"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Yue Yang", "jobTitle": "PhD Student, Department of Computer Science", "affiliation": {"@type": "CollegeOrUniversity", "name": "The University of North Carolina at Chapel Hill"}, "alumniOf": [{"@type": "CollegeOrUniversity", "name": "Georgia Institute of Technology"}], "knowsAbout": ["Robot learning", "Long-horizon manipulation", "Skill chaining", "Vision-Language-Action models", "Robot data generation", "Dexterous manipulation", "Safe learning from demonstration", "Imitation learning", "Human-robot interaction", "Augmented reality"], "url": "https://yy-gx.github.io", "email": "yygx@cs.unc.edu", "sameAs": ["https://scholar.google.com/citations?user=NafmySAAAAAJ", "https://github.com/YY-GX", "https://twitter.com/YYang9923", "https://www.linkedin.com/in/yue-yang-6a1493185/", "https://orcid.org/0009-0000-8433-6246", "https://www.semanticscholar.org/author/2292430956"], "identifier": {"@type": "PropertyValue", "propertyID": "ORCID", "value": "https://orcid.org/0009-0000-8433-6246"}}</script>
 </head>
 <body class="home">
     <div class="hero-band">
@@ -88,8 +88,8 @@
                    A Computer Science PhD student at UNC Chapel Hill, with an M.S. in CS from Georgia Tech. I have also done research at Meta Reality Labs Research (RLR) and Mitsubishi Electric Research Laboratories (MERL).</p>
                 </div>
                 <div class="home-block">
-                <p class="home-research">I work on <a class="ra-lead" href="/about/#research-focus">robot learning for reliable long-horizon manipulation</a>:</p>
-                <ul class="home-list"><li><a class="strand strand-skills" href="/publications/#skills"><span>Learning skills and the way to chain them</span>&nbsp;<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></li><li><a class="strand strand-data" href="/publications/#data"><span>Generating the data to train them</span>&nbsp;<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></li><li><a class="strand strand-hri" href="/publications/#hri"><span>What people and robots need to tell each other to work together</span>&nbsp;<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></li></ul>
+                <p class="home-research">I work on <a class="ra-lead" href="/about/#research-focus">robot learning for reliable long-horizon manipulation</a>, treating a long task as a chain of skills:</p>
+                <ul class="home-list"><li><a class="strand strand-data" href="/publications/#data"><span>Collecting and generating the data that teaches skills</span>&nbsp;<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></li><li><a class="strand strand-robust" href="/publications/#robust"><span>Making each skill robust and safe</span>&nbsp;<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></li><li><a class="strand strand-chain" href="/publications/#chain"><span>Chaining skills into long tasks and evaluating them</span>&nbsp;<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></li></ul>
                 </div>
                 <div class="home-block home-cta">
                     <a href="/about/" class="button icon">Read More <i class="fa-solid fa-arrow-right"></i></a>
@@ -209,8 +209,11 @@
         });
       });
 
+      // Hashes from before the topics were regrouped still land somewhere.
+      var aliases = {"skills": "chain", "earlier": "other", "hri": "all"};
       function fromUrl() {
         var h = (location.hash || '').replace('#', '');
+        if (Object.prototype.hasOwnProperty.call(aliases, h)) h = aliases[h];
         state.topic = chips.some(function (c) { return c.getAttribute('data-topic') === h; }) ? h : 'all';
         // All is the default and carries no parameter; an old ?view=all link
         // still lands on All.
