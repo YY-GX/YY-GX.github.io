@@ -914,117 +914,113 @@ def research_statement_html():
 
 
 # ---------------------------------------------------------------------------
-# Research Focus figure. Three research areas side by side and one evaluation
-# band across the bottom. No arrows between the areas: an earlier version drew
-# a closed loop (failures choosing the next data collection, interaction
-# flowing back into training data) that the papers do not demonstrate.
+# Research Focus figure. A long task is a chain of skills, and the work follows
+# a skill through three stages, left to right: the data that teaches it,
+# keeping it robust and safe on its own, then chaining skills into long tasks
+# and evaluating them. Light arrows between the cards give the order only.
+# No loop or return arrow: an earlier version drew a closed loop that the
+# papers do not demonstrate.
 #   (key, heading, publications tag, scope line,
-#    [(sub-area, [(paper label, url, contribution), ...]), ...])
+#    [(sub-area, [(paper label, url or None, contribution), ...]), ...])
 # ---------------------------------------------------------------------------
 LILO = "https://yy-gx.github.io/LiLo-VLA/"
 ARCADE = "https://yy-gx.github.io/ARCADE/"
 ARDEMO = "https://arxiv.org/pdf/2403.13910"
 
 RESEARCH_FOCUS = [
-    ("skills", "Learning and Composing Robot Skills", "skills",
-     "Developing reusable manipulation skills and robust policies for "
-     "long-horizon execution.",
-     [("Skill Composition and Long-Horizon Execution",
-       [("LiLo-VLA", LILO,
-         "Object-centric skill composition with failure recovery"),
-        ("FurnitureVLA", "https://dannymcy.github.io/furniturevla/",
-         "Progress-aware VLA policies for long-horizon bimanual assembly")]),
-      ("Multimodal Robustness and Language Grounding",
-       [("EGR", "https://yy-gx.github.io/EGR/",
-         "Evidence-guided regularization for multimodal policy robustness"),
-        ("Counterfactual VLA", "https://vla-cf.github.io/",
-         "Counterfactual evaluation and action guidance for language "
-         "following")])]),
-
-    ("data", "Robot Data Collection and Synthesis", "data",
-     "Scaling robot learning through demonstration interfaces and synthetic "
-     "training data.",
-     [("Demonstration Interfaces",
+    ("data", "Skill data", "data",
+     "Collecting and generating the data that teaches skills.",
+     [("Collecting demonstrations",
        [("ARCADE", ARCADE,
-         "AR-assisted demonstration collection and synthetic expansion"),
+         "AR-assisted demonstration collection and generation"),
         ("AR Demonstrations", ARDEMO,
          "Hand-based demonstration collection through augmented reality")]),
-      ("Synthetic Data and Reward Learning",
-       [("ReBot", "https://yuffish.github.io/rebot/",
+      ("Generating data",
+       [("GNR", None,
+         "Real-to-sim generation of 195k dexterous demonstrations with "
+         "contact-force labels"),
+        ("ReBot", "https://yuffish.github.io/rebot/",
          "Real-to-sim-to-real video synthesis for VLA adaptation"),
         ("DenseReward", "https://dense-reward.github.io/",
          "Dense reward learning from synthesized failure trajectories")])]),
 
-    ("hri", "Human-Robot Interaction and Safe Learning", "hri",
-     "Supporting robot teaching, intent communication, and learning from "
-     "human safety demonstrations.",
-     [("Intent Alignment and Competency Communication",
-       [("AR Intent",
-         "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10973947",
-         "AR-mediated intention alignment in collaborative tasks"),
-        ("Competency-Aware",
-         "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11154044",
-         "Robot competency communication for collaborative exploration")]),
-      ("Safety Learning from Demonstrations",
+    ("robust", "Robust and safe skills", "robust",
+     "Keeping each skill reliable on its own, under sensor corruption and "
+     "safety constraints.",
+     [("Robustness",
+       [("EGR", "https://yy-gx.github.io/EGR/",
+         "Evidence-gated regularization for robust multimodal VLA policies"),
+        ("Counterfactual VLA", "https://vla-cf.github.io/",
+         "Counterfactual evaluation and action guidance for language "
+         "following")]),
+      ("Safety",
        [("SECURE", "https://dl.acm.org/doi/pdf/10.1145/3610977.3635002",
          "Learning safety constraints from demonstrations for CBF shielding"),
         ("Safe IRL via CBF", "https://arxiv.org/pdf/2212.02753",
          "CBF-informed optimization for safer inverse reinforcement "
          "learning")])]),
+
+    ("chain", "Chaining and evaluation", "chain",
+     "Chaining skills into long tasks and evaluating them.",
+     [("Chaining skills",
+       [("LiLo-VLA", LILO,
+         "Object-centric skill composition with failure recovery"),
+        ("FurnitureVLA", "https://dannymcy.github.io/furniturevla/",
+         "Progress-aware VLA policies for long-horizon bimanual assembly"),
+        ("AR Intent",
+         "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10973947",
+         "AR-mediated intent alignment for collaborative long-horizon "
+         "tasks")]),
+      ("Evaluating long tasks",
+       [("BOSS", "https://boss-benchmark.github.io/",
+         "Benchmarking observation shifts induced by skill chaining"),
+        ("HALTER", "https://yy-gx.github.io/HALTER/",
+         "Scene-graph-based scoring and autonomous reset for long-horizon "
+         "evaluation"),
+        ("WatchAct", "https://baiqi-li.github.io/watchact_page/",
+         "Benchmarking manipulation grounded in human behavior videos")])]),
 ]
 
-# Cuts across all three areas, so it gets its own band rather than a column.
-RESEARCH_EVAL = (
-    "eval", "Benchmarking and Evaluation", "",
-    "Diagnosing policy failures and developing systematic evaluation for "
-    "robot manipulation.",
-    [("Benchmarks and Evaluation Systems",
-      [("BOSS", "https://boss-benchmark.github.io/",
-        "Benchmarking observation shifts induced by skill chaining"),
-       ("HALTER", "https://yy-gx.github.io/HALTER/",
-        "Scene-graph-based scoring and autonomous reset for long-horizon "
-        "evaluation"),
-       ("WatchAct", "https://baiqi-li.github.io/watchact_page/",
-        "Benchmarking manipulation grounded in human behavior videos")])],
-)
 
-
-def _rf_card(key, heading, tag, scope, groups, index=None):
-    head = f'            <div class="col-head {key}">\n'
-    if index:
-        head += f'                <span class="idx">{index}</span>\n'
-    title = html.escape(heading)
-    if tag:
-        title = f'<a href="/publications/#{tag}">{title}</a>'
-    head += (f'                <h3>{title}</h3>\n'
-             f'                <p class="q">{html.escape(scope)}</p>\n'
-             f'                <button class="rf-more" data-target="rf-{key}"'
-             f' aria-controls="rf-{key}" aria-expanded="false">'
-             '<span class="lbl">Papers</span>'
-             '<span class="chev"></span></button>\n'
-             '            </div>\n'
-             f'            <div class="tick {key}"></div>\n'
-             f'            <div class="rf-body {key}" id="rf-{key}">\n')
-    for title, rows in groups:
-        head += ('                <div class="sub">\n'
-                 f'                    <h4>{html.escape(title)}</h4>\n'
-                 '                    <ul class="items">\n')
+def _rf_card(key, heading, tag, scope, groups, index):
+    title = f'<a href="/publications/#{tag}">{html.escape(heading)}</a>'
+    out = (f'            <div class="col-head {key}">\n'
+           f'                <span class="idx">{index}</span>\n'
+           f'                <h3>{title}</h3>\n'
+           f'                <p class="q">{html.escape(scope)}</p>\n'
+           f'                <button class="rf-more" data-target="rf-{key}"'
+           f' aria-controls="rf-{key}" aria-expanded="false">'
+           '<span class="lbl">Papers</span>'
+           '<span class="chev"></span></button>\n'
+           '            </div>\n'
+           f'            <div class="tick {key}"></div>\n'
+           f'            <div class="rf-body {key}" id="rf-{key}">\n')
+    for sub, rows in groups:
+        out += ('                <div class="sub">\n'
+                f'                    <h4>{html.escape(sub)}</h4>\n'
+                '                    <ul class="items">\n')
         for label, url, what in rows:
-            head += ('                        <li>'
-                     f'<a href="{html.escape(url)}" target="_blank" '
-                     f'rel="noopener noreferrer">{html.escape(label)}</a>'
-                     f'<span class="what">{html.escape(what)}</span></li>\n')
-        head += ('                    </ul>\n'
-                 '                </div>\n')
-    return head + '            </div>\n'
+            if url:
+                name = (f'<a href="{html.escape(url)}" target="_blank" '
+                        f'rel="noopener noreferrer">{html.escape(label)}</a>')
+            else:  # no public page yet
+                name = f'<span class="name">{html.escape(label)}</span>'
+            out += ('                        <li>'
+                    f'{name}<span class="what">{html.escape(what)}</span></li>\n')
+        out += ('                    </ul>\n'
+                '                </div>\n')
+    return out + '            </div>\n'
 
 
 def research_focus_html():
     out = '        <div class="rf">\n'
     for i, (key, heading, tag, scope, groups) in enumerate(RESEARCH_FOCUS):
-        out += _rf_card(key, heading, tag, scope, groups, index="0%d" % (i + 1))
-    key, heading, tag, scope, groups = RESEARCH_EVAL
-    out += _rf_card(key, heading, tag, scope, groups)
+        if i:
+            # In DOM order between two cards, so it also sits between them
+            # once the cards stack on a phone.
+            out += (f'            <div class="rf-arrow a{i}" '
+                    'aria-hidden="true"></div>\n')
+        out += _rf_card(key, heading, tag, scope, groups, "0%d" % (i + 1))
     return out + '        </div>\n'
 
 

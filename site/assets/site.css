@@ -1311,16 +1311,21 @@ body.home footer { margin-top: 0; border-top: 0; }
 
 /* =====================================================================
    Research Focus figure (About page)
-   Three research areas side by side, then one evaluation band across the
-   bottom. No arrows between the areas: an earlier version drew a closed
-   loop the papers do not demonstrate.
+   Three stages of a skill's life, left to right: skill data, robust and safe
+   skills, chaining and evaluation. A light arrow in each gutter gives the
+   order. Nothing more: no loop or return arrow, since an earlier version drew
+   a closed loop the papers do not demonstrate.
    ===================================================================== */
 .rf {
+  --rf-arrow: #9aa8b8;
   display: grid;
-  /* minmax(0,...) not 1fr: a 1fr track can be widened by its own content,
-     so one long line in one column would resize all three. */
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 2.2vw;
+  /* card, gutter, card, gutter, card. minmax(0,...) not 1fr: a 1fr track can
+     be widened by its own content, so one long line in one card, or one card
+     opening, would resize the other two. */
+  grid-template-columns:
+    minmax(0, 1fr) clamp(26px, 3.2vw, 46px)
+    minmax(0, 1fr) clamp(26px, 3.2vw, 46px)
+    minmax(0, 1fr);
   align-items: start;
   margin-top: 3.2em;
 }
@@ -1330,21 +1335,41 @@ body.home footer { margin-top: 0; border-top: 0; }
 .rf > .col-head { grid-row: 1; align-self: stretch; }
 .rf > .tick { grid-row: 2; }
 .rf > .rf-body { grid-row: 3; }
-.rf > .skills { grid-column: 1; }
-.rf > .data { grid-column: 2; }
-.rf > .hri { grid-column: 3; }
+.rf > .data { grid-column: 1; }
+.rf > .robust { grid-column: 3; }
+.rf > .chain { grid-column: 5; }
+.rf > .rf-arrow { grid-row: 1; align-self: stretch; }
+.rf > .rf-arrow.a1 { grid-column: 2; }
+.rf > .rf-arrow.a2 { grid-column: 4; }
 
-.rf .skills { --c: #a13b1f; }
 .rf .data { --c: #783f8e; }
-.rf .hri { --c: #3d6451; }
-/* The band is deliberately neutral: it cuts across the three areas rather
-   than standing beside them as a fourth. */
-.rf .eval { --c: #4a5f7a; }
+.rf .robust { --c: #a13b1f; }
+.rf .chain { --c: #3d6451; }
 
-.rf > .eval { grid-column: 1 / -1; }
-.rf > .col-head.eval { grid-row: 4; margin-top: 1.5em; }
-.rf > .tick.eval { grid-row: 5; }
-.rf > .rf-body.eval { grid-row: 6; }
+/* ---- the arrow between two stages: a short grey shaft and an open head,
+   centred on the card heads. Light, so it orders without shouting. ---- */
+.rf .rf-arrow { position: relative; }
+.rf .rf-arrow::before,
+.rf .rf-arrow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.rf .rf-arrow::before {               /* shaft */
+  width: 16px;
+  margin-left: -9px;
+  border-top: 1.5px solid var(--rf-arrow);
+  transform: translateY(-50%);
+}
+.rf .rf-arrow::after {                /* head */
+  width: 7px;
+  height: 7px;
+  margin-left: -1px;
+  border-top: 1.5px solid var(--rf-arrow);
+  border-right: 1.5px solid var(--rf-arrow);
+  transform: translate(0, -50%) rotate(45deg);
+}
 
 /* ---- a card head: heavy rule on top in the area's colour, hairline
    elsewhere, faint tint of the same colour behind. Flat, like the rest of
@@ -1357,11 +1382,6 @@ body.home footer { margin-top: 0; border-top: 0; }
   padding: 1.1em 1.15em 2em;
   text-align: center;
 }
-
-/* The band runs the full width, so it does not need a column's height to hold
-   two lines of text. */
-.rf .col-head.eval { padding: 0.9em 1.15em 1.6em; }
-.rf .col-head.eval h3 { margin-bottom: 0.3em; }
 
 .rf .col-head .idx {
   display: block;
@@ -1504,7 +1524,8 @@ body.home footer { margin-top: 0; border-top: 0; }
 .rf .rf-body.is-open .sub .items > li:nth-child(3) { transition-delay: 0.12s; }
 .rf .sub .items > li:last-child { border-bottom: 0; }
 
-.rf .sub .items a {
+.rf .sub .items a,
+.rf .sub .items .name {
   display: block;
   font-size: inherit;                /* Clarity sets an absolute size on a */
   font-weight: 600;
@@ -1520,42 +1541,34 @@ body.home footer { margin-top: 0; border-top: 0; }
   line-height: 1.4;
 }
 
-/* The band is full width, so its three systems sit side by side. */
-.rf .rf-body.eval .sub .items {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.rf .rf-body.eval .sub .items > li { border-bottom: 0; }
-.rf .rf-body.eval .sub .items > li + li {
-  border-left: 1px solid color-mix(in srgb, var(--c) 12%, #fff);
-}
-
 @media screen and (max-width: 1000px) {
-  .rf { grid-template-columns: 1fr; }
+  .rf { grid-template-columns: minmax(0, 1fr); }
   /* These have to name the same classes as the desktop placement rules above.
      A `.rf > *` reset is specificity 0,1,0 and loses to `.rf > .data`, so the
-     cards stayed in columns 2 and 3, the grid grew implicit tracks, and the
+     cards stayed in their columns, the grid grew implicit tracks, and the
      figure ran off the side of the phone instead of stacking. */
-  .rf > .skills,
   .rf > .data,
-  .rf > .hri,
-  .rf > .eval { grid-column: 1; }
+  .rf > .robust,
+  .rf > .chain,
+  .rf > .rf-arrow.a1,
+  .rf > .rf-arrow.a2 { grid-column: 1; }
   .rf > .col-head,
   .rf > .tick,
   .rf > .rf-body,
-  .rf > .col-head.eval,
-  .rf > .tick.eval,
-  .rf > .rf-body.eval { grid-row: auto; }
-  .rf > .col-head { margin-top: 2.4em; }
-  .rf > .col-head.eval { margin-top: 2.4em; }
-  .rf > .col-head:first-child { margin-top: 0; }
-  /* The band is a column like the others once stacked, so it takes their
-     padding rather than the shallower full-width one. */
-  .rf .col-head.eval { padding: 1.1em 1.15em 2em; }
-  .rf .rf-body.eval .sub .items { grid-template-columns: 1fr; }
-  .rf .rf-body.eval .sub .items > li + li {
-    border-left: 0;
-    border-top: 1px solid color-mix(in srgb, var(--c) 12%, #fff);
+  .rf > .rf-arrow { grid-row: auto; }
+  /* Stacked, the arrow is the gap between two cards and points down. */
+  .rf > .rf-arrow { height: 3.2em; }
+  .rf .rf-arrow::before {
+    width: 0;
+    height: 14px;
+    margin: -9px 0 0;
+    border-top: 0;
+    border-left: 1.5px solid var(--rf-arrow);
+    transform: translateX(-50%);
+  }
+  .rf .rf-arrow::after {
+    margin: -1px 0 0;
+    transform: translate(-50%, -50%) rotate(135deg);
   }
 }
 
