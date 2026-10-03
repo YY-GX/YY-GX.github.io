@@ -511,6 +511,12 @@ div.home-container .home-profile img {
   object-position: center 25%;
 }
 
+/* Stacked (below 1100px): on a phone the square spans the column, but on a
+   tablet that made it 778px wide at 1024. Cap it at the desktop size. */
+@media screen and (max-width: 1099px) {
+  div.home-container .home-profile img { max-width: 540px; }
+}
+
 @media screen and (min-width: 1100px) {
   div.home-container {
     /* The portrait column is pinned rather than a fraction, so changing the
