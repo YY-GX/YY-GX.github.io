@@ -107,7 +107,7 @@ RESEARCH_PARTS = [
 # already on. Old hashes from the previous taxonomy are mapped in TOPIC_ALIASES.
 TOPICS = [("data", "Skill data"),
           ("robust", "Robust and safe skills"),
-          ("chain", "Chaining and evaluation"),
+          ("chain", "Skill chaining and evaluation"),
           ("other", "Other")]
 # Old hash -> new topic, so links made before the regrouping still land.
 # There is no longer an HRI category, so #hri opens the full list.
@@ -1008,7 +1008,7 @@ RESEARCH_FOCUS = [
          "CBF-informed optimization for safer inverse reinforcement "
          "learning")])]),
 
-    ("chain", "Chaining and evaluation", "chain",
+    ("chain", "Skill chaining and evaluation", "chain",
      "Chaining skills into long tasks and evaluating them.",
      [("Chaining skills and subtasks",
        [("LiLo-VLA", LILO,
@@ -1061,7 +1061,15 @@ def _rf_card(key, heading, tag, scope, groups, index):
 
 
 def research_focus_html():
-    out = '        <div class="rf">\n'
+    # The goal the three stages serve, set above them with a bracket that
+    # reaches down to all three cards, so the figure reads as one argument.
+    out = ('        <div class="rf-goal">\n'
+           '            <span class="rf-goal-label">Goal</span>\n'
+           '            <p class="rf-goal-text">Robot learning for reliable '
+           'long-horizon manipulation</p>\n'
+           '            <div class="rf-goal-brace" aria-hidden="true"></div>\n'
+           '        </div>\n')
+    out += '        <div class="rf">\n'
     for i, (key, heading, tag, scope, groups) in enumerate(RESEARCH_FOCUS):
         if i:
             # In DOM order between two cards, so it also sits between them

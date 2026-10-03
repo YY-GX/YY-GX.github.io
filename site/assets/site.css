@@ -1690,3 +1690,69 @@ div.home-container .home-intro p b,
 .container p.text b,
 .news-row .news-body b,
 .paper-row .paper-info .paper-authors b { font-weight: 600; }
+
+/* ---- Goal above the figure: what the three stages are for. A thin bracket
+   runs from the first card's centre to the last card's and drops a short
+   tick onto each, so the line reads as the roof over all three. ---- */
+.rf-goal {
+  margin-top: 3em;
+  text-align: center;
+}
+.rf-goal-label {
+  display: block;
+  font: 600 11px "Poppins", sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 0.5em;
+}
+.rf-goal-text {
+  display: inline-block;
+  margin: 0;
+  padding: 0.5em 1.3em;
+  font: 500 clamp(17px, 1.6vw, 21px)/1.35 "Poppins", sans-serif;
+  color: var(--ink);
+  letter-spacing: 0.005em;
+  border: 1px solid #d5dbe2;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, #783f8e 7%, #fff),
+    color-mix(in srgb, #a13b1f 6%, #fff) 50%,
+    color-mix(in srgb, #3d6451 7%, #fff));
+}
+/* Centres of cards 1 and 3: each card is (100% - 2 gutters) / 3 wide, so its
+   centre sits half a card in from the edge. */
+.rf-goal-brace {
+  --gut: clamp(26px, 3.2vw, 46px);
+  --half: calc((100% - 2 * var(--gut)) / 6);
+  position: relative;
+  height: 1.6em;
+  margin: 0 var(--half);
+}
+.rf-goal-brace::before {           /* stem from the pill down to the bar */
+  content: "";
+  position: absolute;
+  left: 50%; top: 0;
+  height: 0.8em;
+  border-left: 1.5px solid var(--rf-arrow, #9aa8b8);
+}
+.rf-goal-brace::after {            /* bar with a tick down at each end */
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0.8em; bottom: 0;
+  border: 1.5px solid #9aa8b8;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+}
+/* The middle tick: a centred gradient line on the bar's lower half. */
+.rf-goal-brace {
+  background: linear-gradient(#9aa8b8, #9aa8b8) no-repeat center bottom / 1.5px 0.8em;
+}
+.rf-goal + .rf { margin-top: 0; }
+
+@media screen and (max-width: 1000px) {
+  /* Stacked cards: no columns to point at, so the pill stands alone. */
+  .rf-goal-brace { display: none; }
+  .rf-goal + .rf { margin-top: 1.6em; }
+  .rf-goal-text { font-size: 16px; padding: 0.55em 1.1em; }
+}
