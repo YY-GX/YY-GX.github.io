@@ -1698,22 +1698,14 @@ div.home-container .home-intro p b,
   margin-top: 3em;
   text-align: center;
 }
-.rf-goal-label {
-  display: block;
-  font: 600 11px "Poppins", sans-serif;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-muted);
-  margin-bottom: 0.5em;
-}
 .rf-goal-text {
   display: inline-block;
   margin: 0;
-  padding: 0.5em 1.3em;
-  font: 500 clamp(17px, 1.6vw, 21px)/1.35 "Poppins", sans-serif;
+  padding: 0.38em 1.15em;
+  font: 500 clamp(14px, 1.15vw, 16px)/1.4 "Poppins", sans-serif;
   color: var(--ink);
-  letter-spacing: 0.005em;
-  border: 1px solid #d5dbe2;
+  letter-spacing: 0.01em;
+  border: 1px solid #e2e6eb;
   border-radius: 999px;
   background: linear-gradient(90deg,
     color-mix(in srgb, #783f8e 7%, #fff),
@@ -1729,12 +1721,13 @@ div.home-container .home-intro p b,
   height: 1.6em;
   margin: 0 var(--half);
 }
-.rf-goal-brace::before {           /* stem from the pill down to the bar */
+.rf-goal-brace::before {           /* one centred line: stem above the bar and tick below it */
   content: "";
   position: absolute;
-  left: 50%; top: 0;
-  height: 0.8em;
-  border-left: 1.5px solid var(--rf-arrow, #9aa8b8);
+  left: 50%; top: 0; bottom: 0;
+  width: 1.5px;
+  transform: translateX(-50%);
+  background: #9aa8b8;
 }
 .rf-goal-brace::after {            /* bar with a tick down at each end */
   content: "";
@@ -1744,15 +1737,11 @@ div.home-container .home-intro p b,
   border-bottom: 0;
   border-radius: 6px 6px 0 0;
 }
-/* The middle tick: a centred gradient line on the bar's lower half. */
-.rf-goal-brace {
-  background: linear-gradient(#9aa8b8, #9aa8b8) no-repeat center bottom / 1.5px 0.8em;
-}
 .rf-goal + .rf { margin-top: 0; }
 
 @media screen and (max-width: 1000px) {
   /* Stacked cards: no columns to point at, so the pill stands alone. */
   .rf-goal-brace { display: none; }
   .rf-goal + .rf { margin-top: 1.6em; }
-  .rf-goal-text { font-size: 16px; padding: 0.55em 1.1em; }
+  .rf-goal-text { font-size: 14px; padding: 0.4em 1em; }
 }
