@@ -741,6 +741,7 @@ def json_ld():
             "knowsAbout": ["Robot learning", "Long-horizon manipulation",
                            "Skill chaining", "Vision-Language-Action models",
                            "Robot data generation", "Dexterous manipulation",
+                           "Visuo-tactile manipulation",
                            "Safe learning from demonstration",
                            "Imitation learning", "Human-robot interaction",
                            "Augmented reality"],
@@ -913,31 +914,29 @@ def industry_sentence():
 # terms a recruiter or a search scans for, so neither job spoils the other.
 # ---------------------------------------------------------------------------
 RESEARCH_STATEMENT = [
-    "I work on robot learning for reliable long-horizon manipulation. I treat a "
-    "long task as a chain of skills and study the full lifecycle of a skill: how "
-    "to collect and generate the data that teaches it, how to make each skill "
-    "robust and safe on its own, and how to chain skills into long tasks and "
-    "evaluate them.",
+    "I work on **robot learning for reliable long-horizon manipulation**. I "
+    "treat a long task as a chain of skills and study the full lifecycle of a "
+    "skill: how to **collect and generate the demonstrations** that teach it, "
+    "how to make **each skill robust and safe** on its own, and how to **chain "
+    "skills** into long tasks and evaluate them.",
 
-    "Representative work: AR-based demonstration collection and generation, and "
-    "a generative retargeting method that turns human hand motion into 195k "
-    "dexterous robot demonstrations with contact-force labels (ARCADE, GNR); "
-    "evidence-gated training that keeps VLA policies robust to sensor "
-    "corruption, and control "
-    "barrier functions learned from demonstrations for safe skills (EGR, "
-    "SECURE); and, for chaining skills over long horizons, a benchmark that "
-    "exposes how earlier skills change the scene and break later ones, a "
-    "compositional VLA framework that holds up to these changes, and an "
-    "autonomous harness that resets the scene and scores task progress on real "
-    "robots (BOSS, LiLo-VLA, HALTER).",
+    "Representative work: collecting and generating demonstrations with AR "
+    "(ARCADE) and with a real-to-sim engine that turns human hand motion into "
+    "200k dexterous demonstrations with contact-force labels (GNR); keeping each "
+    "skill robust to sensor corruption across vision and touch (EGR) and safe "
+    "through barrier functions learned from demonstrations (SECURE); and "
+    "chaining and evaluating skills, by exposing how earlier skills break later "
+    "ones (BOSS), composing object-centric VLA skills that hold up to these "
+    "shifts (LiLo-VLA), and autonomously resetting and scoring long-horizon "
+    "rollouts on real robots (HALTER).",
 ]
 
-# Five, not ten. Platforms and tools (humanoid, bimanual, vision-tactile,
-# AR/VR) belong to the individual projects, not beside the research areas.
+# Kept short. Platforms and tools (humanoid, bimanual, AR/VR) belong to the
+# individual projects; touch stays because EGR and GNR both rely on it.
 RESEARCH_KEYWORDS = [
     "Long-horizon manipulation", "Skill chaining", "Robot data generation",
     "Real-to-sim", "VLA robustness", "Safe learning from demonstration",
-    "Dexterous manipulation",
+    "Dexterous manipulation", "Visuo-tactile manipulation",
 ]
 
 
@@ -949,7 +948,8 @@ def research_statement_html():
     # Both paragraphs in one voice: the opening one used to be set larger as a
     # lede, which read as two different pieces of text rather than one statement.
     for para in RESEARCH_STATEMENT:
-        out += f'                <p>{html.escape(para)}</p>\n'
+        body = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", html.escape(para))
+        out += f'                <p>{body}</p>\n'
     out += ('            </div>\n'
             '            <aside class="rf-keys">\n'
             '                <span class="rf-keys-label">Keywords</span>\n'
@@ -986,7 +986,7 @@ RESEARCH_FOCUS = [
          "Hand-based demonstration collection through augmented reality")]),
       ("Generating data",
        [("GNR", None,
-         "Generative retargeting of human hand motion into 195k dexterous "
+         "Generative retargeting of human hand motion into 200k dexterous "
          "demonstrations with contact-force labels"),
         ("Rebot", "https://yuffish.github.io/rebot/",
          "Real-to-sim-to-real video synthesis for VLA adaptation"),
