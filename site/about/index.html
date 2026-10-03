@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/site.css?v=0ef72753">
+    <link rel="stylesheet" href="/assets/site.css?v=81e2c41e">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4FWDSZJVD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -103,84 +103,73 @@
             </aside>
         </div>
         <div class="rf">
-            <div class="col-head skills">
-                <span class="idx">01</span>
-                <h3><a href="/publications/#skills">Learning and Composing Robot Skills</a></h3>
-                <p class="q">Developing reusable manipulation skills and robust policies for long-horizon execution.</p>
-                <button class="rf-more" data-target="rf-skills" aria-controls="rf-skills" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
-            </div>
-            <div class="tick skills"></div>
-            <div class="rf-body skills" id="rf-skills">
-                <div class="sub">
-                    <h4>Skill Composition and Long-Horizon Execution</h4>
-                    <ul class="items">
-                        <li><a href="https://yy-gx.github.io/LiLo-VLA/" target="_blank" rel="noopener noreferrer">LiLo-VLA</a><span class="what">Object-centric skill composition with failure recovery</span></li>
-                        <li><a href="https://dannymcy.github.io/furniturevla/" target="_blank" rel="noopener noreferrer">FurnitureVLA</a><span class="what">Progress-aware VLA policies for long-horizon bimanual assembly</span></li>
-                    </ul>
-                </div>
-                <div class="sub">
-                    <h4>Multimodal Robustness and Language Grounding</h4>
-                    <ul class="items">
-                        <li><a href="https://yy-gx.github.io/EGR/" target="_blank" rel="noopener noreferrer">EGR</a><span class="what">Evidence-guided regularization for multimodal policy robustness</span></li>
-                        <li><a href="https://vla-cf.github.io/" target="_blank" rel="noopener noreferrer">Counterfactual VLA</a><span class="what">Counterfactual evaluation and action guidance for language following</span></li>
-                    </ul>
-                </div>
-            </div>
             <div class="col-head data">
-                <span class="idx">02</span>
-                <h3><a href="/publications/#data">Robot Data Collection and Synthesis</a></h3>
-                <p class="q">Scaling robot learning through demonstration interfaces and synthetic training data.</p>
+                <span class="idx">01</span>
+                <h3><a href="/publications/#data">Skill data</a></h3>
+                <p class="q">Collecting and generating the data that teaches skills.</p>
                 <button class="rf-more" data-target="rf-data" aria-controls="rf-data" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
             </div>
             <div class="tick data"></div>
             <div class="rf-body data" id="rf-data">
                 <div class="sub">
-                    <h4>Demonstration Interfaces</h4>
+                    <h4>Collecting demonstrations</h4>
                     <ul class="items">
-                        <li><a href="https://yy-gx.github.io/ARCADE/" target="_blank" rel="noopener noreferrer">ARCADE</a><span class="what">AR-assisted demonstration collection and synthetic expansion</span></li>
+                        <li><a href="https://yy-gx.github.io/ARCADE/" target="_blank" rel="noopener noreferrer">ARCADE</a><span class="what">AR-assisted demonstration collection and generation</span></li>
                         <li><a href="https://arxiv.org/pdf/2403.13910" target="_blank" rel="noopener noreferrer">AR Demonstrations</a><span class="what">Hand-based demonstration collection through augmented reality</span></li>
                     </ul>
                 </div>
                 <div class="sub">
-                    <h4>Synthetic Data and Reward Learning</h4>
+                    <h4>Generating data</h4>
                     <ul class="items">
+                        <li><span class="name">GNR</span><span class="what">Real-to-sim generation of 195k dexterous demonstrations with contact-force labels</span></li>
                         <li><a href="https://yuffish.github.io/rebot/" target="_blank" rel="noopener noreferrer">ReBot</a><span class="what">Real-to-sim-to-real video synthesis for VLA adaptation</span></li>
                         <li><a href="https://dense-reward.github.io/" target="_blank" rel="noopener noreferrer">DenseReward</a><span class="what">Dense reward learning from synthesized failure trajectories</span></li>
                     </ul>
                 </div>
             </div>
-            <div class="col-head hri">
-                <span class="idx">03</span>
-                <h3><a href="/publications/#hri">Human-Robot Interaction and Safe Learning</a></h3>
-                <p class="q">Supporting robot teaching, intent communication, and learning from human safety demonstrations.</p>
-                <button class="rf-more" data-target="rf-hri" aria-controls="rf-hri" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
+            <div class="rf-arrow a1" aria-hidden="true"></div>
+            <div class="col-head robust">
+                <span class="idx">02</span>
+                <h3><a href="/publications/#robust">Robust and safe skills</a></h3>
+                <p class="q">Keeping each skill reliable on its own, under sensor corruption and safety constraints.</p>
+                <button class="rf-more" data-target="rf-robust" aria-controls="rf-robust" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
             </div>
-            <div class="tick hri"></div>
-            <div class="rf-body hri" id="rf-hri">
+            <div class="tick robust"></div>
+            <div class="rf-body robust" id="rf-robust">
                 <div class="sub">
-                    <h4>Intent Alignment and Competency Communication</h4>
+                    <h4>Robustness</h4>
                     <ul class="items">
-                        <li><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=10973947" target="_blank" rel="noopener noreferrer">AR Intent</a><span class="what">AR-mediated intention alignment in collaborative tasks</span></li>
-                        <li><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=11154044" target="_blank" rel="noopener noreferrer">Competency-Aware</a><span class="what">Robot competency communication for collaborative exploration</span></li>
+                        <li><a href="https://yy-gx.github.io/EGR/" target="_blank" rel="noopener noreferrer">EGR</a><span class="what">Evidence-gated regularization for robust multimodal VLA policies</span></li>
+                        <li><a href="https://vla-cf.github.io/" target="_blank" rel="noopener noreferrer">Counterfactual VLA</a><span class="what">Counterfactual evaluation and action guidance for language following</span></li>
                     </ul>
                 </div>
                 <div class="sub">
-                    <h4>Safety Learning from Demonstrations</h4>
+                    <h4>Safety</h4>
                     <ul class="items">
                         <li><a href="https://dl.acm.org/doi/pdf/10.1145/3610977.3635002" target="_blank" rel="noopener noreferrer">SECURE</a><span class="what">Learning safety constraints from demonstrations for CBF shielding</span></li>
                         <li><a href="https://arxiv.org/pdf/2212.02753" target="_blank" rel="noopener noreferrer">Safe IRL via CBF</a><span class="what">CBF-informed optimization for safer inverse reinforcement learning</span></li>
                     </ul>
                 </div>
             </div>
-            <div class="col-head eval">
-                <h3>Benchmarking and Evaluation</h3>
-                <p class="q">Diagnosing policy failures and developing systematic evaluation for robot manipulation.</p>
-                <button class="rf-more" data-target="rf-eval" aria-controls="rf-eval" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
+            <div class="rf-arrow a2" aria-hidden="true"></div>
+            <div class="col-head chain">
+                <span class="idx">03</span>
+                <h3><a href="/publications/#chain">Chaining and evaluation</a></h3>
+                <p class="q">Chaining skills into long tasks and evaluating them.</p>
+                <button class="rf-more" data-target="rf-chain" aria-controls="rf-chain" aria-expanded="false"><span class="lbl">Papers</span><span class="chev"></span></button>
             </div>
-            <div class="tick eval"></div>
-            <div class="rf-body eval" id="rf-eval">
+            <div class="tick chain"></div>
+            <div class="rf-body chain" id="rf-chain">
                 <div class="sub">
-                    <h4>Benchmarks and Evaluation Systems</h4>
+                    <h4>Chaining skills</h4>
+                    <ul class="items">
+                        <li><a href="https://yy-gx.github.io/LiLo-VLA/" target="_blank" rel="noopener noreferrer">LiLo-VLA</a><span class="what">Object-centric skill composition with failure recovery</span></li>
+                        <li><a href="https://dannymcy.github.io/furniturevla/" target="_blank" rel="noopener noreferrer">FurnitureVLA</a><span class="what">Progress-aware VLA policies for long-horizon bimanual assembly</span></li>
+                        <li><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=10973947" target="_blank" rel="noopener noreferrer">AR Intent</a><span class="what">AR-mediated intent alignment for collaborative long-horizon tasks</span></li>
+                    </ul>
+                </div>
+                <div class="sub">
+                    <h4>Evaluating long tasks</h4>
                     <ul class="items">
                         <li><a href="https://boss-benchmark.github.io/" target="_blank" rel="noopener noreferrer">BOSS</a><span class="what">Benchmarking observation shifts induced by skill chaining</span></li>
                         <li><a href="https://yy-gx.github.io/HALTER/" target="_blank" rel="noopener noreferrer">HALTER</a><span class="what">Scene-graph-based scoring and autonomous reset for long-horizon evaluation</span></li>
