@@ -68,7 +68,7 @@ SOCIAL = [s for s in SOCIAL if s[0]]
 # layout, and the live Astro site would only carry them as dead config keys.
 # ---------------------------------------------------------------------------
 NAME_ZH = "杨越"
-IDENTITY = ("A Computer Science PhD student at UNC Chapel Hill, "
+IDENTITY = ("a Computer Science PhD student at UNC Chapel Hill, "
             "with an M.S. in CS from Georgia Tech.")
 
 # The research sentence: a lead, then the three stages of a skill's lifecycle,
@@ -764,7 +764,7 @@ def scholarly_ld(papers):
 
 
 def page(title, desc, current, body, hero=False, body_class="", slug="", extra_ld=""):
-    cls = ' class="hero-band"' if hero else ""
+    cls = ' class="page-body hero-band"' if hero else ' class="page-body"'
     tag = footer_tagline()
     tag_html = ('I believe in ' + tag.split('I believe in ')[-1]) if tag else ''
     return (HEAD.format(title=html.escape(title), desc=html.escape(desc),
@@ -861,11 +861,15 @@ def research_html():
             f'{html.escape(RESEARCH_LEAD_POST)}')
     # Plain dots as markers; the coloured arrow after each line is what says
     # "this goes somewhere", one arrow shape for all three.
-    items = "".join(
-        f'<li><a class="strand strand-{key}" href="{html.escape(href)}">'
-        f'<span>{html.escape(text)}</span>&nbsp;'
-        f'<i class="fa-solid {icon}" aria-hidden="true"></i></a></li>'
-        for key, text, href, icon in RESEARCH_PARTS)
+    # The last word and the arrow sit in one nowrap span, so the arrow never
+    # wraps onto a line of its own, and never takes only itself along either.
+    def item(key, text, href, icon):
+        head, _, last = text.rpartition(" ")
+        return (f'<li><a class="strand strand-{key}" href="{html.escape(href)}">'
+                f'<span class="t">{html.escape(head)} </span>'
+                f'<span class="nw"><span class="t">{html.escape(last)}</span>&nbsp;'
+                f'<i class="fa-solid {icon}" aria-hidden="true"></i></span></a></li>')
+    items = "".join(item(*part) for part in RESEARCH_PARTS)
     return (f'<p class="home-research">{lead}</p>\n'
             f'                <ul class="home-list">{items}</ul>\n')
 

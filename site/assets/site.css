@@ -6,7 +6,7 @@
    padding ladder. This file adds:
 
      1. the top navigation bar with the sliding dot
-     2. the split home hero, locked to one viewport (no scrolling)
+     2. the split home hero, one viewport on desktop
      3. publication rows
      4. news rows
      5. shared polish — links, focus rings, selection, footer
@@ -51,11 +51,16 @@ html { scroll-behavior: smooth; }
 }
 .container p a:hover { text-decoration-color: var(--ink); }
 
+/* The nav dot's #ff9800 is only 2.2:1 on white and 1.7:1 on the hero, under
+   the 3:1 a focus ring needs. The ring keeps the orange hue, darkened to
+   4.8:1 on white; on the grey hero it is ink, 9.6:1. */
+:root { --focus: #b85600; }
 :focus-visible {
-  outline: 2px solid var(--dot);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
   border-radius: 2px;
 }
+.hero-band :focus-visible { outline-color: var(--ink); }
 
 /* --- 1. navigation ------------------------------------------------------- */
 
@@ -139,6 +144,17 @@ div.nav-bar .social a:hover {
 
 div.nav-bar .nav-container-small { display: none; }
 
+/* Just above the hamburger breakpoint the full-size nav is wider than the
+   container (789px of nav in a 638px box at 769), so the links, gaps and
+   icons step down until there is room again. */
+@media screen and (min-width: 769px) and (max-width: 1099px) {
+  div.nav-bar .nav-container { column-gap: 2.5vw; }
+  div.nav-bar .menu { gap: 1.25em; }
+  div.nav-bar .menu a { font-size: 20px; }
+  div.nav-bar .social { gap: 0.85em; }
+  div.nav-bar .social a { font-size: 17px; }
+}
+
 @media screen and (max-width: 768px) {
   div.nav-bar .nav-container { display: none; }
   div.nav-bar .nav-container-small { display: block; padding: 1.1em 0; }
@@ -212,7 +228,7 @@ div.nav-bar .nav-container-small { display: none; }
   div.nav-bar .mobile-menu .social-row a { font-size: 19px; color: var(--ink-muted); }
 }
 
-/* --- 2. home hero, locked to one viewport -------------------------------- */
+/* --- 2. home hero, one viewport on desktop ------------------------------- */
 
 /* The tinted band. Clarity uses #E0E4E6 for its project-page cover; shikun.io's
    own home is plain white. Keeping the tint here because it distinguishes the
@@ -222,6 +238,9 @@ div.nav-bar .nav-container-small { display: none; }
   color: var(--ink);
 }
 
+/* One screen when the content fits, scrolling when it does not (a short
+   window, or browser zoom). It used to be height:100vh with overflow:hidden,
+   which at 150% zoom cut off the footer with no way to reach it. */
 body.home {
   min-height: 100vh;
   display: flex;
@@ -236,11 +255,14 @@ body.home .hero-band {
 }
 
 body.home footer { flex: 0 0 auto; }
+@media screen and (min-width: 1100px) and (max-height: 760px) {
+  body.home footer { padding: 1.25em 0; }
+}
 
-/* Desktop: the whole page is exactly one viewport and never scrolls. */
-@media screen and (min-width: 769px) {
-  body.home { height: 100vh; overflow: hidden; }
-
+/* Two columns from 1100px. Below that (tablets, small windows) the home
+   stacks like a phone, text then a full-width portrait: beside a square at
+   those widths the text column is too narrow to stay within its height. */
+@media screen and (min-width: 1100px) {
   /* Clarity's .container carries `flex: 1`, so as a flex child it grows and
      swallows the band, defeating justify-content:center. Pin it to its own
      height and the hero centres properly. */
@@ -371,15 +393,17 @@ div.home-container .home-intro a.strand i {
 }
 div.home-container .home-intro a.strand:hover i,
 div.home-container .home-intro a.strand:focus-visible i { transform: translateX(2px); }
-div.home-container .home-intro a.strand span {
+div.home-container .home-intro a.strand .t {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
   text-decoration-color: transparent;
   transition: text-decoration-color 0.18s var(--ease);
 }
-div.home-container .home-intro a.strand:hover span,
-div.home-container .home-intro a.strand:focus-visible span {
+/* The last word and the arrow never part, so the arrow cannot end up alone. */
+div.home-container .home-intro a.strand .nw { white-space: nowrap; }
+div.home-container .home-intro a.strand:hover .t,
+div.home-container .home-intro a.strand:focus-visible .t {
   text-decoration-color: currentColor;
 }
 
@@ -420,9 +444,8 @@ div.home-container .home-intro .name-alt {
    read as "pronunciation" to everyone, which is the point. */
 
 /* Clusters: who, what, where, then the button. Tight inside a cluster, a clear
-   gap between clusters, as on shikun.io. The gap follows the window height,
-   because the desktop home is one locked screen and the text has to end above
-   the portrait's bottom edge even on a short laptop display. */
+   gap between clusters, as on shikun.io. In the stacked layout the gap follows
+   the window height; two columns set their own below. */
 div.home-container .home-intro { --home-gap: clamp(16px, calc(9vh - 56px), 40px); }
 /* Four items, Hello, the two clusters and the button, with equal gaps between
    them, as on shikun.io. On desktop the column takes the portrait's height,
@@ -433,32 +456,47 @@ div.home-container .home-intro { row-gap: var(--home-gap); }
 div.home-container .home-intro h1.title { margin-bottom: 0; }
 div.home-container .home-intro .home-block + .home-block { margin-top: 0; }
 
-@media screen and (min-width: 769px) {
-  /* A fixed minimum gap: the height-scaled one grew on tall screens and
-     pushed the text past the shorter square. */
-  div.home-container .home-intro { align-self: stretch; justify-content: space-between; row-gap: 18px; }
+/* No lone word on a last line: Chrome and Safari balance the last lines of
+   a paragraph; elsewhere this is ignored and nothing breaks. */
+div.home-container .home-intro p,
+div.home-container .home-intro .home-list li { text-wrap: pretty; }
+
+div.home-container .home-intro .home-block p { padding-bottom: 0.3em; }
+
+@media screen and (min-width: 1100px) {
+  /* The column takes the portrait's height and space-between makes the three
+     gaps equal; row-gap is only the floor. Whether the text fits depends on
+     the text column's width, not on the window's height, so every rule here
+     is keyed on width. Lines, cluster padding and the floor are tight enough
+     that the text clears the square with at least 8px to spare in each gap,
+     enough for one extra line from a different font renderer. */
+  div.home-container .home-intro { align-self: stretch; justify-content: space-between; row-gap: 10px; }
+  div.home-container .home-intro h1.title { line-height: 1.05; }
+  div.home-container .home-intro p,
+  div.home-container .home-intro .home-list li { line-height: 1.35; }
+  div.home-container .home-intro .home-list li { padding-bottom: 0; }
+  div.home-container .home-intro .home-block p { padding-bottom: 0.15em; }
   /* Clarity's 10px under every button would leave Read More short of the
      photo's bottom edge. */
   div.home-container .home-intro .home-cta .button { margin-bottom: 0; }
-  /* Slightly tighter lines than on a phone, so the longer research lead
-     still fits beside the square (it measured 35px too tall at 1680x1050). */
-  div.home-container .home-intro p,
-  div.home-container .home-intro .home-list li { line-height: 1.4; }
 }
-@media screen and (min-width: 769px) and (max-height: 820px) {
-  /* Small laptops: the square is ~435px, so the minimum gap gives a little,
-     and the lines and cluster padding tighten a little more (at 1280x800 the
-     text was 50px taller than the square). */
-  div.home-container .home-intro { row-gap: 10px; }
-  div.home-container .home-profile { align-self: center; }
+@media screen and (min-width: 1100px) and (max-width: 1379px) {
+  /* Clarity steps body text to 17px at 1200, just as its side padding grows
+     from 12vw to 15vw, so at 1200 the text column is 50px narrower and its
+     text larger than at 1199. The home keeps 16px up to 1380 instead (1366 is a common laptop width). */
   div.home-container .home-intro p,
-  div.home-container .home-intro .home-list li { line-height: 1.3; }
-  div.home-container .home-intro .home-list li { padding-bottom: 0; }
-  div.home-container .home-intro h1.title { line-height: 1.05; }
+  div.home-container .home-intro .home-list li { font-size: 16px; }
 }
-div.home-container .home-intro .home-block p { padding-bottom: 0.3em; }
-@media screen and (min-width: 769px) and (max-height: 820px) {
-  div.home-container .home-intro .home-block p { padding-bottom: 0.15em; }
+/* Where Clarity's steps leave the text column room to spare, the lines open
+   up rather than the gaps growing past about 60px. 1600 to 1799 stays at
+   1.35: Clarity's 18px text and 18vw padding make it the tightest band. */
+@media screen and (min-width: 1380px) and (max-width: 1599px) {
+  div.home-container .home-intro p,
+  div.home-container .home-intro .home-list li { line-height: 1.5; }
+}
+@media screen and (min-width: 1800px) {
+  div.home-container .home-intro p,
+  div.home-container .home-intro .home-list li { line-height: 1.45; }
 }
 /* Only text closes a cluster flush; the button keeps its own padding. */
 div.home-container .home-intro .home-block > p:last-child,
@@ -473,26 +511,18 @@ div.home-container .home-profile img {
   object-position: center 25%;
 }
 
-@media screen and (min-width: 769px) {
+@media screen and (min-width: 1100px) {
   div.home-container {
-    /* The portrait column is pinned rather than a fraction. With 1fr 1fr every
-       change to the gap resized the portrait too, so widening the text either
-       shrank the portrait or crowded it. 30vw reproduces the width the 1fr 1fr
-       and 10vw pairing gave it, capped so it stops growing on wide screens,
-       and the text takes whatever is left. */
-    /* A square is shorter than the old 3:4 crop at the same width, so the
-       column is a little wider to keep room for the text beside it. */
-    grid-template-columns: minmax(0, 1fr) min(34vw, 540px);
-    column-gap: 3.5vw;
+    /* The portrait column is pinned rather than a fraction, so changing the
+       gap does not resize the portrait; the text takes whatever is left.
+       Square, 34vw (435px at 1280), capped at 540px on wide screens, and on
+       a wide but short window capped again so the nav, the square and the
+       footer fit one screen (never below 420px; under that the page scrolls). */
+    grid-template-columns: minmax(0, 1fr) min(34vw, 540px, max(420px, calc(100vh - 5.5em - 100px)));
+    /* Was 3.5vw; every pixel given back to the text column saves lines. */
+    column-gap: 2vw;
     row-gap: 0;
   }
-}
-
-@media screen and (min-width: 992px) {
-  /* Was 10vw, which on a 1440 screen spent 144px between the columns and
-     pushed the text into more lines than the portrait is tall. Then 5vw, cut
-     to 3.5vw when the research lead grew a clause, so it wraps less. */
-  div.home-container { column-gap: 3.5vw; }
 }
 
 /* --- topic tags ---------------------------------------------------------- */
@@ -1073,6 +1103,15 @@ div.home-container .home-profile img {
 .page-head + .news-row { padding-top: 0.35em; }
 .rf { margin-bottom: 1em; }
 
+/* Footer text was #9b9b9b, 2.7:1 on Clarity's #fafafa footer. #717171 is
+   4.7:1: still the quietest text on the page, but readable. */
+:root { --footer-ink: #717171; }
+
+/* Clarity makes body a min-height flex column; the page wrapper takes the
+   spare height, so on a short page the footer sits at the window's bottom
+   edge instead of leaving a white band under it. */
+body > .page-body { flex: 1 0 auto; }
+
 footer {
   border-top: 1px solid var(--rule-soft);
   margin-top: 5em;
@@ -1102,7 +1141,7 @@ footer .footer-bird {
   font-size: 12.5px;
   line-height: 1.6;
   letter-spacing: 0.005em;
-  color: #9b9b9b;
+  color: var(--footer-ink);
 }
 footer .footer-bird { margin-top: 0.25em; }
 
@@ -1152,7 +1191,7 @@ footer .footer-fine span {
   font-size: 10.5px;
   line-height: 1.7;
   letter-spacing: 0.01em;
-  color: #a6a6a6;
+  color: var(--footer-ink);
   padding: 0;
 }
 
@@ -1163,7 +1202,7 @@ footer .footer-fine .footer-credit {
 }
 footer .footer-fine .footer-main {
   font-size: 11.5px;
-  color: #8f8f8f;
+  color: var(--footer-ink);
 }
 
 footer .footer-fine a {

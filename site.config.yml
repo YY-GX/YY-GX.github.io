@@ -14,7 +14,7 @@ profile:
   university: "The University of North Carolina at Chapel Hill"
   email: "yygx@cs.unc.edu"
   avatar: "/images/avatar.jpg"
-  bio: "CS PhD student co-advised by Prof. Daniel J. Szafir and Prof. Gedas Bertasius. Research in robotics, AR, and imitation learning."
+  bio: "CS PhD student at UNC Chapel Hill working on robot learning for reliable long-horizon manipulation."
   bio_short: "PhD Student at UNC Chapel Hill"
 
 social:
