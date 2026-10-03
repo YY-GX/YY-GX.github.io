@@ -97,7 +97,7 @@ RESEARCH_PARTS = [
      "/publications/#data", "fa-arrow-right"),
     ("robust", "Making each skill robust and safe",
      "/publications/#robust", "fa-arrow-right"),
-    ("chain", "Chaining skills into long tasks and evaluating them",
+    ("chain", "Composing skills into long tasks and evaluating them",
      "/publications/#chain", "fa-arrow-right"),
 ]
 
@@ -107,7 +107,7 @@ RESEARCH_PARTS = [
 # already on. Old hashes from the previous taxonomy are mapped in TOPIC_ALIASES.
 TOPICS = [("data", "Skill data"),
           ("robust", "Robust and safe skills"),
-          ("chain", "Skill chaining and evaluation"),
+          ("chain", "Skill composition and evaluation"),
           ("other", "Other")]
 # Old hash -> new topic, so links made before the regrouping still land.
 # There is no longer an HRI category, so #hri opens the full list.
@@ -739,7 +739,7 @@ def json_ld():
             "alumniOf": [{"@type": "CollegeOrUniversity",
                           "name": "Georgia Institute of Technology"}],
             "knowsAbout": ["Robot learning", "Long-horizon manipulation",
-                           "Skill chaining", "Vision-Language-Action models",
+                           "Skill composition", "Vision-Language-Action models",
                            "Robot data generation", "Dexterous manipulation",
                            "Visuo-tactile manipulation",
                            "Safe learning from demonstration",
@@ -917,7 +917,7 @@ RESEARCH_STATEMENT = [
     "I work on **robot learning for reliable long-horizon manipulation**. I "
     "treat a long task as a chain of skills and study the full lifecycle of a "
     "skill: how to **collect and generate the demonstrations** that teach it, "
-    "how to make **each skill robust and safe** on its own, and how to **chain "
+    "how to make **each skill robust and safe** on its own, and how to **compose "
     "skills** into long tasks and evaluate them.",
 
     "Representative work: collecting and generating demonstrations with AR "
@@ -925,8 +925,8 @@ RESEARCH_STATEMENT = [
     "200k dexterous demonstrations with contact-force labels (GNR); keeping each "
     "skill robust to sensor corruption across vision and touch (EGR) and safe "
     "through barrier functions learned from demonstrations (SECURE); and "
-    "chaining and evaluating skills, by exposing how earlier skills break later "
-    "ones (BOSS), composing object-centric VLA skills that hold up to these "
+    "composing and evaluating skills, by exposing how earlier skills break later "
+    "ones (BOSS), linking object-centric VLA skills that hold up to these "
     "shifts (LiLo-VLA), and autonomously resetting and scoring long-horizon "
     "rollouts on real robots (HALTER).",
 ]
@@ -934,7 +934,7 @@ RESEARCH_STATEMENT = [
 # Kept short. Platforms and tools (humanoid, bimanual, AR/VR) belong to the
 # individual projects; touch stays because EGR and GNR both rely on it.
 RESEARCH_KEYWORDS = [
-    "Long-horizon manipulation", "Skill chaining", "Robot data generation",
+    "Long-horizon manipulation", "Skill composition", "Robot data generation",
     "Real-to-sim", "VLA robustness", "Safe learning from demonstration",
     "Dexterous manipulation", "Visuo-tactile manipulation",
 ]
@@ -965,7 +965,7 @@ def research_statement_html():
 # ---------------------------------------------------------------------------
 # Research Focus figure. A long task is a chain of skills, and the work follows
 # a skill through three stages, left to right: the data that teaches it,
-# keeping it robust and safe on its own, then chaining skills into long tasks
+# keeping it robust and safe on its own, then composing skills into long tasks
 # and evaluating them. Light arrows between the cards give the order only.
 # No loop or return arrow: an earlier version drew a closed loop that the
 # papers do not demonstrate.
@@ -1009,9 +1009,9 @@ RESEARCH_FOCUS = [
          "CBF-informed optimization for safer inverse reinforcement "
          "learning")])]),
 
-    ("chain", "Skill chaining and evaluation", "chain",
-     "Chaining skills into long tasks and evaluating them.",
-     [("Chaining skills and subtasks",
+    ("chain", "Skill composition and evaluation", "chain",
+     "Composing skills into long tasks and evaluating them.",
+     [("Composing skills and subtasks",
        [("LiLo-VLA", LILO,
          "Object-centric VLA skill composition that holds up to scene shifts, "
          "with failure recovery"),
@@ -1220,7 +1220,7 @@ def build_publications(papers):
     return page(
         f"Publications | {NAME}",
         "Peer-reviewed papers and preprints on long-horizon robot manipulation: "
-        "skill data, robust and safe skills, and chaining and evaluating skills, "
+        "skill data, robust and safe skills, and composing and evaluating skills, "
         f"by {NAME} (UNC Chapel Hill).",
         "/publications/", body, slug="publications/",
         extra_ld=scholarly_ld(papers))
