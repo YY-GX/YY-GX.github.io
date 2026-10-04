@@ -937,7 +937,7 @@ RESEARCH_STATEMENT = [
 
     "Representative work: collecting and generating demonstrations with AR "
     "({{ARCADE|data|yang2024arcade}}) and with a real-to-sim engine that turns human hand motion into "
-    "200k dexterous demonstrations with contact-force labels ({{GNR|data|gao2026generative}}); keeping each "
+    "223k dexterous demonstrations with contact-force labels ({{GNR|data|gao2026generative}}); keeping each "
     "skill robust to sensor corruption across vision and touch ({{EGR|robust|yang2026sensing}}) and safe "
     "through barrier functions learned from demonstrations ({{SECURE|robust|yang2024enhancing}}); and "
     "composing and evaluating skills, by exposing how earlier skills break later "
@@ -1006,7 +1006,7 @@ RESEARCH_FOCUS = [
       ("Generating data",
        [("GNR", None,
          "Real-to-sim engine and generative retargeting that turn human hand "
-         "motion into 200k dexterous demonstrations with contact-force labels"),
+         "motion into 223k dexterous demonstrations with contact-force labels"),
         ("ReBot", "https://yuffish.github.io/rebot/",
          "Real-to-sim-to-real video synthesis for VLA adaptation"),
         ("DenseReward", "https://dense-reward.github.io/",
