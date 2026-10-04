@@ -810,7 +810,14 @@ def page(title, desc, current, body, hero=False, body_class="", slug="", extra_l
     cls = ' class="page-body hero-band"' if hero else ' class="page-body"'
     tag = footer_tagline()
     tag_html = ('I believe in ' + tag.split('I believe in ')[-1]) if tag else ''
-    return (HEAD.format(title=html.escape(title), desc=html.escape(desc),
+    head = HEAD
+    if slug.startswith("blog/"):
+        # The blog is off the nav and has no real post yet: reachable by URL,
+        # but kept out of search results until it does.
+        head = head.replace('    <link rel="canonical"',
+                            '    <meta name="robots" content="noindex">\n'
+                            '    <link rel="canonical"', 1)
+    return (head.format(title=html.escape(title), desc=html.escape(desc),
                         cssv=CSS_VERSION,
                         body_class=(' class="%s"' % body_class) if body_class else "",
                         canonical=SITE_URL + "/" + slug, site=SITE_URL,
@@ -1098,7 +1105,11 @@ def research_focus_html():
             out += (f'            <div class="rf-arrow a{i}" '
                     'aria-hidden="true"></div>\n')
         out += _rf_card(key, heading, tag, scope, groups, "0%d" % (i + 1))
-    return out + '        </div>\n'
+    out += '        </div>\n'
+    # A way on from the figure to the full list, not only through one card.
+    return out + ('        <p class="rf-more"><a href="/publications/">See all '
+                  'publications <i class="fa-solid fa-arrow-right" '
+                  'aria-hidden="true"></i></a></p>\n')
 
 
 def build_404():
@@ -1304,8 +1315,7 @@ if __name__ == "__main__":
     pages["robots.txt"] = ("User-agent: *\nAllow: /\n\n"
                            f"Sitemap: {SITE_URL}/sitemap.xml\n")
     urls = "".join(f"  <url><loc>{SITE_URL}/{u}</loc></url>\n"
-                   for u in ["", "about/", "publications/", "blog/"]
-                   + ["blog/%s/" % q["slug"] for q in posts])
+                   for u in ["", "about/", "publications/"])
     pages["sitemap.xml"] = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                             + urls + "</urlset>\n")

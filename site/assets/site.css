@@ -1769,3 +1769,20 @@ div.home-container .home-intro p b,
   .rf-goal + .rf { margin-top: 1.6em; }
   .rf-goal-text { font-size: 14px; padding: 0.4em 1em; }
 }
+
+/* Exit from the figure to the full publication list. */
+.rf-more {
+  margin: 1.6em 0 0;
+  text-align: right;
+}
+.container p.rf-more a {
+  font: 500 15px "Poppins", sans-serif;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.25em;
+}
+.container p.rf-more a:hover { text-decoration-color: currentColor; }
+.rf-more a i { font-size: 0.8em; margin-left: 0.35em; transition: transform 0.15s; }
+.rf-more a:hover i { transform: translateX(3px); }
+@media screen and (max-width: 1000px) { .rf-more { text-align: left; } }
