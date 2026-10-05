@@ -1786,3 +1786,33 @@ div.home-container .home-intro p b,
 .rf-more a i { font-size: 0.8em; margin-left: 0.35em; transition: transform 0.15s; }
 .rf-more a:hover i { transform: translateX(3px); }
 @media screen and (max-width: 1000px) { .rf-more { text-align: left; } }
+
+/* 404: one button home, two quiet text links beside it. */
+.nf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8em 1.4em;
+  margin-top: 0.4em;
+}
+.nf-actions .button { margin-bottom: 0; text-decoration: none; }
+.nf-or {
+  font: 400 15px "Poppins", sans-serif;
+  color: var(--ink-muted);
+}
+.nf-or a {
+  font-size: inherit;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ink) 32%, transparent);
+  text-underline-offset: 0.2em;
+}
+.nf-or a:hover { text-decoration-color: currentColor; }
+.nf-head { margin-top: 2.5em; }
+.nf-code {
+  display: block;
+  font: 600 clamp(64px, 9vw, 104px)/1 "Poppins", sans-serif;
+  letter-spacing: -0.02em;
+  color: #e4e8ee;
+  margin-bottom: 0.15em;
+}

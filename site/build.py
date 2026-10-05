@@ -1113,14 +1113,23 @@ def research_focus_html():
 
 
 def build_404():
+    # The button sits in a div, not a <p>: prose-link rules (underline, serif)
+    # target `.container p a` and would otherwise draw a rule under the label
+    # and the arrow. No nav item is marked active, since this is none of them.
     body = ('    <div class="container">\n'
-            '        <div class="page-head"><h1>Page not found</h1>\n'
+            '        <div class="page-head nf-head">'
+            '<span class="nf-code" aria-hidden="true">404</span>'
+            '<h1>Page not found</h1>\n'
             '        <p class="text">That address does not exist here. It may be from an '
             'older version of this site.</p></div>\n'
-            '        <p class="text"><a href="/" class="button icon">Home '
-            '<i class="fa-solid fa-arrow-right"></i></a></p>\n'
+            '        <div class="nf-actions">\n'
+            '            <a href="/" class="button icon">Home '
+            '<i class="fa-solid fa-arrow-right"></i></a>\n'
+            '            <span class="nf-or">or try <a href="/about/">About</a> or '
+            '<a href="/publications/">Publications</a></span>\n'
+            '        </div>\n'
             '    </div>\n')
-    return page(f"Page not found | {NAME}", "Page not found", "/", body, slug="404")
+    return page(f"Page not found | {NAME}", "Page not found", None, body, slug="404")
 
 
 def redirect_stub(target):
