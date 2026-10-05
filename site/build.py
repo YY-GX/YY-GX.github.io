@@ -1126,7 +1126,9 @@ def build_404():
             '            <a href="/" class="button icon">Home '
             '<i class="fa-solid fa-arrow-right"></i></a>\n'
             '            <span class="nf-or">or try <a href="/about/">About</a> or '
-            '<a href="/publications/">Publications</a></span>\n'
+            '<a href="/publications/">Publications</a>. Or follow the birds '
+            f'to <a href="{FLOCK_URL}"{ext(FLOCK_URL)}>my flock</a>. '
+            'They never get lost :)</span>\n'
             '        </div>\n'
             '    </div>\n')
     return page(f"Page not found | {NAME}", "Page not found", None, body, slug="404")
