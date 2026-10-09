@@ -1011,7 +1011,7 @@ RESEARCH_FOCUS = [
         ("AR Demonstrations", ARDEMO,
          "Hand-based demonstration collection through augmented reality")]),
       ("Generating data",
-       [("GNR", None,
+       [("GNR", "https://yy-gx.github.io/GNR/",
          "Real-to-sim engine and generative retargeting that turn human hand "
          "motion into 223k dexterous demonstrations with contact-force labels"),
         ("ReBot", "https://yuffish.github.io/rebot/",
